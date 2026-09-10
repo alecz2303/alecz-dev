@@ -27,11 +27,29 @@ class HomePageTest extends TestCase
             ->assertSee('~/projects')
             ->assertSee('Productos reales.')
             ->assertSee('Citas CRIT')
+            ->assertSee('Digital Persona SchoolBio')
+            ->assertSee('Baseball App')
             ->assertSee('DocTotal')
             ->assertSee('URPE Gestión Clínica')
             ->assertSee('AcadControl')
+            ->assertSee('AcadNotify')
+            ->assertSee('ChamiloBridge')
             ->assertSee('PROBLEMA')
             ->assertSee('SOLUCIÓN')
             ->assertSee('Case study próximamente');
+    }
+
+    public function test_secondary_projects_are_rendered_below_featured_work(): void
+    {
+        $response = $this->get('/')->assertOk();
+
+        $response
+            ->assertSee('~/more')
+            ->assertSee('También he construido.')
+            ->assertSee('PartyX')
+            ->assertSee('RSVP + panel de invitados');
+
+        $content = $response->getContent();
+        $this->assertLessThan(strpos($content, 'PartyX'), strpos($content, 'AcadControl'));
     }
 }
