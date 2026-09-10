@@ -22,7 +22,11 @@ class ProjectCaseStudyTest extends TestCase
                 ->assertSee('La solución.')
                 ->assertSee('Qué resuelve.')
                 ->assertSee('Cómo está construido.')
-                ->assertSee('Stack.');
+                ->assertSee('Stack.')
+                ->assertSee('<title>'.$project['name'].' · Case Study · Alecz</title>', false)
+                ->assertSee('<meta name="description" content="'.e($project['summary']).'">', false)
+                ->assertSee('<meta property="og:url"', false)
+                ->assertSee('<link rel="canonical"', false);
         }
     }
 

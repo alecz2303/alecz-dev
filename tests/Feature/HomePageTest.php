@@ -74,4 +74,17 @@ class HomePageTest extends TestCase
             ->assertSee('De necesidades reales a software utilizable')
             ->assertSee('Proceso técnico verificable');
     }
+
+    public function test_contact_and_home_seo_are_rendered(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('~/contact')
+            ->assertSee('¿Tienes un problema que')
+            ->assertSee('Ver perfil en GitHub')
+            ->assertSee('https://github.com/alecz2303', false)
+            ->assertSee('<meta name="description" content="Portafolio de Alejandro Fedle Rueda Jiménez', false)
+            ->assertSee('<meta property="og:title"', false)
+            ->assertSee('<link rel="canonical" href="http://localhost">', false);
+    }
 }
