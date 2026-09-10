@@ -13,7 +13,7 @@
 
 <section class="hero" aria-labelledby="hero-title">
     <div class="hero-copy" data-reveal>
-        <p class="hero-kicker"><span class="status-dot" aria-hidden="true"></span>Disponible para construir cosas que importan</p>
+        <p class="hero-kicker"><span class="status-dot" aria-hidden="true"></span>Disponible para nuevos proyectos</p>
         <h1 id="hero-title">Alecz<span class="accent">.</span></h1>
         <p class="hero-name">Alejandro Fedle Rueda Jiménez</p>
         <p class="hero-role">Software Developer <span aria-hidden="true">·</span> Product Builder</p>
@@ -43,7 +43,7 @@
 </section>
 
 <section id="proyectos" class="projects-section" aria-labelledby="projects-title">
-    <div class="section-heading" data-reveal><div><p class="section-path">~/projects</p><h2 id="projects-title">Productos reales.<br>No demos.</h2></div><p class="section-intro">Mobile, SaaS, biometría, software clínico y plataformas académicas. Cada proyecto parte de una necesidad concreta y busca convertirla en un producto que funcione en el mundo real.</p></div>
+    <div class="section-heading" data-reveal><div><p class="section-path">~/projects</p><h2 id="projects-title">Productos construidos<br>para usarse.</h2></div><p class="section-intro">Mobile, SaaS, biometría, software clínico y plataformas académicas. Cada proyecto parte de una necesidad concreta y busca convertirla en un producto que funcione en el mundo real.</p></div>
     <div class="projects-grid">
         @foreach ($projects as $project)
             <article class="project-card" id="{{ $project['slug'] }}" data-reveal>
@@ -65,9 +65,9 @@
 </section>
 
 <section id="sobre-mi" class="about-section" aria-labelledby="about-title" data-reveal>
-    <div class="section-heading"><div><p class="section-path">~/about</p><h2 id="about-title">Código con<br>contexto de negocio.</h2></div><div class="about-copy"><p>No me interesa programar por programar. Me gusta entender el problema, aterrizarlo a una experiencia útil y construir el producto completo: lógica, interfaz, datos, integraciones, pruebas y despliegue.</p><p>He trabajado en productos móviles, SaaS, gestión clínica, plataformas académicas y sistemas biométricos. Esa variedad me obliga a pensar más allá del framework y a elegir la tecnología según lo que el producto necesita.</p></div></div>
+    <div class="section-heading"><div><p class="section-path">~/about</p><h2 id="about-title">Código con<br>contexto de negocio.</h2></div><div class="about-copy"><p>Me gusta entender la necesidad, aterrizarla a una experiencia útil y construir el producto completo: lógica, interfaz, datos, integraciones, pruebas y despliegue.</p><p>He trabajado en productos móviles, SaaS, gestión clínica, plataformas académicas y sistemas biométricos. Esa variedad me obliga a pensar más allá del framework y a elegir la tecnología según lo que el producto necesita.</p></div></div>
     <div class="principles-grid">
-        <article><span>01</span><h3>Producto antes que código</h3><p>Primero entiendo para quién construimos, qué duele y qué resultado importa.</p></article>
+        <article><span>01</span><h3>Producto antes que código</h3><p>Primero entiendo para quién construimos, qué necesita resolver y qué resultado espera conseguir.</p></article>
         <article><span>02</span><h3>Extremo a extremo</h3><p>Puedo moverme desde arquitectura y backend hasta mobile, frontend, integraciones y entrega.</p></article>
         <article><span>03</span><h3>Iterar con disciplina</h3><p>Trabajo por tickets, pruebas, CI, revisión de PR y cambios pequeños que puedan verificarse.</p></article>
     </div>
@@ -87,7 +87,7 @@
 <section id="experiencia" class="experience-section" aria-labelledby="experience-title" data-reveal>
     <div class="section-heading"><div><p class="section-path">~/experience</p><h2 id="experience-title">Construir.<br>Aprender. Repetir.</h2></div><p class="section-intro">Mi trayectoria se entiende mejor por los problemas que he resuelto y los sistemas que he llevado cada vez más lejos.</p></div>
     <div class="experience-list">
-        <article><span>PRODUCTS</span><h3>De necesidades reales a software utilizable</h3><p>Citas CRIT, DocTotal, URPE, AcadControl y PartyX nacen de flujos concretos de personas y organizaciones, no de ejercicios de portafolio.</p></article>
+        <article><span>PRODUCTS</span><h3>De necesidades reales a software utilizable</h3><p>Citas CRIT, DocTotal, URPE, AcadControl y PartyX nacen de flujos concretos de personas y organizaciones y han ido creciendo alrededor de esas necesidades.</p></article>
         <article><span>MOBILE</span><h3>Apps con profundidad de producto</h3><p>Baseball App combina lógica deportiva compleja, estadísticas, archivos PDF/Excel, backup en Drive y modelo Free/Pro; Citas CRIT lleva una necesidad familiar a una app publicada.</p></article>
         <article><span>INTEGRATIONS</span><h3>Software que conversa con otros sistemas</h3><p>He conectado APIs, servicios de mensajería, LMS, almacenamiento en la nube, pagos y hardware biométrico para cerrar procesos completos.</p></article>
         <article><span>ENGINEERING</span><h3>Proceso técnico verificable</h3><p>Desarrollo con GitHub, Jira, CI, pruebas y revisión humana de PR para mantener contexto, calidad y trazabilidad mientras el producto crece.</p></article>
@@ -98,8 +98,8 @@
     <p class="section-path">~/contact</p>
     <div class="contact-grid">
         <div>
-            <h2 id="contact-title">¿Tienes un problema que<br>valga la pena resolver?</h2>
-            <p>Cuéntaselo al asistente del sitio. Puede orientarte entre proyectos, capacidades y la mejor forma de iniciar una conversación conmigo.</p>
+            <h2 id="contact-title">¿Qué necesitas<br>resolver?</h2>
+            <p>Cuéntame qué necesitas construir, mejorar o automatizar. El asistente puede ayudarte a aterrizar la idea, explorar proyectos relacionados y preparar el siguiente paso.</p>
         </div>
         <div class="contact-actions">
             <p><span class="prompt">alecz@dev:~$</span> contact --new-project</p>
