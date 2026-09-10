@@ -3,13 +3,37 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Portafolio profesional de Alejandro Fedle Rueda Jiménez, AKA Alecz.">
+    <meta name="description" content="Portafolio profesional de Alejandro Fedle Rueda Jiménez, AKA Alecz. Software Developer y Product Builder enfocado en soluciones digitales para problemas reales.">
+    <meta name="theme-color" content="#090b10">
     <title>@yield('title', 'Alecz · Software Developer & Product Builder')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
-    <main>
-        @yield('content')
-    </main>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <div class="site-shell">
+        <header class="site-header" data-reveal>
+            <a class="brand" href="/" aria-label="Alecz, inicio">
+                <span class="brand-mark" aria-hidden="true">&gt;_</span>
+                <span>Alecz</span>
+            </a>
+
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" data-nav-toggle>
+                <span class="sr-only">Abrir navegación</span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="site-nav" id="primary-navigation" aria-label="Navegación principal" data-nav>
+                <a href="#proyectos">~/projects</a>
+                <a href="#sobre-mi">~/about</a>
+                <a href="#contacto">~/contact</a>
+            </nav>
+        </header>
+
+        <main id="contenido">
+            @yield('content')
+        </main>
+    </div>
 </body>
 </html>
