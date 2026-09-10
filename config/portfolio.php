@@ -12,6 +12,9 @@ return [
             'solution' => 'Una experiencia móvil enfocada en claridad, acceso rápido y utilidad real para las familias.',
             'stack' => ['Flutter', 'Dart', 'Android'],
             'signal' => 'Publicada en Google Play',
+            'context' => 'El producto nació de una necesidad cotidiana: tener las citas del CRIT organizadas en un lugar accesible, con una experiencia simple para familias que necesitan consultar información sin fricción.',
+            'capabilities' => ['Importación y organización de agenda', 'Consulta clara de citas', 'Persistencia local de información', 'Distribución como app Android'],
+            'architecture' => ['Flutter para una experiencia móvil consistente', 'Persistencia local para mantener la agenda disponible', 'Procesamiento de la información de citas dentro de la app', 'Publicación y actualización mediante Google Play'],
         ],
         [
             'name' => 'Digital Persona SchoolBio',
@@ -23,6 +26,9 @@ return [
             'solution' => 'Un cliente biométrico con enrolamiento, verificación e identificación por huella, operación local y sincronización mediante SchoolBio API.',
             'stack' => ['C#', 'WinForms', '.NET Framework 4.8', 'Biometría', 'API'],
             'signal' => 'Software + hardware biométrico + API',
+            'context' => 'SchoolBio extiende el software escolar hasta el punto físico de entrada: una terminal Windows conversa con el lector biométrico, administra datos locales y sincroniza eventos con la plataforma.',
+            'capabilities' => ['Enrolamiento de huellas', 'Verificación e identificación biométrica', 'Registro de asistencia', 'Gestión de alumnos y periodos académicos', 'Sincronización con SchoolBio API'],
+            'architecture' => ['Cliente C# / Windows Forms sobre .NET Framework 4.8', 'Integración con hardware Digital Persona', 'Repositorios locales para operación de terminal', 'Servicios biométricos para enrolamiento e identificación', 'API para sincronización con la plataforma SchoolBio'],
         ],
         [
             'name' => 'Baseball App',
@@ -34,6 +40,9 @@ return [
             'solution' => 'Una app Flutter que modela turnos, corredores, innings y pitcheo, conserva juegos y genera información lista para consultar o compartir.',
             'stack' => ['Flutter', 'Dart', 'Google Drive', 'PDF', 'Excel', 'IAP'],
             'signal' => 'Backup en nube, Free/Pro, AdMob e IAP',
+            'context' => 'El reto no era solo mostrar un marcador: había que modelar el juego. La app sigue apariciones al plato, corredores, outs, entradas y pitcheo para convertir eventos deportivos en estado y estadísticas persistentes.',
+            'capabilities' => ['Scoring jugada a jugada', 'Control de corredores y outs', 'Resumen por inning', 'Estadísticas de pitcher', 'Juegos guardados y estadísticas acumuladas', 'Exportación PDF y Excel', 'Backup y restore en Google Drive', 'Modelo Free/Pro con IAP y publicidad'],
+            'architecture' => ['Flutter/Dart para la aplicación Android', 'Estado de juego modelado alrededor de turnos, corredores e innings', 'SharedPreferences para configuración y snapshots persistentes', 'Google Drive API para backup/restore', 'Generación de PDF y Excel', 'In-app purchase no consumible y AdMob para monetización'],
         ],
         [
             'name' => 'DocTotal',
@@ -45,6 +54,9 @@ return [
             'solution' => 'Un producto centralizado con flujos claros, seguridad, auditoría y crecimiento por módulos.',
             'stack' => ['Laravel', 'PHP', 'Blade', 'MySQL'],
             'signal' => 'Desarrollo con CI, Jira y revisión por PR',
+            'context' => 'DocTotal se construye como un SaaS que debe crecer sin perder trazabilidad. El producto combina procesos documentales, seguridad de cuenta, suscripciones y auditoría con una disciplina de entrega basada en tickets y CI.',
+            'capabilities' => ['Gestión documental estructurada', 'Flujos de seguridad y cuenta', 'Suscripciones y pagos', 'Auditoría de eventos', 'Arquitectura multi-tenant en evolución', 'Pruebas automatizadas y CI'],
+            'architecture' => ['Laravel 13 / PHP 8.4', 'Blade para la interfaz web', 'Persistencia relacional', 'Servicios y dominios separados por funcionalidad', 'GitHub Actions para validación continua', 'Jira + PR review como trazabilidad de entrega'],
         ],
         [
             'name' => 'URPE Gestión Clínica',
@@ -56,6 +68,9 @@ return [
             'solution' => 'Una plataforma orientada al flujo real de atención, con agenda y gestión clínica integradas.',
             'stack' => ['Laravel', 'PHP', 'Blade', 'MySQL'],
             'signal' => 'Flujos clínicos construidos por etapas',
+            'context' => 'URPE Gestión Clínica se diseña alrededor de cómo trabaja un centro: terapeutas con disponibilidad real, citas dentro de horarios permitidos y seguimiento clínico asociado a cada atención.',
+            'capabilities' => ['Gestión de terapeutas', 'Disponibilidad semanal', 'Agenda de citas', 'Validaciones de horario y traslapes', 'Seguimiento y bitácora clínica', 'Flujos administrativos vinculados a atención'],
+            'architecture' => ['Laravel como base de dominio y aplicación', 'Modelos de disponibilidad y citas con reglas explícitas', 'Blade para operación administrativa', 'MySQL para persistencia clínica y operativa', 'Pruebas Feature para reglas críticas de agenda'],
         ],
         [
             'name' => 'AcadControl',
@@ -67,6 +82,9 @@ return [
             'solution' => 'Un ecosistema modular donde AcadControl centraliza la operación y se extiende con AcadNotify y ChamiloBridge.',
             'stack' => ['PHP', 'MySQL', 'WhatsApp', 'Chamilo API'],
             'signal' => 'Suite: AcadControl + AcadNotify + ChamiloBridge',
+            'context' => 'AcadControl nació para cerrar el ciclo operativo de una academia: saber quién estudia, qué debe pagar, qué pagó, qué documentos tiene y cómo mantener comunicación y plataformas académicas conectadas.',
+            'capabilities' => ['Gestión de alumnos', 'Mensualidades y cobros periódicos', 'Periodos o vigencias de pago', 'Recibos y expedientes', 'Dashboards operativos', 'Recordatorios y notificaciones con AcadNotify', 'Integración LMS mediante ChamiloBridge'],
+            'architecture' => ['PHP y MySQL para la operación académica', 'Módulos separados por responsabilidad', 'AcadControl como núcleo de alumnos y pagos', 'AcadNotify para comunicación y recordatorios', 'ChamiloBridge para integración con LMS vía API', 'Configuración y herramientas administrativas reutilizables'],
         ],
     ],
     'other_projects' => [

@@ -36,7 +36,10 @@ class HomePageTest extends TestCase
             ->assertSee('ChamiloBridge')
             ->assertSee('PROBLEMA')
             ->assertSee('SOLUCIÓN')
-            ->assertSee('Case study próximamente');
+            ->assertSee('Ver case study')
+            ->assertSee('/proyectos/citas-crit')
+            ->assertSee('/proyectos/digital-persona-schoolbio')
+            ->assertSee('/proyectos/baseball-app');
     }
 
     public function test_secondary_projects_are_rendered_below_featured_work(): void
