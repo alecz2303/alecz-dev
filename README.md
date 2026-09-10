@@ -42,6 +42,24 @@ Cada proyecto destacado puede declarar:
 
 La vista reusable de case study vive en `resources/views/projects/show.blade.php`. Los slugs desconocidos responden 404 y los proyectos válidos incluyen navegación de regreso al portafolio y entre case studies.
 
+## Contacto y privacidad
+
+El portafolio no publica repositorios ni enlaces al código fuente como llamada a la acción. Los canales directos se configuran por entorno:
+
+```env
+PORTFOLIO_WHATSAPP=
+PORTFOLIO_EMAIL=
+```
+
+Solo se renderizan cuando existe un valor configurado. El asistente del portafolio funciona sin servicios externos y guía a visitantes hacia proyectos, capacidades y contacto. Su arquitectura puede evolucionar después hacia una integración de IA sin hacer depender el lanzamiento inicial de una API externa.
+
+## Publicación y SEO técnico
+
+- `/robots.txt` bloquea indexación fuera de producción y habilita sitemap en producción.
+- `/sitemap.xml` incluye la home y los case studies destacados.
+- El layout centraliza title, description, canonical, Open Graph y Twitter Card.
+- `public/favicon.svg` contiene el brand mark `>_` del portafolio.
+
 ## Flujo de trabajo
 
 Jira project key: `AL`.

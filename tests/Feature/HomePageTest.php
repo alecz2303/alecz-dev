@@ -81,8 +81,9 @@ class HomePageTest extends TestCase
             ->assertOk()
             ->assertSee('~/contact')
             ->assertSee('¿Tienes un problema que')
-            ->assertSee('Ver perfil en GitHub')
-            ->assertSee('https://github.com/alecz2303', false)
+            ->assertSee('Abrir asistente')
+            ->assertSee('Asistente de Alecz')
+            ->assertDontSee('https://github.com/alecz2303')
             ->assertSee('<meta name="description" content="Portafolio de Alejandro Fedle Rueda Jiménez', false)
             ->assertSee('<meta property="og:title"', false)
             ->assertSee('<link rel="canonical" href="http://localhost">', false);
