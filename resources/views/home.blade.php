@@ -3,6 +3,8 @@
 @section('title', 'Alecz · Software Developer & Product Builder')
 
 @section('content')
+@php($projects = config('portfolio.projects', []))
+
 <section class="hero" aria-labelledby="hero-title">
     <div class="hero-copy" data-reveal>
         <p class="hero-kicker">
@@ -58,19 +60,60 @@
     </div>
 </section>
 
-<section class="preview-strip" aria-label="Vista previa de secciones próximas" data-reveal>
-    <div id="proyectos" class="preview-item">
-        <span class="preview-index">01</span>
-        <div><span class="preview-path">~/projects</span><strong>Productos reales, no demos.</strong></div>
-        <span class="preview-arrow" aria-hidden="true">→</span>
+<section id="proyectos" class="projects-section" aria-labelledby="projects-title">
+    <div class="section-heading" data-reveal>
+        <div>
+            <p class="section-path">~/projects</p>
+            <h2 id="projects-title">Productos reales.<br>No demos.</h2>
+        </div>
+        <p class="section-intro">Cada proyecto parte de una necesidad concreta. La tecnología importa, pero el objetivo es resolver bien el problema y construir algo que pueda crecer.</p>
     </div>
+
+    <div class="projects-grid">
+        @foreach ($projects as $index => $project)
+            <article class="project-card" id="{{ $project['slug'] }}" data-reveal>
+                <div class="project-topline">
+                    <span class="project-type">{{ $project['type'] }}</span>
+                    <span class="project-status">{{ $project['status'] }}</span>
+                </div>
+
+                <h3>{{ $project['name'] }}</h3>
+                <p class="project-summary">{{ $project['summary'] }}</p>
+
+                <div class="project-story">
+                    <div>
+                        <span>PROBLEMA</span>
+                        <p>{{ $project['problem'] }}</p>
+                    </div>
+                    <div>
+                        <span>SOLUCIÓN</span>
+                        <p>{{ $project['solution'] }}</p>
+                    </div>
+                </div>
+
+                <ul class="project-stack" aria-label="Tecnologías de {{ $project['name'] }}">
+                    @foreach ($project['stack'] as $technology)
+                        <li>{{ $technology }}</li>
+                    @endforeach
+                </ul>
+
+                <footer class="project-footer">
+                    <span class="project-signal">{{ $project['signal'] }}</span>
+                    <span class="project-link">Case study próximamente →</span>
+                </footer>
+            </article>
+        @endforeach
+    </div>
+</section>
+
+<section class="preview-strip" aria-label="Vista previa de secciones próximas" data-reveal>
     <div id="sobre-mi" class="preview-item">
-        <span class="preview-index">02</span>
+        <span class="preview-index">01</span>
         <div><span class="preview-path">~/about</span><strong>Código con contexto de negocio.</strong></div>
         <span class="preview-arrow" aria-hidden="true">→</span>
     </div>
     <div id="contacto" class="preview-item">
-        <span class="preview-index">03</span>
+        <span class="preview-index">02</span>
         <div><span class="preview-path">~/contact</span><strong>Construyamos algo útil.</strong></div>
         <span class="preview-arrow" aria-hidden="true">→</span>
     </div>

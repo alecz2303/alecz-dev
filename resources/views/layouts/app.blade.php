@@ -6,7 +6,7 @@
     <meta name="description" content="Portafolio profesional de Alejandro Fedle Rueda Jiménez, AKA Alecz. Software Developer y Product Builder enfocado en soluciones digitales para problemas reales.">
     <meta name="theme-color" content="#090b10">
     <title>@yield('title', 'Alecz · Software Developer & Product Builder')</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/projects.css', 'resources/js/app.js'])
 </head>
 <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
