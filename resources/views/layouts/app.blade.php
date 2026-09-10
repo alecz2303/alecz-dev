@@ -18,7 +18,7 @@
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
     <meta name="theme-color" content="#090b10">
     <title>@yield('title', 'Alecz · Software Developer & Product Builder')</title>
-    @vite(['resources/css/app.css', 'resources/css/projects.css', 'resources/css/chatbot.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/projects.css', 'resources/css/chatbot.css', 'resources/css/case-media.css', 'resources/js/app.js'])
 </head>
 <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
