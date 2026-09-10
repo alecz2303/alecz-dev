@@ -17,7 +17,7 @@
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
     <meta name="theme-color" content="#090b10">
     <title>@yield('title', 'Alecz · Software Developer & Product Builder')</title>
-    @vite(['resources/css/app.css', 'resources/css/projects.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/projects.css', 'resources/css/chatbot.css', 'resources/js/app.js'])
 </head>
 <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -49,6 +49,19 @@
 
     @php($whatsapp = config('profile.contact.whatsapp'))
     @php($email = config('profile.contact.email'))
+    @php($chatProjects = collect(config('portfolio.projects', []))->map(fn ($project) => [
+        'name' => $project['name'],
+        'slug' => $project['slug'],
+        'type' => $project['type'],
+        'summary' => $project['summary'],
+        'stack' => $project['stack'],
+        'signal' => $project['signal'],
+        'capabilities' => $project['capabilities'] ?? [],
+        'url' => route('projects.show', $project['slug']),
+    ])->values())
+
+    <script type="application/json" data-chat-knowledge>@json($chatProjects)</script>
+
     <aside class="portfolio-chat" data-chat data-whatsapp="{{ $whatsapp ? preg_replace('/\D+/', '', $whatsapp) : '' }}" data-email="{{ $email ?? '' }}">
         <button class="chat-launcher" type="button" aria-expanded="false" aria-controls="portfolio-chat-panel" data-chat-toggle>
             <span aria-hidden="true">&gt;_</span>
@@ -59,14 +72,20 @@
                 <div><span class="status-dot" aria-hidden="true"></span><strong>Asistente de Alecz</strong></div>
                 <button type="button" aria-label="Cerrar asistente" data-chat-close>×</button>
             </header>
-            <div class="chat-messages" aria-live="polite" data-chat-messages>
-                <div class="chat-message is-bot">Hola. Puedo contarte qué construye Alecz, mostrarte proyectos o ayudarte a iniciar una conversación.</div>
+            <div class="chat-messages" aria-live="polite" aria-atomic="false" data-chat-messages>
+                <div class="chat-message is-bot">Hola. Cuéntame qué necesitas construir o mejorar. Puedo relacionarlo con proyectos reales de Alecz y orientarte hacia el case study más útil.</div>
             </div>
             <div class="chat-options" data-chat-options>
                 <button type="button" data-chat-topic="projects">Ver proyectos</button>
                 <button type="button" data-chat-topic="services">¿Qué puede construir?</button>
                 <button type="button" data-chat-topic="contact">Quiero contactarlo</button>
             </div>
+            <form class="chat-form" data-chat-form>
+                <label class="sr-only" for="portfolio-chat-input">Escribe qué necesitas</label>
+                <input id="portfolio-chat-input" type="text" autocomplete="off" maxlength="280" placeholder="Ej. Necesito una app para citas y pagos" data-chat-input>
+                <button type="submit">Enviar</button>
+            </form>
+            <p class="chat-privacy">Asistente local del portafolio. No consulta repositorios ni expone código fuente.</p>
         </section>
     </aside>
 </body>
