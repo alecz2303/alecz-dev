@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="@yield('meta_description', 'Portafolio profesional de Alejandro Fedle Rueda Jiménez, AKA Alecz. Software Developer y Product Builder enfocado en soluciones digitales para problemas reales.')">
     <meta name="robots" content="@yield('robots', 'index,follow')">
     <meta property="og:type" content="@yield('og_type', 'website')">
@@ -62,7 +63,11 @@
 
     <script type="application/json" data-chat-knowledge>@json($chatProjects)</script>
 
-    <aside class="portfolio-chat" data-chat data-whatsapp="{{ $whatsapp ? preg_replace('/\D+/', '', $whatsapp) : '' }}" data-email="{{ $email ?? '' }}">
+    <aside class="portfolio-chat"
+        data-chat
+        data-chat-endpoint="{{ route('chat') }}"
+        data-whatsapp="{{ $whatsapp ? preg_replace('/\D+/', '', $whatsapp) : '' }}"
+        data-email="{{ $email ?? '' }}">
         <button class="chat-launcher" type="button" aria-expanded="false" aria-controls="portfolio-chat-panel" data-chat-toggle>
             <span aria-hidden="true">&gt;_</span>
             <span>Hablar con el asistente</span>
@@ -82,10 +87,10 @@
             </div>
             <form class="chat-form" data-chat-form>
                 <label class="sr-only" for="portfolio-chat-input">Escribe qué necesitas</label>
-                <input id="portfolio-chat-input" type="text" autocomplete="off" maxlength="280" placeholder="Ej. Necesito una app para citas y pagos" data-chat-input>
-                <button type="submit">Enviar</button>
+                <input id="portfolio-chat-input" type="text" autocomplete="off" maxlength="500" placeholder="Ej. Necesito una app para citas y pagos" data-chat-input>
+                <button type="submit" data-chat-submit>Enviar</button>
             </form>
-            <p class="chat-privacy">Asistente local del portafolio. No consulta repositorios ni expone código fuente.</p>
+            <p class="chat-privacy">La conversación se procesa en el servidor del portafolio. Solo se usa contexto público controlado; no se consultan repositorios ni se expone código fuente.</p>
         </section>
     </aside>
 </body>

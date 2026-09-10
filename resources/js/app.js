@@ -47,7 +47,10 @@ if (chat) {
     const externalOpeners = document.querySelectorAll('[data-chat-open]');
     const form = chat.querySelector('[data-chat-form]');
     const input = chat.querySelector('[data-chat-input]');
+    const submit = chat.querySelector('[data-chat-submit]');
     const knowledgeNode = document.querySelector('[data-chat-knowledge]');
+    const csrf = document.querySelector('meta[name="csrf-token"]')?.content || '';
+    const endpoint = chat.dataset.chatEndpoint || '';
     const whatsapp = chat.dataset.whatsapp || '';
     const email = chat.dataset.email || '';
     const projects = knowledgeNode ? JSON.parse(knowledgeNode.textContent || '[]') : [];
@@ -79,11 +82,8 @@ if (chat) {
         toggle.setAttribute('aria-expanded', String(open));
         chat.classList.toggle('is-open', open);
 
-        if (open) {
-            input?.focus();
-        } else {
-            toggle.focus();
-        }
+        if (open) input?.focus();
+        else toggle.focus();
     };
 
     const addMessage = (text, type = 'bot') => {
@@ -92,6 +92,7 @@ if (chat) {
         message.textContent = text;
         messages.appendChild(message);
         messages.scrollTop = messages.scrollHeight;
+        return message;
     };
 
     const addProjectLinks = (matches) => {
@@ -172,32 +173,80 @@ if (chat) {
             .sort((a, b) => b.score - a.score);
     };
 
-    const answerFreeText = (query) => {
+    const localFallback = (query) => {
         const normalizedQuery = normalize(query);
 
-        if (!normalizedQuery) return;
-
         if (['contacto', 'contactar', 'whatsapp', 'correo', 'email', 'cotizar', 'cotizacion'].some((word) => normalizedQuery.includes(word))) {
-            addMessage('Sí. Si Alecz tiene canales directos habilitados en este momento, te los muestro aquí.');
-            addContactActions();
-            return;
+            return {
+                message: 'Sí. Si Alecz tiene canales directos habilitados, te los muestro aquí.',
+                projects: [],
+                show_contact: true,
+            };
         }
 
-        if (['que haces', 'que puede', 'servicio', 'servicios', 'desarrollas', 'construyes', 'puedes hacer'].some((phrase) => normalizedQuery.includes(normalize(phrase)))) {
-            addMessage('Alecz construye productos web y móviles, sistemas de gestión, automatizaciones e integraciones entre APIs, servicios externos, datos y hardware. Si me cuentas el problema, puedo relacionarlo con experiencia real del portafolio.');
-            return;
-        }
-
-        const matches = scoreProjects(query);
-
+        const matches = scoreProjects(query).slice(0, 3);
         if (matches.length) {
-            const names = matches.slice(0, 3).map((project) => project.name).join(', ');
-            addMessage(`Por lo que describes, revisaría ${names}. Son proyectos reales que cubren partes parecidas del problema. Abre los case studies para ver contexto, solución y arquitectura sin exponer código fuente.`);
-            addProjectLinks(matches);
-            return;
+            return {
+                message: `Por lo que describes, revisaría ${matches.map((project) => project.name).join(', ')}. Son proyectos reales con problemas parecidos.`,
+                projects: matches,
+                show_contact: false,
+            };
         }
 
-        addMessage('No encontré una coincidencia clara todavía. Cuéntame qué proceso quieres mejorar, quién lo usaría y si imaginas una app, plataforma web, integración o automatización. Con eso puedo orientarte mejor.');
+        return {
+            message: 'No pude consultar el asistente del servidor en este momento. Cuéntame qué proceso quieres mejorar, quién lo usaría y si imaginas una app, plataforma web, integración o automatización.',
+            projects: [],
+            show_contact: false,
+        };
+    };
+
+    const renderReply = (reply) => {
+        addMessage(reply.message || 'Puedo ayudarte a explorar el portafolio.');
+        if (Array.isArray(reply.projects) && reply.projects.length) addProjectLinks(reply.projects);
+        if (reply.show_contact) addContactActions();
+    };
+
+    const askServer = async (query) => {
+        if (!endpoint) return localFallback(query);
+
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrf,
+            },
+            body: JSON.stringify({ message: query }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Chat request failed with ${response.status}`);
+        }
+
+        return response.json();
+    };
+
+    const submitQuery = async (query) => {
+        addMessage(query, 'user');
+        input.value = '';
+        input.disabled = true;
+        submit.disabled = true;
+        submit.textContent = '...';
+        const pending = addMessage('Analizando tu necesidad…');
+
+        try {
+            const reply = await askServer(query);
+            pending.remove();
+            renderReply(reply);
+        } catch {
+            pending.remove();
+            renderReply(localFallback(query));
+        } finally {
+            input.disabled = false;
+            submit.disabled = false;
+            submit.textContent = 'Enviar';
+            input.focus();
+        }
     };
 
     const replies = {
@@ -215,30 +264,19 @@ if (chat) {
             const topic = button.dataset.chatTopic;
             addMessage(button.textContent.trim(), 'user');
             addMessage(replies[topic] || 'Puedo ayudarte a explorar el portafolio.');
-
-            if (topic === 'projects') {
-                addProjectLinks(projects);
-            }
-
-            if (topic === 'contact') {
-                addContactActions();
-            }
+            if (topic === 'projects') addProjectLinks(projects);
+            if (topic === 'contact') addContactActions();
         });
     });
 
     form?.addEventListener('submit', (event) => {
         event.preventDefault();
         const query = input.value.trim();
-        if (!query) return;
-        addMessage(query, 'user');
-        input.value = '';
-        answerFreeText(query);
-        input.focus();
+        if (!query || submit.disabled) return;
+        submitQuery(query);
     });
 
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && chat.classList.contains('is-open')) {
-            setOpen(false);
-        }
+        if (event.key === 'Escape' && chat.classList.contains('is-open')) setOpen(false);
     });
 }
