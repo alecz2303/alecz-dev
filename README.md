@@ -57,6 +57,8 @@ Solo se renderizan cuando existe un valor configurado.
 
 El chatbot acepta opciones rápidas y texto libre. La conversación libre usa `POST /chat` y se procesa en Laravel mediante `App\Services\PortfolioChatService`.
 
+Las opciones rápidas funcionan como atajos de bienvenida. En cuanto el visitante envía un mensaje o elige una de ellas, se colapsan automáticamente para liberar espacio y priorizar la conversación. Después queda disponible un control compacto `Opciones` para volver a mostrarlas cuando sea necesario.
+
 La arquitectura tiene dos modos:
 
 1. `local` — motor determinista incluido en el proyecto. No necesita claves ni servicios externos.

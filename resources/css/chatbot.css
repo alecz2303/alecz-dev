@@ -5,6 +5,11 @@
 .chat-form button{padding:.78rem .9rem;border:1px solid rgba(156,246,111,.32);border-radius:.7rem;background:rgba(156,246,111,.1);color:var(--accent);cursor:pointer}
 .chat-form button:hover,.chat-form button:focus-visible{background:rgba(156,246,111,.16)}
 .chat-form input:disabled,.chat-form button:disabled{opacity:.58;cursor:wait}
+.chat-options[hidden],.chat-options-toggle[hidden]{display:none!important}
+.chat-options-toolbar{display:flex;justify-content:flex-end;padding:0 .85rem}
+.chat-options-toggle{margin:.45rem 0 0;padding:.3rem .55rem;border:0;background:transparent;color:var(--subtle);font-size:.7rem;cursor:pointer}
+.chat-options-toggle:hover,.chat-options-toggle:focus-visible{color:var(--accent)}
+.portfolio-chat.has-active-conversation .chat-options-toolbar{border-top:1px solid rgba(255,255,255,.035)}
 .chat-project-links{display:grid;gap:.45rem;align-self:stretch}
 .chat-project-links a{padding:.72rem .8rem;border:1px solid var(--line);border-radius:.7rem;background:rgba(255,255,255,.02);color:var(--accent);text-decoration:none}
 .chat-project-links a:hover,.chat-project-links a:focus-visible{border-color:rgba(156,246,111,.35)}
@@ -15,4 +20,4 @@
 .chat-contact-actions a{display:block;padding:.72rem .8rem;border:1px solid var(--line);border-radius:.7rem;background:rgba(255,255,255,.025);color:#d7dce5;text-decoration:none}
 .chat-contact-actions a:hover,.chat-contact-actions a:focus-visible{border-color:rgba(156,246,111,.35);color:var(--accent)}
 .chat-privacy{margin:0;padding:0 1rem 1rem;color:var(--subtle);font-size:.68rem;line-height:1.5}
-@media(max-width:560px){.chat-form{grid-template-columns:1fr}.chat-form button{width:100%}}
+@media(max-width:560px){.chat-form{grid-template-columns:1fr}.chat-form button{width:100%}.chat-options-toolbar{padding:0 .7rem}}
