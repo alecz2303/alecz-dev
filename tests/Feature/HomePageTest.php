@@ -52,4 +52,23 @@ class HomePageTest extends TestCase
         $content = $response->getContent();
         $this->assertLessThan(strpos($content, 'PartyX'), strpos($content, 'AcadControl'));
     }
+
+    public function test_about_stack_and_experience_sections_are_rendered(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('~/about')
+            ->assertSee('Código con')
+            ->assertSee('contexto de negocio.')
+            ->assertSee('Producto antes que código')
+            ->assertSee('~/stack')
+            ->assertSee('Laravel · PHP · Blade')
+            ->assertSee('Flutter · Dart')
+            ->assertSee('C# · .NET · Biometría')
+            ->assertSee('GitHub · CI · Jira')
+            ->assertSee('~/experience')
+            ->assertSee('Construir.')
+            ->assertSee('De necesidades reales a software utilizable')
+            ->assertSee('Proceso técnico verificable');
+    }
 }
