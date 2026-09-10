@@ -11,6 +11,12 @@ class HomePageTest extends TestCase
         $this->get('/')
             ->assertOk()
             ->assertSee('Alecz')
-            ->assertSee('Construyo soluciones digitales para problemas reales.');
+            ->assertSee('Alejandro Fedle Rueda Jiménez')
+            ->assertSee('Software Developer')
+            ->assertSee('Product Builder')
+            ->assertSee('Convierto problemas reales en software que funciona.')
+            ->assertSee('Ver proyectos')
+            ->assertSee('Conocerme')
+            ->assertSee('alecz@dev:~$');
     }
 }
