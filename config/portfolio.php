@@ -1,0 +1,50 @@
+<?php
+
+return [
+    'projects' => [
+        [
+            'name' => 'Citas CRIT',
+            'slug' => 'citas-crit',
+            'type' => 'Mobile App',
+            'status' => 'Producción',
+            'summary' => 'Una app Android pensada para ayudar a familias del CRIT a organizar y consultar sus citas de forma clara y práctica.',
+            'problem' => 'La información de citas puede ser difícil de consultar y organizar en el día a día.',
+            'solution' => 'Una experiencia móvil enfocada en claridad, acceso rápido y utilidad real para las familias.',
+            'stack' => ['Flutter', 'Dart', 'Android'],
+            'signal' => 'Publicada en Google Play',
+        ],
+        [
+            'name' => 'DocTotal',
+            'slug' => 'doctotal',
+            'type' => 'SaaS',
+            'status' => 'En desarrollo',
+            'summary' => 'Plataforma SaaS para centralizar procesos documentales y operativos con una arquitectura Laravel mantenible y auditable.',
+            'problem' => 'Procesos fragmentados, documentos dispersos y poca trazabilidad operativa.',
+            'solution' => 'Un producto centralizado con flujos claros, seguridad, auditoría y crecimiento por módulos.',
+            'stack' => ['Laravel', 'PHP', 'Blade', 'MySQL'],
+            'signal' => 'Desarrollo con CI, Jira y revisión por PR',
+        ],
+        [
+            'name' => 'URPE Gestión Clínica',
+            'slug' => 'urpe-gestion-clinica',
+            'type' => 'Clinical Software',
+            'status' => 'En desarrollo',
+            'summary' => 'Sistema de gestión clínica para organizar agenda, terapeutas, pacientes y seguimiento operativo de citas.',
+            'problem' => 'La operación clínica necesita coordinar disponibilidad, horarios y seguimiento sin perder contexto.',
+            'solution' => 'Una plataforma orientada al flujo real de atención, con agenda y gestión clínica integradas.',
+            'stack' => ['Laravel', 'PHP', 'Blade', 'MySQL'],
+            'signal' => 'Flujos clínicos construidos por etapas',
+        ],
+        [
+            'name' => 'AcadControl',
+            'slug' => 'acadcontrol',
+            'type' => 'Academic Management',
+            'status' => 'Producto',
+            'summary' => 'Sistema para administrar alumnos, mensualidades, pagos, expedientes y recibos en centros de formación.',
+            'problem' => 'Cobros periódicos, expedientes y seguimiento académico suelen vivir en herramientas separadas.',
+            'solution' => 'Una operación unificada con control de alumnos, pagos, periodos y documentación.',
+            'stack' => ['PHP', 'Dolibarr', 'MySQL', 'WhatsApp'],
+            'signal' => 'Arquitectura modular para operación académica',
+        ],
+    ],
+];

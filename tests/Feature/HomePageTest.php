@@ -19,4 +19,19 @@ class HomePageTest extends TestCase
             ->assertSee('Conocerme')
             ->assertSee('alecz@dev:~$');
     }
+
+    public function test_featured_projects_are_rendered(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('~/projects')
+            ->assertSee('Productos reales.')
+            ->assertSee('Citas CRIT')
+            ->assertSee('DocTotal')
+            ->assertSee('URPE Gestión Clínica')
+            ->assertSee('AcadControl')
+            ->assertSee('PROBLEMA')
+            ->assertSee('SOLUCIÓN')
+            ->assertSee('Case study próximamente');
+    }
 }

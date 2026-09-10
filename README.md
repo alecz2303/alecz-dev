@@ -24,6 +24,19 @@ php artisan serve
 
 La aplicación usa SQLite por defecto para desarrollo. El sitio inicial no requiere persistencia para mostrar el portafolio.
 
+## Contenido del portafolio
+
+Los proyectos destacados se definen en `config/portfolio.php` y se renderizan en la home desde una estructura reutilizable. Esto mantiene separado el contenido de la presentación y deja preparada la evolución hacia páginas de case study o administración dinámica.
+
+Cada proyecto puede declarar:
+
+- nombre y slug
+- tipo y estado
+- resumen
+- problema y solución
+- stack tecnológico
+- señal o resultado destacado
+
 ## Flujo de trabajo
 
 Jira project key: `AL`.
