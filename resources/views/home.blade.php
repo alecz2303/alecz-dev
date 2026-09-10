@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Alecz · Software Developer & Product Builder')
+@section('meta_description', 'Portafolio de Alejandro Fedle Rueda Jiménez, AKA Alecz. Software Developer y Product Builder enfocado en productos móviles, SaaS, biometría e integraciones.')
+@section('og_title', 'Alecz · Software Developer & Product Builder')
+@section('og_description', 'Productos reales, case studies y experiencia construyendo software que resuelve problemas concretos.')
 
 @section('content')
 @php($projects = config('portfolio.projects', []))
@@ -89,7 +92,19 @@
     </div>
 </section>
 
-<section class="preview-strip" aria-label="Contacto" data-reveal>
-    <div id="contacto" class="preview-item"><span class="preview-index">01</span><div><span class="preview-path">~/contact</span><strong>Construyamos algo útil.</strong></div><span class="preview-arrow" aria-hidden="true">→</span></div>
+<section id="contacto" class="contact-section" aria-labelledby="contact-title" data-reveal>
+    <p class="section-path">~/contact</p>
+    <div class="contact-grid">
+        <div>
+            <h2 id="contact-title">¿Tienes un problema que<br>valga la pena resolver?</h2>
+            <p>Me interesan proyectos donde el software tenga un propósito claro: mejorar un proceso, conectar sistemas, reducir fricción o convertir una idea en un producto real.</p>
+        </div>
+        <div class="contact-actions">
+            <p><span class="prompt">alecz@dev:~$</span> contact --new-project</p>
+            <a class="button button-primary" href="https://github.com/alecz2303" rel="me noopener" target="_blank">Ver perfil en GitHub ↗</a>
+            <a class="button button-secondary" href="#proyectos">Revisar proyectos</a>
+            <small>Los canales directos de contacto se publicarán aquí cuando estén configurados para este portafolio.</small>
+        </div>
+    </div>
 </section>
 @endsection

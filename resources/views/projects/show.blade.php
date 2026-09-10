@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
-@section('title', $project['name'].' · Alecz')
+@section('title', $project['name'].' · Case Study · Alecz')
+@section('meta_description', $project['summary'])
+@section('og_title', $project['name'].' · Case Study · Alecz')
+@section('og_description', $project['summary'])
 
 @section('content')
 <article class="case-study">
