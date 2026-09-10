@@ -82,6 +82,22 @@ No se envían repositorios, código fuente, secretos, variables de entorno, info
 
 El navegador conserva un fallback mínimo basado en el mismo índice público para que la experiencia no quede inutilizable si el endpoint no está disponible.
 
+### Calificación de prospectos
+
+Cuando el visitante expresa intención de cotizar, contratar o construir una solución, el backend marca la respuesta con `lead_intent`. El navegador puede iniciar entonces una calificación breve con cinco datos de negocio:
+
+- problema o proceso a resolver;
+- tipo de solución imaginada;
+- personas que la usarían;
+- plazo aproximado;
+- presupuesto opcional.
+
+La calificación se conserva únicamente en memoria mientras la página está abierta. No se guarda en base de datos, `localStorage` ni `sessionStorage`.
+
+Al finalizar se genera un resumen legible. Si existe `PORTFOLIO_WHATSAPP`, se crea un enlace `wa.me` con el resumen precompuesto. Si existe `PORTFOLIO_EMAIL`, se crea un `mailto:` con asunto y cuerpo precompuestos. El visitante decide si abre alguno de esos canales; el sitio no envía el resumen automáticamente.
+
+El flujo no solicita credenciales ni datos sensibles y mantiene las mismas restricciones de privacidad del chatbot: no expone código, repositorios, Jira ni GitHub interno.
+
 ## Publicación y SEO técnico
 
 - `/robots.txt` bloquea indexación fuera de producción y habilita sitemap en producción.

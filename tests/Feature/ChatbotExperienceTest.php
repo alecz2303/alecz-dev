@@ -20,8 +20,17 @@ class ChatbotExperienceTest extends TestCase
             ->assertSee('Baseball App')
             ->assertSee('DocTotal')
             ->assertSee('URPE Gestión Clínica')
-            ->assertSee('AcadControl')
-            ->assertSee('no se consultan repositorios ni se expone código fuente.');
+            ->assertSee('AcadControl');
+    }
+
+    public function test_chatbot_exposes_lead_qualification_without_persistence_claims(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('data-chat-topic="lead"', false)
+            ->assertSee('Quiero cotizar un proyecto')
+            ->assertSee('No guardamos esta conversación en base de datos.')
+            ->assertSee('No necesitas compartir datos sensibles.');
     }
 
     public function test_chatbot_does_not_publish_repository_links(): void
@@ -44,5 +53,18 @@ class ChatbotExperienceTest extends TestCase
             ->assertSee('data-email="contacto@example.test"', false)
             ->assertSee('https://wa.me/529611234567', false)
             ->assertSee('mailto:contacto@example.test', false);
+    }
+
+    public function test_lead_handoff_logic_is_client_side_and_builds_prefilled_channels(): void
+    {
+        $javascript = file_get_contents(resource_path('js/app.js'));
+
+        $this->assertStringContainsString('buildLeadSummary', $javascript);
+        $this->assertStringContainsString('Enviar resumen por WhatsApp', $javascript);
+        $this->assertStringContainsString('Enviar resumen por correo', $javascript);
+        $this->assertStringContainsString('?text=${encodedSummary}', $javascript);
+        $this->assertStringContainsString('subject=${subject}&body=${encodedSummary}', $javascript);
+        $this->assertStringNotContainsString('localStorage', $javascript);
+        $this->assertStringNotContainsString('sessionStorage', $javascript);
     }
 }

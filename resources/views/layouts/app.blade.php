@@ -78,11 +78,12 @@
                 <button type="button" aria-label="Cerrar asistente" data-chat-close>×</button>
             </header>
             <div class="chat-messages" aria-live="polite" aria-atomic="false" data-chat-messages>
-                <div class="chat-message is-bot">Hola. Cuéntame qué necesitas construir o mejorar. Puedo relacionarlo con proyectos reales de Alecz y orientarte hacia el case study más útil.</div>
+                <div class="chat-message is-bot">Hola. Cuéntame qué necesitas construir o mejorar. Puedo relacionarlo con proyectos reales de Alecz y, si buscas cotizar, preparar el contexto para hablar con él.</div>
             </div>
             <div class="chat-options" data-chat-options>
                 <button type="button" data-chat-topic="projects">Ver proyectos</button>
                 <button type="button" data-chat-topic="services">¿Qué puede construir?</button>
+                <button type="button" data-chat-topic="lead">Quiero cotizar un proyecto</button>
                 <button type="button" data-chat-topic="contact">Quiero contactarlo</button>
             </div>
             <form class="chat-form" data-chat-form>
@@ -90,7 +91,7 @@
                 <input id="portfolio-chat-input" type="text" autocomplete="off" maxlength="500" placeholder="Ej. Necesito una app para citas y pagos" data-chat-input>
                 <button type="submit" data-chat-submit>Enviar</button>
             </form>
-            <p class="chat-privacy">La conversación se procesa en el servidor del portafolio. Solo se usa contexto público controlado; no se consultan repositorios ni se expone código fuente.</p>
+            <p class="chat-privacy">No guardamos esta conversación en base de datos. No necesitas compartir datos sensibles. Solo se procesa para responder y preparar, si tú quieres, un resumen para contactar a Alecz.</p>
         </section>
     </aside>
 </body>
