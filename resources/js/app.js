@@ -43,6 +43,8 @@ if (chat) {
     const panel = chat.querySelector('[data-chat-panel]');
     const close = chat.querySelector('[data-chat-close]');
     const messages = chat.querySelector('[data-chat-messages]');
+    const options = chat.querySelector('[data-chat-options]');
+    const optionsToggle = chat.querySelector('[data-chat-options-toggle]');
     const topicButtons = chat.querySelectorAll('[data-chat-topic]');
     const externalOpeners = document.querySelectorAll('[data-chat-open]');
     const form = chat.querySelector('[data-chat-form]');
@@ -96,6 +98,19 @@ if (chat) {
         if (open) input?.focus();
         else toggle.focus();
     };
+
+    const setQuickOptions = (visible) => {
+        if (!options || !optionsToggle) return;
+
+        options.hidden = !visible;
+        optionsToggle.hidden = false;
+        optionsToggle.setAttribute('aria-expanded', String(visible));
+        optionsToggle.textContent = visible ? 'Ocultar opciones' : 'Opciones';
+        chat.classList.toggle('has-active-conversation', !visible);
+        messages.scrollTop = messages.scrollHeight;
+    };
+
+    const collapseQuickOptions = () => setQuickOptions(false);
 
     const addMessage = (text, type = 'bot') => {
         const message = document.createElement('div');
@@ -198,6 +213,7 @@ if (chat) {
     };
 
     const startQualification = (initialProblem = '') => {
+        collapseQuickOptions();
         qualification = {
             problem: initialProblem,
             solution: '',
@@ -327,6 +343,7 @@ if (chat) {
     };
 
     const submitQuery = async (query) => {
+        collapseQuickOptions();
         addMessage(query, 'user');
         input.value = '';
 
@@ -373,10 +390,12 @@ if (chat) {
     toggle.addEventListener('click', () => setOpen(!chat.classList.contains('is-open')));
     close.addEventListener('click', () => setOpen(false));
     externalOpeners.forEach((button) => button.addEventListener('click', () => setOpen(true)));
+    optionsToggle?.addEventListener('click', () => setQuickOptions(options.hidden));
 
     topicButtons.forEach((button) => {
         button.addEventListener('click', () => {
             const topic = button.dataset.chatTopic;
+            collapseQuickOptions();
             addMessage(button.textContent.trim(), 'user');
 
             if (topic === 'lead') {

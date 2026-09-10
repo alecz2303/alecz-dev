@@ -80,11 +80,14 @@
             <div class="chat-messages" aria-live="polite" aria-atomic="false" data-chat-messages>
                 <div class="chat-message is-bot">Hola. Cuéntame qué necesitas construir o mejorar. Puedo relacionarlo con proyectos reales de Alecz y, si buscas cotizar, preparar el contexto para hablar con él.</div>
             </div>
-            <div class="chat-options" data-chat-options>
+            <div class="chat-options" id="portfolio-chat-options" data-chat-options>
                 <button type="button" data-chat-topic="projects">Ver proyectos</button>
                 <button type="button" data-chat-topic="services">¿Qué puede construir?</button>
                 <button type="button" data-chat-topic="lead">Quiero cotizar un proyecto</button>
                 <button type="button" data-chat-topic="contact">Quiero contactarlo</button>
+            </div>
+            <div class="chat-options-toolbar">
+                <button class="chat-options-toggle" type="button" aria-expanded="false" aria-controls="portfolio-chat-options" data-chat-options-toggle hidden>Opciones</button>
             </div>
             <form class="chat-form" data-chat-form>
                 <label class="sr-only" for="portfolio-chat-input">Escribe qué necesitas</label>

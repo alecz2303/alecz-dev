@@ -33,6 +33,26 @@ class ChatbotExperienceTest extends TestCase
             ->assertSee('No necesitas compartir datos sensibles.');
     }
 
+    public function test_quick_actions_can_collapse_after_conversation_starts(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('id="portfolio-chat-options"', false)
+            ->assertSee('data-chat-options', false)
+            ->assertSee('data-chat-options-toggle', false)
+            ->assertSee('aria-controls="portfolio-chat-options"', false)
+            ->assertSee('>Opciones</button>', false);
+
+        $javascript = file_get_contents(resource_path('js/app.js'));
+
+        $this->assertStringContainsString('collapseQuickOptions', $javascript);
+        $this->assertStringContainsString('options.hidden = !visible', $javascript);
+        $this->assertStringContainsString("optionsToggle.textContent = visible ? 'Ocultar opciones' : 'Opciones'", $javascript);
+        $this->assertStringContainsString('const submitQuery = async (query) => {', $javascript);
+        $this->assertStringContainsString('collapseQuickOptions();', $javascript);
+        $this->assertStringContainsString("if (topic === 'lead')", $javascript);
+    }
+
     public function test_chatbot_does_not_publish_repository_links(): void
     {
         $response = $this->get('/')->assertOk();
