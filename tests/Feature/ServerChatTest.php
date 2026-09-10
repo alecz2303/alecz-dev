@@ -15,8 +15,29 @@ class ServerChatTest extends TestCase
         $this->postJson('/chat', ['message' => 'Necesito una plataforma para una clínica con citas'])
             ->assertOk()
             ->assertJsonPath('source', 'local')
+            ->assertJsonPath('lead_intent', true)
             ->assertJsonFragment(['name' => 'URPE Gestión Clínica'])
             ->assertJsonMissingPath('error');
+    }
+
+    public function test_general_portfolio_question_does_not_trigger_lead_qualification(): void
+    {
+        config()->set('chatbot.provider', 'local');
+
+        $this->postJson('/chat', ['message' => '¿Qué servicios puede construir Alecz?'])
+            ->assertOk()
+            ->assertJsonPath('source', 'local')
+            ->assertJsonPath('lead_intent', false);
+    }
+
+    public function test_explicit_quote_request_triggers_lead_qualification(): void
+    {
+        config()->set('chatbot.provider', 'local');
+
+        $this->postJson('/chat', ['message' => 'Quiero cotizar un proyecto'])
+            ->assertOk()
+            ->assertJsonPath('source', 'local')
+            ->assertJsonPath('lead_intent', true);
     }
 
     public function test_chat_endpoint_validates_message_length(): void
@@ -44,6 +65,7 @@ class ServerChatTest extends TestCase
         $this->postJson('/chat', ['message' => 'Necesito construir un SaaS'])
             ->assertOk()
             ->assertJsonPath('source', 'remote')
+            ->assertJsonPath('lead_intent', true)
             ->assertJsonPath('message', 'DocTotal es el case study más cercano a una plataforma SaaS.');
 
         Http::assertSent(function (Request $request) {
@@ -71,6 +93,7 @@ class ServerChatTest extends TestCase
         $this->postJson('/chat', ['message' => 'Necesito biometría para una escuela'])
             ->assertOk()
             ->assertJsonPath('source', 'local')
+            ->assertJsonPath('lead_intent', true)
             ->assertJsonFragment(['name' => 'Digital Persona SchoolBio']);
     }
 
@@ -92,6 +115,7 @@ class ServerChatTest extends TestCase
         $this->postJson('/chat', ['message' => 'Necesito un SaaS'])
             ->assertOk()
             ->assertJsonPath('source', 'local')
+            ->assertJsonPath('lead_intent', true)
             ->assertJsonMissingExact(['message' => 'Puedes revisar https://github.com/example/private-repo']);
     }
 

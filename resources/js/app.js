@@ -55,6 +55,9 @@ if (chat) {
     const email = chat.dataset.email || '';
     const projects = knowledgeNode ? JSON.parse(knowledgeNode.textContent || '[]') : [];
 
+    let qualification = null;
+    let qualificationField = null;
+
     const intentKeywords = {
         mobile: ['app', 'apps', 'movil', 'android', 'flutter', 'celular', 'baseball', 'beisbol'],
         biometrics: ['biometria', 'biometrico', 'huella', 'identidad', 'asistencia', 'lector', 'digital persona'],
@@ -75,6 +78,14 @@ if (chat) {
         integrations: ['digital-persona-schoolbio', 'acadcontrol', 'baseball-app'],
         saas: ['doctotal', 'urpe-gestion-clinica', 'acadcontrol'],
         automation: ['acadcontrol', 'doctotal'],
+    };
+
+    const qualificationQuestions = {
+        problem: '¿Qué problema o proceso quieres resolver? Cuéntamelo en una o dos frases.',
+        solution: '¿Qué tipo de solución imaginas: app móvil, plataforma web, integración, automatización u otra?',
+        users: '¿Quiénes la usarían? Por ejemplo: clientes, personal interno, pacientes, alumnos o familias.',
+        timeframe: '¿Tienes algún plazo aproximado para tener una primera versión funcionando?',
+        budget: '¿Tienes un presupuesto aproximado? Es totalmente opcional; puedes responder “por definir”.',
     };
 
     const setOpen = (open) => {
@@ -112,33 +123,109 @@ if (chat) {
         }
     };
 
-    const addContactActions = () => {
+    const buildLeadSummary = () => {
+        const lead = qualification || {};
+        const budget = lead.budget && !['no', 'prefiero no decir', 'sin presupuesto'].includes(normalize(lead.budget))
+            ? lead.budget
+            : 'Por definir';
+
+        return [
+            'Consulta de proyecto desde el portafolio de Alecz',
+            '',
+            `Problema: ${lead.problem || 'Por definir'}`,
+            `Tipo de solución: ${lead.solution || 'Por definir'}`,
+            `Usuarios: ${lead.users || 'Por definir'}`,
+            `Plazo: ${lead.timeframe || 'Por definir'}`,
+            `Presupuesto: ${budget}`,
+        ].join('\n');
+    };
+
+    const addContactActions = (summary = '') => {
         const actions = document.createElement('div');
         actions.className = 'chat-contact-actions';
+        const encodedSummary = encodeURIComponent(summary);
 
         if (whatsapp) {
             const link = document.createElement('a');
-            link.href = `https://wa.me/${whatsapp}`;
+            link.href = `https://wa.me/${whatsapp}${summary ? `?text=${encodedSummary}` : ''}`;
             link.target = '_blank';
             link.rel = 'noopener noreferrer';
-            link.textContent = 'Abrir WhatsApp ↗';
+            link.textContent = summary ? 'Enviar resumen por WhatsApp ↗' : 'Abrir WhatsApp ↗';
             actions.appendChild(link);
         }
 
         if (email) {
             const link = document.createElement('a');
-            link.href = `mailto:${email}`;
-            link.textContent = 'Enviar correo';
+            const subject = encodeURIComponent('Consulta de proyecto desde el portafolio');
+            link.href = summary
+                ? `mailto:${email}?subject=${subject}&body=${encodedSummary}`
+                : `mailto:${email}`;
+            link.textContent = summary ? 'Enviar resumen por correo' : 'Enviar correo';
             actions.appendChild(link);
         }
 
         if (!actions.childElementCount) {
-            addMessage('Los canales directos todavía no están publicados. Mientras tanto puedo ayudarte a identificar qué experiencia de Alecz se parece más a lo que necesitas.');
+            addMessage('El resumen está listo, pero Alecz todavía no ha publicado un canal directo en este portafolio. Puedes copiarlo o volver cuando WhatsApp o correo estén habilitados.');
             return;
         }
 
         messages.appendChild(actions);
         messages.scrollTop = messages.scrollHeight;
+    };
+
+    const renderLeadSummary = () => {
+        const summary = buildLeadSummary();
+        const card = document.createElement('div');
+        card.className = 'chat-lead-summary';
+
+        const title = document.createElement('strong');
+        title.textContent = 'Resumen para Alecz';
+        card.appendChild(title);
+
+        const pre = document.createElement('pre');
+        pre.textContent = summary;
+        card.appendChild(pre);
+
+        messages.appendChild(card);
+        messages.scrollTop = messages.scrollHeight;
+        addMessage('Listo. No guardé estas respuestas. Si quieres, puedes enviar este resumen directamente y continuar la conversación con Alecz.');
+        addContactActions(summary);
+    };
+
+    const askQualificationQuestion = (field) => {
+        qualificationField = field;
+        addMessage(qualificationQuestions[field]);
+    };
+
+    const startQualification = (initialProblem = '') => {
+        qualification = {
+            problem: initialProblem,
+            solution: '',
+            users: '',
+            timeframe: '',
+            budget: '',
+        };
+
+        addMessage('Perfecto. Te haré unas preguntas breves para que Alecz reciba el contexto del proyecto sin que tengas que explicarlo otra vez. No necesitas compartir datos sensibles.');
+        askQualificationQuestion(initialProblem ? 'solution' : 'problem');
+    };
+
+    const continueQualification = (answer) => {
+        if (!qualification || !qualificationField) return false;
+
+        qualification[qualificationField] = answer;
+        const order = ['problem', 'solution', 'users', 'timeframe', 'budget'];
+        const currentIndex = order.indexOf(qualificationField);
+        const next = order[currentIndex + 1];
+
+        if (next) {
+            askQualificationQuestion(next);
+        } else {
+            qualificationField = null;
+            renderLeadSummary();
+        }
+
+        return true;
     };
 
     const scoreProjects = (query) => {
@@ -173,14 +260,25 @@ if (chat) {
             .sort((a, b) => b.score - a.score);
     };
 
+    const hasLocalLeadIntent = (query) => {
+        const normalizedQuery = normalize(query);
+        const commercial = ['cotizar', 'cotizacion', 'presupuesto', 'proyecto', 'contratar', 'cuanto cuesta', 'precio'];
+        const need = ['necesito', 'quiero', 'busco'];
+        const solution = ['app', 'sistema', 'plataforma', 'software', 'automatizar', 'integracion', 'api', 'citas', 'pagos', 'biometria'];
+
+        return commercial.some((term) => normalizedQuery.includes(term))
+            || (need.some((term) => normalizedQuery.includes(term)) && solution.some((term) => normalizedQuery.includes(term)));
+    };
+
     const localFallback = (query) => {
         const normalizedQuery = normalize(query);
 
-        if (['contacto', 'contactar', 'whatsapp', 'correo', 'email', 'cotizar', 'cotizacion'].some((word) => normalizedQuery.includes(word))) {
+        if (['contacto', 'contactar', 'whatsapp', 'correo', 'email'].some((word) => normalizedQuery.includes(word))) {
             return {
                 message: 'Sí. Si Alecz tiene canales directos habilitados, te los muestro aquí.',
                 projects: [],
                 show_contact: true,
+                lead_intent: hasLocalLeadIntent(query),
             };
         }
 
@@ -190,6 +288,7 @@ if (chat) {
                 message: `Por lo que describes, revisaría ${matches.map((project) => project.name).join(', ')}. Son proyectos reales con problemas parecidos.`,
                 projects: matches,
                 show_contact: false,
+                lead_intent: hasLocalLeadIntent(query),
             };
         }
 
@@ -197,6 +296,7 @@ if (chat) {
             message: 'No pude consultar el asistente del servidor en este momento. Cuéntame qué proceso quieres mejorar, quién lo usaría y si imaginas una app, plataforma web, integración o automatización.',
             projects: [],
             show_contact: false,
+            lead_intent: hasLocalLeadIntent(query),
         };
     };
 
@@ -229,6 +329,12 @@ if (chat) {
     const submitQuery = async (query) => {
         addMessage(query, 'user');
         input.value = '';
+
+        if (continueQualification(query)) {
+            input.focus();
+            return;
+        }
+
         input.disabled = true;
         submit.disabled = true;
         submit.textContent = '...';
@@ -238,9 +344,18 @@ if (chat) {
             const reply = await askServer(query);
             pending.remove();
             renderReply(reply);
+
+            if (reply.lead_intent && !qualification) {
+                startQualification(query);
+            }
         } catch {
             pending.remove();
-            renderReply(localFallback(query));
+            const reply = localFallback(query);
+            renderReply(reply);
+
+            if (reply.lead_intent && !qualification) {
+                startQualification(query);
+            }
         } finally {
             input.disabled = false;
             submit.disabled = false;
@@ -263,6 +378,13 @@ if (chat) {
         button.addEventListener('click', () => {
             const topic = button.dataset.chatTopic;
             addMessage(button.textContent.trim(), 'user');
+
+            if (topic === 'lead') {
+                startQualification();
+                input.focus();
+                return;
+            }
+
             addMessage(replies[topic] || 'Puedo ayudarte a explorar el portafolio.');
             if (topic === 'projects') addProjectLinks(projects);
             if (topic === 'contact') addContactActions();

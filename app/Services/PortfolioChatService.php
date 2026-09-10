@@ -25,6 +25,7 @@ class PortfolioChatService
                     'message' => $remote,
                     'projects' => $local['projects'],
                     'show_contact' => $local['show_contact'],
+                    'lead_intent' => $local['lead_intent'],
                     'source' => 'remote',
                 ];
             }
@@ -55,13 +56,15 @@ class PortfolioChatService
     private function localReply(string $message): array
     {
         $normalized = $this->normalize($message);
+        $leadIntent = $this->hasLeadIntent($normalized);
 
-        $contactWords = ['contacto', 'contactar', 'whatsapp', 'correo', 'email', 'cotizar', 'cotizacion'];
+        $contactWords = ['contacto', 'contactar', 'whatsapp', 'correo', 'email'];
         if ($this->containsAny($normalized, $contactWords)) {
             return [
-                'message' => 'Sí. Si Alecz tiene canales directos habilitados, te los muestro aquí. También puedo ayudarte a identificar primero qué tipo de solución necesitas.',
+                'message' => 'Sí. Si Alecz tiene canales directos habilitados, te los muestro aquí. Si quieres cotizar un proyecto, también puedo hacerte unas preguntas breves y preparar el contexto para la conversación.',
                 'projects' => [],
                 'show_contact' => true,
+                'lead_intent' => $leadIntent,
                 'source' => 'local',
             ];
         }
@@ -72,6 +75,7 @@ class PortfolioChatService
                 'message' => 'Alecz construye productos web y móviles, sistemas de gestión, automatizaciones e integraciones entre APIs, servicios externos, datos y hardware. Si me cuentas el problema, puedo relacionarlo con experiencia real del portafolio.',
                 'projects' => [],
                 'show_contact' => false,
+                'lead_intent' => false,
                 'source' => 'local',
             ];
         }
@@ -88,6 +92,7 @@ class PortfolioChatService
                     'url' => $project['url'],
                 ])->values()->all(),
                 'show_contact' => false,
+                'lead_intent' => $leadIntent,
                 'source' => 'local',
             ];
         }
@@ -96,8 +101,27 @@ class PortfolioChatService
             'message' => 'No encontré una coincidencia clara todavía. Cuéntame qué proceso quieres mejorar, quién lo usaría y si imaginas una app, plataforma web, integración o automatización. Con eso puedo orientarte mejor.',
             'projects' => [],
             'show_contact' => false,
+            'lead_intent' => $leadIntent,
             'source' => 'local',
         ];
+    }
+
+    private function hasLeadIntent(string $normalized): bool
+    {
+        $commercial = [
+            'cotizar', 'cotizacion', 'presupuesto', 'proyecto', 'necesito', 'quiero desarrollar',
+            'quiero crear', 'quiero una app', 'quiero un sistema', 'busco una app', 'busco un sistema',
+            'cuanto cuesta', 'precio', 'contratar', 'desarrollo para', 'solucion para',
+        ];
+
+        $problemSignals = [
+            'app', 'sistema', 'plataforma', 'software', 'automatizar', 'integracion', 'api',
+            'clinica', 'escuela', 'academia', 'citas', 'pagos', 'biometria', 'whatsapp',
+        ];
+
+        return $this->containsAny($normalized, $commercial)
+            || ($this->containsAny($normalized, ['necesito', 'quiero', 'busco'])
+                && $this->containsAny($normalized, $problemSignals));
     }
 
     private function scoreProjects(string $normalized)
@@ -173,6 +197,7 @@ class PortfolioChatService
             .'No inventes precios, clientes, métricas, fechas ni capacidades. '
             .'Nunca menciones ni solicites repositorios, código fuente, secretos, Jira, GitHub interno o credenciales. '
             .'Cuando sea útil, relaciona la necesidad con uno o más proyectos reales. '
+            .'Si el visitante expresa intención de contratar o cotizar, invítalo a completar la calificación breve del sitio; no pidas datos sensibles. '
             .'Canales directos disponibles: WhatsApp '.(config('profile.contact.whatsapp') ? 'sí' : 'no')
             .', correo '.(config('profile.contact.email') ? 'sí' : 'no').'. '
             .'Contexto público: '.json_encode($context, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
