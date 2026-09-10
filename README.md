@@ -55,17 +55,32 @@ Solo se renderizan cuando existe un valor configurado.
 
 ## Asistente del portafolio
 
-El chatbot acepta opciones rápidas y texto libre. Funciona completamente en el navegador y utiliza únicamente un índice público y controlado de los proyectos: nombre, tipo, resumen, stack, señal, capacidades y URL del case study.
+El chatbot acepta opciones rápidas y texto libre. La conversación libre usa `POST /chat` y se procesa en Laravel mediante `App\Services\PortfolioChatService`.
 
-El asistente:
+La arquitectura tiene dos modos:
 
-- reconoce necesidades relacionadas con apps móviles, SaaS, clínica, academia, biometría, pagos, automatización e integraciones;
-- relaciona la consulta con proyectos reales y propone hasta tres case studies relevantes;
-- orienta al visitante hacia WhatsApp o correo únicamente si esos canales están configurados;
-- incluye un fallback que pide más contexto cuando no encuentra una coincidencia clara;
-- no consulta repositorios, no carga código fuente y no necesita claves de servicios externos.
+1. `local` — motor determinista incluido en el proyecto. No necesita claves ni servicios externos.
+2. `remote` — proveedor compatible con un payload de conversación basado en `model` + `messages`. Si el proveedor falla, tarda demasiado o devuelve una respuesta inválida, el servicio vuelve automáticamente al motor local.
 
-La resolución de intención está separada de la presentación del chat para que en una fase posterior pueda sustituirse por una capa de IA del lado del servidor sin cambiar la experiencia pública ni exponer secretos en el frontend.
+Configuración:
+
+```env
+CHATBOT_PROVIDER=local
+CHATBOT_REMOTE_URL=
+CHATBOT_REMOTE_KEY=
+CHATBOT_REMOTE_MODEL=
+CHATBOT_REMOTE_TIMEOUT=8
+```
+
+Para habilitar el proveedor remoto se deben completar URL, key y model y cambiar `CHATBOT_PROVIDER=remote`. La clave solo se utiliza del lado del servidor y nunca se renderiza en HTML o JavaScript.
+
+### Contexto permitido
+
+El proveedor remoto recibe únicamente un contexto público controlado derivado de `config/portfolio.php`: nombre, tipo, resumen, stack, señal, capacidades y URL pública del case study. La disponibilidad de WhatsApp/correo se comunica solo como sí/no.
+
+No se envían repositorios, código fuente, secretos, variables de entorno, información de Jira/GitHub interno ni credenciales. El mensaje del visitante se valida y tiene un máximo de 500 caracteres.
+
+El navegador conserva un fallback mínimo basado en el mismo índice público para que la experiencia no quede inutilizable si el endpoint no está disponible.
 
 ## Publicación y SEO técnico
 

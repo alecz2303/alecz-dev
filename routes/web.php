@@ -1,8 +1,13 @@
 <?php
 
+use App\Http\Controllers\PortfolioChatController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'home')->name('home');
+
+Route::post('/chat', PortfolioChatController::class)
+    ->middleware('throttle:30,1')
+    ->name('chat');
 
 Route::get('/proyectos/{slug}', function (string $slug) {
     $projects = collect(config('portfolio.projects', []));

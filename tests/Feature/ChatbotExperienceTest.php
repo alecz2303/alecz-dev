@@ -11,6 +11,7 @@ class ChatbotExperienceTest extends TestCase
         $this->get('/')
             ->assertOk()
             ->assertSee('data-chat-knowledge', false)
+            ->assertSee('data-chat-endpoint', false)
             ->assertSee('data-chat-form', false)
             ->assertSee('data-chat-input', false)
             ->assertSee('Necesito una app para citas y pagos')
@@ -20,7 +21,7 @@ class ChatbotExperienceTest extends TestCase
             ->assertSee('DocTotal')
             ->assertSee('URPE Gestión Clínica')
             ->assertSee('AcadControl')
-            ->assertSee('No consulta repositorios ni expone código fuente.');
+            ->assertSee('no se consultan repositorios ni se expone código fuente.');
     }
 
     public function test_chatbot_does_not_publish_repository_links(): void
