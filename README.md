@@ -51,7 +51,21 @@ PORTFOLIO_WHATSAPP=
 PORTFOLIO_EMAIL=
 ```
 
-Solo se renderizan cuando existe un valor configurado. El asistente del portafolio funciona sin servicios externos y guía a visitantes hacia proyectos, capacidades y contacto. Su arquitectura puede evolucionar después hacia una integración de IA sin hacer depender el lanzamiento inicial de una API externa.
+Solo se renderizan cuando existe un valor configurado.
+
+## Asistente del portafolio
+
+El chatbot acepta opciones rápidas y texto libre. Funciona completamente en el navegador y utiliza únicamente un índice público y controlado de los proyectos: nombre, tipo, resumen, stack, señal, capacidades y URL del case study.
+
+El asistente:
+
+- reconoce necesidades relacionadas con apps móviles, SaaS, clínica, academia, biometría, pagos, automatización e integraciones;
+- relaciona la consulta con proyectos reales y propone hasta tres case studies relevantes;
+- orienta al visitante hacia WhatsApp o correo únicamente si esos canales están configurados;
+- incluye un fallback que pide más contexto cuando no encuentra una coincidencia clara;
+- no consulta repositorios, no carga código fuente y no necesita claves de servicios externos.
+
+La resolución de intención está separada de la presentación del chat para que en una fase posterior pueda sustituirse por una capa de IA del lado del servidor sin cambiar la experiencia pública ni exponer secretos en el frontend.
 
 ## Publicación y SEO técnico
 

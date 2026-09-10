@@ -8,6 +8,7 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/css/projects.css',
+                'resources/css/chatbot.css',
                 'resources/js/app.js',
             ],
             refresh: true,
