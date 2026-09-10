@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/css/projects.css',
                 'resources/css/chatbot.css',
+                'resources/css/case-media.css',
                 'resources/js/app.js',
             ],
             refresh: true,

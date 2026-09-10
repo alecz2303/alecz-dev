@@ -39,8 +39,32 @@ Cada proyecto destacado puede declarar:
 - contexto
 - capacidades principales
 - arquitectura e integraciones
+- media visual opcional
 
 La vista reusable de case study vive en `resources/views/projects/show.blade.php`. Los slugs desconocidos responden 404 y los proyectos válidos incluyen navegación de regreso al portafolio y entre case studies.
+
+### Media de proyectos
+
+Los case studies incluyen un bloque visual reusable. Mientras un proyecto no tenga capturas reales, la vista muestra un `Product snapshot` editorial construido únicamente con datos reales del proyecto: nombre, estado, señal, stack y capacidades. No se generan ni simulan interfaces inexistentes.
+
+Cuando existan capturas reales se pueden añadir directamente al proyecto mediante la clave opcional `media`:
+
+```php
+'media' => [
+    [
+        'role' => 'hero',
+        'src' => 'images/projects/mi-proyecto/hero.webp',
+        'alt' => 'Descripción accesible de la pantalla principal',
+    ],
+    [
+        'src' => 'images/projects/mi-proyecto/detalle.webp',
+        'alt' => 'Descripción accesible de la vista secundaria',
+        'caption' => 'Texto opcional que explica qué se está mostrando.',
+    ],
+],
+```
+
+`role => hero` identifica la imagen principal. El resto se renderiza como galería responsive. `alt` debe describir la captura real y `caption` es opcional. Los archivos viven dentro de `public/` y la vista resuelve sus rutas con `asset()`.
 
 ## Contacto y privacidad
 

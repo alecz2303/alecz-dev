@@ -6,6 +6,10 @@
 @section('og_description', $project['summary'])
 
 @section('content')
+@php($media = collect($project['media'] ?? []))
+@php($heroMedia = $media->firstWhere('role', 'hero') ?? $media->first())
+@php($galleryMedia = $media->reject(fn ($item) => $heroMedia && ($item['src'] ?? null) === ($heroMedia['src'] ?? null))->values())
+
 <article class="case-study">
     <header class="case-hero" data-reveal>
         <a class="case-back" href="{{ route('home') }}#proyectos">← Volver a ~/projects</a>
@@ -14,6 +18,56 @@
         <p class="case-lead">{{ $project['summary'] }}</p>
         <div class="case-signal">{{ $project['signal'] }}</div>
     </header>
+
+    <section class="case-showcase" aria-labelledby="showcase-title" data-reveal>
+        <div class="case-showcase-shell">
+            @if ($heroMedia)
+                <figure class="case-visual is-media">
+                    <img src="{{ asset($heroMedia['src']) }}" alt="{{ $heroMedia['alt'] ?? $project['name'] }}">
+                </figure>
+            @else
+                <div class="case-visual" role="img" aria-label="Resumen visual de {{ $project['name'] }} basado en información real del proyecto">
+                    <div class="case-visual-fallback">
+                        <div class="case-visual-kicker"><span id="showcase-title">Product snapshot</span><span>{{ $project['status'] }}</span></div>
+                        <div>
+                            <h2 class="case-visual-name">{{ $project['name'] }}</h2>
+                            <p class="case-visual-signal">{{ $project['signal'] }}</p>
+                            <ul class="case-visual-stack" aria-label="Stack principal de {{ $project['name'] }}">
+                                @foreach (array_slice($project['stack'], 0, 6) as $technology)
+                                    <li>{{ $technology }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            <aside class="case-proof" aria-label="Evidencia funcional del proyecto">
+                <div>
+                    <p class="case-proof-label">Lo que ya existe</p>
+                    <ul class="case-proof-list">
+                        @foreach (array_slice($project['capabilities'], 0, 5) as $capability)
+                            <li>{{ $capability }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                <p class="case-proof-note">La presentación visual usa únicamente capacidades y datos reales del proyecto. Las capturas se muestran solo cuando existe media configurada.</p>
+            </aside>
+        </div>
+
+        @if ($galleryMedia->isNotEmpty())
+            <div class="case-media-gallery" aria-label="Galería de {{ $project['name'] }}">
+                @foreach ($galleryMedia as $item)
+                    <figure class="case-media-item">
+                        <img src="{{ asset($item['src']) }}" alt="{{ $item['alt'] ?? $project['name'] }}" loading="lazy">
+                        @if (!empty($item['caption']))
+                            <figcaption>{{ $item['caption'] }}</figcaption>
+                        @endif
+                    </figure>
+                @endforeach
+            </div>
+        @endif
+    </section>
 
     <section class="case-section case-context" aria-labelledby="context-title" data-reveal>
         <div><p class="section-path">~/context</p><h2 id="context-title">El contexto.</h2></div>

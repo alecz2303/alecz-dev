@@ -17,6 +17,9 @@ class ProjectCaseStudyTest extends TestCase
                 ->assertOk()
                 ->assertSee($project['name'])
                 ->assertSee($project['summary'])
+                ->assertSee('Product snapshot')
+                ->assertSee('Lo que ya existe')
+                ->assertSee('Las capturas se muestran solo cuando existe media configurada.')
                 ->assertSee('El contexto.')
                 ->assertSee('El problema.')
                 ->assertSee('La solución.')
@@ -28,6 +31,31 @@ class ProjectCaseStudyTest extends TestCase
                 ->assertSee('<meta property="og:url"', false)
                 ->assertSee('<link rel="canonical"', false);
         }
+    }
+
+    public function test_case_study_can_render_configured_media_with_accessible_metadata(): void
+    {
+        $projects = config('portfolio.projects', []);
+        $projects[0]['media'] = [
+            [
+                'role' => 'hero',
+                'src' => 'favicon.svg',
+                'alt' => 'Vista principal de Citas CRIT',
+            ],
+            [
+                'src' => 'favicon.svg?gallery=1',
+                'alt' => 'Detalle visual de Citas CRIT',
+                'caption' => 'Ejemplo de caption para media real.',
+            ],
+        ];
+        config()->set('portfolio.projects', $projects);
+
+        $this->get('/proyectos/citas-crit')
+            ->assertOk()
+            ->assertSee('src="'.asset('favicon.svg').'"', false)
+            ->assertSee('alt="Vista principal de Citas CRIT"', false)
+            ->assertSee('alt="Detalle visual de Citas CRIT"', false)
+            ->assertSee('Ejemplo de caption para media real.');
     }
 
     public function test_schoolbio_case_study_describes_biometrics_hardware_and_api(): void
