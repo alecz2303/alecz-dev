@@ -13,7 +13,7 @@
 
     <div class="site-shell">
         <header class="site-header" data-reveal>
-            <a class="brand" href="/" aria-label="Alecz, inicio">
+            <a class="brand" href="{{ route('home') }}" aria-label="Alecz, inicio">
                 <span class="brand-mark" aria-hidden="true">&gt;_</span>
                 <span>Alecz</span>
             </a>
@@ -25,9 +25,9 @@
             </button>
 
             <nav class="site-nav" id="primary-navigation" aria-label="Navegación principal" data-nav>
-                <a href="#proyectos">~/projects</a>
-                <a href="#sobre-mi">~/about</a>
-                <a href="#contacto">~/contact</a>
+                <a href="{{ route('home') }}#proyectos">~/projects</a>
+                <a href="{{ route('home') }}#sobre-mi">~/about</a>
+                <a href="{{ route('home') }}#contacto">~/contact</a>
             </nav>
         </header>
 

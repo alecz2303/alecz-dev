@@ -46,7 +46,7 @@
                 <h3>{{ $project['name'] }}</h3><p class="project-summary">{{ $project['summary'] }}</p>
                 <div class="project-story"><div><span>PROBLEMA</span><p>{{ $project['problem'] }}</p></div><div><span>SOLUCIÓN</span><p>{{ $project['solution'] }}</p></div></div>
                 <ul class="project-stack" aria-label="Tecnologías de {{ $project['name'] }}">@foreach ($project['stack'] as $technology)<li>{{ $technology }}</li>@endforeach</ul>
-                <footer class="project-footer"><span class="project-signal">{{ $project['signal'] }}</span><span class="project-link">Case study próximamente →</span></footer>
+                <footer class="project-footer"><span class="project-signal">{{ $project['signal'] }}</span><a class="project-link" href="{{ route('projects.show', $project['slug']) }}">Ver case study →</a></footer>
             </article>
         @endforeach
     </div>
