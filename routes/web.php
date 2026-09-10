@@ -16,3 +16,24 @@ Route::get('/proyectos/{slug}', function (string $slug) {
 
     return view('projects.show', compact('project', 'previous', 'next'));
 })->name('projects.show');
+
+Route::get('/robots.txt', function () {
+    $lines = app()->environment('production')
+        ? ['User-agent: *', 'Allow: /', 'Sitemap: '.url('/sitemap.xml')]
+        : ['User-agent: *', 'Disallow: /'];
+
+    return response(implode("\n", $lines)."\n", 200)
+        ->header('Content-Type', 'text/plain; charset=UTF-8');
+})->name('robots');
+
+Route::get('/sitemap.xml', function () {
+    $urls = collect([route('home')])
+        ->merge(collect(config('portfolio.projects', []))->map(
+            fn (array $project) => route('projects.show', $project['slug'])
+        ));
+
+    $xml = view('sitemap', compact('urls'))->render();
+
+    return response($xml, 200)
+        ->header('Content-Type', 'application/xml; charset=UTF-8');
+})->name('sitemap');

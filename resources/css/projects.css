@@ -55,6 +55,22 @@
 .contact-actions>p { margin:0 0 .7rem; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.8rem; }
 .contact-actions .button { justify-content:center; }
 .contact-actions small { color:var(--subtle); line-height:1.6; }
+.portfolio-chat { position:fixed; right:1.25rem; bottom:1.25rem; z-index:50; display:flex; flex-direction:column; align-items:flex-end; gap:.7rem; }
+.chat-launcher { display:inline-flex; align-items:center; gap:.7rem; padding:.8rem 1rem; border:1px solid rgba(156,246,111,.3); border-radius:999px; background:#0d1118; color:#f5f7fb; box-shadow:0 12px 40px rgba(0,0,0,.35); cursor:pointer; }
+.chat-launcher span:first-child { color:var(--accent); font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-weight:700; }
+.chat-panel { display:none; width:min(380px,calc(100vw - 2rem)); max-height:min(600px,72vh); overflow:hidden; border:1px solid var(--line); border-radius:1rem; background:#0b0e14; box-shadow:0 24px 70px rgba(0,0,0,.5); }
+.portfolio-chat.is-open .chat-panel { display:flex; flex-direction:column; }
+.chat-header { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1rem 1.1rem; border-bottom:1px solid var(--line); }
+.chat-header>div { display:flex; align-items:center; gap:.55rem; }
+.chat-header button { border:0; background:transparent; color:var(--muted); font-size:1.5rem; cursor:pointer; }
+.chat-messages { display:flex; flex-direction:column; gap:.7rem; min-height:180px; padding:1rem; overflow:auto; }
+.chat-message { max-width:88%; padding:.75rem .85rem; border:1px solid var(--line); border-radius:.85rem; color:#d7dce5; font-size:.88rem; line-height:1.55; background:rgba(255,255,255,.025); }
+.chat-message.is-user { align-self:flex-end; border-color:rgba(156,246,111,.25); color:#eef8e9; background:rgba(156,246,111,.08); }
+.chat-options { display:grid; gap:.55rem; padding:1rem; border-top:1px solid var(--line); }
+.chat-options button,.chat-contact-actions a,.chat-inline-link { padding:.7rem .8rem; border:1px solid var(--line); border-radius:.7rem; background:rgba(255,255,255,.025); color:#d7dce5; text-decoration:none; text-align:left; cursor:pointer; }
+.chat-options button:hover,.chat-contact-actions a:hover,.chat-inline-link:hover { border-color:rgba(156,246,111,.3); color:var(--accent); }
+.chat-contact-actions { display:grid; gap:.5rem; margin-top:.1rem; }
+.chat-inline-link { align-self:flex-start; color:var(--accent); }
 .case-study { padding:2rem 0 6rem; }
 .case-hero { min-height:62vh; display:flex; flex-direction:column; justify-content:flex-end; padding:3rem 0 5rem; border-bottom:1px solid var(--line); }
 .case-back { align-self:flex-start; margin-bottom:auto; color:var(--muted); text-decoration:none; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.76rem; }
@@ -88,4 +104,4 @@
 .case-pagination strong { font-size:1.1rem; }
 .case-next { text-align:right; }
 @media (max-width:900px) { .section-heading{grid-template-columns:1fr;gap:1.5rem}.projects-grid{grid-template-columns:1fr}.project-card{min-height:420px}.other-project-card{grid-template-columns:1fr}.other-project-meta{align-items:flex-start}.other-project-meta .project-stack{justify-content:flex-start}.other-project-meta .project-signal{text-align:left}.principles-grid{grid-template-columns:1fr}.stack-grid{grid-template-columns:1fr}.stack-grid article:last-child{grid-column:auto}.experience-list article{grid-template-columns:1fr;gap:.7rem}.contact-grid{grid-template-columns:1fr}.case-context,.case-heading,.case-two-column{grid-template-columns:1fr}.case-hero{min-height:55vh}.case-pagination{grid-template-columns:1fr}.case-pagination>span:empty{display:none}.case-next{text-align:left} }
-@media (max-width:560px) { .projects-section,.about-section,.stack-section,.experience-section,.contact-section{padding-top:5rem;padding-bottom:5rem}.project-card{min-height:auto}.project-story{grid-template-columns:1fr}.project-footer{align-items:flex-end}.project-signal{max-width:60%}.other-projects-heading{display:block}.other-project-card{gap:1.25rem}.case-hero{padding-top:1.5rem;padding-bottom:3.5rem}.case-section{padding:3.5rem 0}.case-two-column>div{padding:1.4rem}.case-capabilities li{grid-template-columns:.28fr 1.72fr} }
+@media (max-width:560px) { .projects-section,.about-section,.stack-section,.experience-section,.contact-section{padding-top:5rem;padding-bottom:5rem}.project-card{min-height:auto}.project-story{grid-template-columns:1fr}.project-footer{align-items:flex-end}.project-signal{max-width:60%}.other-projects-heading{display:block}.other-project-card{gap:1.25rem}.chat-launcher span:last-child{display:none}.portfolio-chat{right:.8rem;bottom:.8rem}.case-hero{padding-top:1.5rem;padding-bottom:3.5rem}.case-section{padding:3.5rem 0}.case-two-column>div{padding:1.4rem}.case-capabilities li{grid-template-columns:.28fr 1.72fr} }

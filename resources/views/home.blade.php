@@ -8,6 +8,8 @@
 @section('content')
 @php($projects = config('portfolio.projects', []))
 @php($otherProjects = config('portfolio.other_projects', []))
+@php($whatsapp = config('profile.contact.whatsapp'))
+@php($email = config('profile.contact.email'))
 
 <section class="hero" aria-labelledby="hero-title">
     <div class="hero-copy" data-reveal>
@@ -97,13 +99,20 @@
     <div class="contact-grid">
         <div>
             <h2 id="contact-title">¿Tienes un problema que<br>valga la pena resolver?</h2>
-            <p>Me interesan proyectos donde el software tenga un propósito claro: mejorar un proceso, conectar sistemas, reducir fricción o convertir una idea en un producto real.</p>
+            <p>Cuéntaselo al asistente del sitio. Puede orientarte entre proyectos, capacidades y la mejor forma de iniciar una conversación conmigo.</p>
         </div>
         <div class="contact-actions">
             <p><span class="prompt">alecz@dev:~$</span> contact --new-project</p>
-            <a class="button button-primary" href="https://github.com/alecz2303" rel="me noopener" target="_blank">Ver perfil en GitHub ↗</a>
-            <a class="button button-secondary" href="#proyectos">Revisar proyectos</a>
-            <small>Los canales directos de contacto se publicarán aquí cuando estén configurados para este portafolio.</small>
+            @if ($whatsapp)
+                <a class="button button-primary" href="https://wa.me/{{ preg_replace('/\D+/', '', $whatsapp) }}" rel="noopener noreferrer" target="_blank">Escribir por WhatsApp ↗</a>
+            @endif
+            @if ($email)
+                <a class="button button-secondary" href="mailto:{{ $email }}">Enviar correo</a>
+            @endif
+            <button class="button button-secondary" type="button" data-chat-open>Abrir asistente</button>
+            @unless ($whatsapp || $email)
+                <small>WhatsApp y correo se activarán aquí cuando estén configurados. El asistente ya puede ayudarte a explorar el portafolio.</small>
+            @endunless
         </div>
     </div>
 </section>

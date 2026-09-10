@@ -4,11 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="@yield('meta_description', 'Portafolio profesional de Alejandro Fedle Rueda Jiménez, AKA Alecz. Software Developer y Product Builder enfocado en soluciones digitales para problemas reales.')">
-    <meta property="og:type" content="website">
+    <meta name="robots" content="@yield('robots', 'index,follow')">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:site_name" content="Alecz">
     <meta property="og:title" content="@yield('og_title', trim($__env->yieldContent('title', 'Alecz · Software Developer & Product Builder')))">
     <meta property="og:description" content="@yield('og_description', trim($__env->yieldContent('meta_description', 'Portafolio profesional de Alecz. Software Developer y Product Builder.')))">
     <meta property="og:url" content="{{ url()->current() }}">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="@yield('og_title', trim($__env->yieldContent('title', 'Alecz · Software Developer & Product Builder')))">
+    <meta name="twitter:description" content="@yield('og_description', trim($__env->yieldContent('meta_description', 'Portafolio profesional de Alecz. Software Developer y Product Builder.')))">
     <link rel="canonical" href="{{ url()->current() }}">
+    <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
     <meta name="theme-color" content="#090b10">
     <title>@yield('title', 'Alecz · Software Developer & Product Builder')</title>
     @vite(['resources/css/app.css', 'resources/css/projects.css', 'resources/js/app.js'])
@@ -40,5 +46,28 @@
             @yield('content')
         </main>
     </div>
+
+    @php($whatsapp = config('profile.contact.whatsapp'))
+    @php($email = config('profile.contact.email'))
+    <aside class="portfolio-chat" data-chat data-whatsapp="{{ $whatsapp ? preg_replace('/\D+/', '', $whatsapp) : '' }}" data-email="{{ $email ?? '' }}">
+        <button class="chat-launcher" type="button" aria-expanded="false" aria-controls="portfolio-chat-panel" data-chat-toggle>
+            <span aria-hidden="true">&gt;_</span>
+            <span>Hablar con el asistente</span>
+        </button>
+        <section class="chat-panel" id="portfolio-chat-panel" aria-label="Asistente del portafolio" aria-hidden="true" data-chat-panel>
+            <header class="chat-header">
+                <div><span class="status-dot" aria-hidden="true"></span><strong>Asistente de Alecz</strong></div>
+                <button type="button" aria-label="Cerrar asistente" data-chat-close>×</button>
+            </header>
+            <div class="chat-messages" aria-live="polite" data-chat-messages>
+                <div class="chat-message is-bot">Hola. Puedo contarte qué construye Alecz, mostrarte proyectos o ayudarte a iniciar una conversación.</div>
+            </div>
+            <div class="chat-options" data-chat-options>
+                <button type="button" data-chat-topic="projects">Ver proyectos</button>
+                <button type="button" data-chat-topic="services">¿Qué puede construir?</button>
+                <button type="button" data-chat-topic="contact">Quiero contactarlo</button>
+            </div>
+        </section>
+    </aside>
 </body>
 </html>
