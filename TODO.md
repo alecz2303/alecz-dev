@@ -21,35 +21,24 @@ Este archivo es la referencia canónica del tramo restante del portafolio. Jira 
 - [x] AL-13 — Case studies preparados para media y evidencia visual real.
 - [x] AL-14 — Revisión de copy y establecimiento de este roadmap canónico.
 - [x] AL-15 — Experiencia bilingüe completa Español / English.
+- [x] AL-16 — Servicios bilingües y posicionamiento comercial respaldado por proyectos reales.
 
 ## Tramo restante antes del lanzamiento
 
 El orden puede ajustarse si aparece una dependencia real. Las claves Jira se crean únicamente cuando cada bloque vaya a ejecutarse.
 
 ### 1. Español / English — completado
-
 - [x] Localización nativa de Laravel para `es` y `en`.
-- [x] Español conservado en las URLs públicas originales; inglés disponible bajo `/en`.
-- [x] Selector de idioma visible, accesible y consistente.
-- [x] Home completa en ambos idiomas.
-- [x] Seis case studies completos en ambos idiomas.
-- [x] Chatbot, calificación y handoff en el idioma activo.
-- [x] Metadatos SEO, canonical, sitemap y `hreflang` coherentes por idioma.
-- [x] Nombres propios, marcas y términos técnicos conservados cuando corresponde.
+- [x] Home, case studies, chatbot, SEO, sitemap y `hreflang` en ambos idiomas.
 
-**Criterio:** español e inglés deben mantener la misma calidad editorial y los mismos hechos del portafolio.
+### 2. Servicios / Qué puedo construir — completado
+- [x] Sección comercial bilingüe de capacidades contratables.
+- [x] Soluciones web/SaaS, mobile, sistemas especializados, integraciones/automatización, software + hardware y producto a medida.
+- [x] Capacidades conectadas con proyectos reales como evidencia.
+- [x] CTA hacia chatbot/contacto y acceso desde navegación.
+- [x] Sin precios inventados ni exposición de repositorios/código.
 
-### 2. Servicios / Qué puedo construir — siguiente bloque · alta prioridad
-
-- [ ] Crear una sección comercial clara de capacidades contratables.
-- [ ] Explicar soluciones web/SaaS, mobile, integraciones/automatización y sistemas a medida.
-- [ ] Conectar cada capacidad con proyectos reales como evidencia.
-- [ ] Evitar vender tecnologías aisladas; comunicar resultados y procesos.
-- [ ] Integrar CTAs hacia chatbot/contacto.
-- [ ] Mantener la sección completa en español e inglés desde el primer commit.
-
-### 3. Evidencia visual real — alta prioridad
-
+### 3. Evidencia visual real — siguiente bloque · alta prioridad
 - [ ] Incorporar capturas reales de Citas CRIT.
 - [ ] Incorporar capturas reales de Digital Persona SchoolBio.
 - [ ] Incorporar capturas reales de Baseball App.
@@ -62,7 +51,6 @@ El orden puede ajustarse si aparece una dependencia real. Las claves Jira se cre
 **Regla:** nunca inventar screenshots, clientes, métricas o resultados.
 
 ### 4. Contacto y conversión — alta prioridad
-
 - [ ] Definir y configurar WhatsApp público definitivo.
 - [ ] Definir y configurar correo público definitivo.
 - [ ] Revisar CTAs de home, servicios, case studies y chatbot.
@@ -70,14 +58,12 @@ El orden puede ajustarse si aparece una dependencia real. Las claves Jira se cre
 - [ ] Mantener privacidad y evitar persistencia innecesaria de conversaciones.
 
 ### 5. CV / perfil profesional — prioridad media
-
 - [ ] Definir si habrá CV descargable, página profesional o ambos.
 - [ ] Preparar contenido consistente con About/Experience sin duplicación excesiva.
 - [ ] Preparar versión ES/EN si se publica como parte del sitio.
 - [ ] Evitar información privada innecesaria.
 
 ### 6. SEO y social sharing — prioridad media
-
 - [ ] Añadir datos estructurados Schema.org apropiados.
 - [ ] Diseñar imagen Open Graph/social share de Alecz.
 - [ ] Validar previews de home y case studies.
@@ -85,7 +71,6 @@ El orden puede ajustarse si aparece una dependencia real. Las claves Jira se cre
 - [ ] Revisar indexación, canonical, sitemap y `hreflang` en dominio público.
 
 ### 7. Production readiness — alta prioridad
-
 - [ ] Definir dominio público y configuración de producción.
 - [ ] Configurar variables de entorno sin secretos en repositorio.
 - [ ] Configurar proveedor remoto del chatbot solo si aporta valor al lanzamiento.
@@ -95,29 +80,18 @@ El orden puede ajustarse si aparece una dependencia real. Las claves Jira se cre
 - [ ] Verificar robots/sitemap en entorno real.
 
 ### 8. QA y lanzamiento — bloque final
-
 - [ ] QA desktop, tablet y móvil.
 - [ ] QA Español / English.
-- [ ] Navegación y enlaces internos.
-- [ ] Case studies y media.
+- [ ] Navegación, enlaces, case studies y media.
 - [ ] Chatbot, fallback, calificación y handoff.
-- [ ] Estados sin WhatsApp/email configurados.
-- [ ] 404 y manejo de errores.
-- [ ] Accesibilidad básica: teclado, foco, labels y contraste.
-- [ ] SEO técnico final.
+- [ ] 404, errores y estados sin canales configurados.
+- [ ] Accesibilidad básica y SEO técnico final.
 - [ ] Build y suite de pruebas verdes.
 - [ ] Checklist de lanzamiento y smoke test en producción.
 
 ## Definición de terminado
 
-El portafolio se considera listo para lanzamiento cuando:
-
-1. la experiencia principal está completa en español e inglés;
-2. los proyectos prioritarios tienen evidencia visual real suficiente o un fallback explícitamente aprobado;
-3. un prospecto entiende qué construye Alecz y puede iniciar contacto sin fricción;
-4. no se exponen repositorios, código fuente, Jira, secretos ni información interna;
-5. SEO, rendimiento, accesibilidad básica y QA están verificados en producción;
-6. CI y pruebas están verdes sobre la versión publicada.
+El portafolio se considera listo para lanzamiento cuando la experiencia principal funciona en ambos idiomas, los proyectos prioritarios tienen evidencia visual suficiente o fallback aprobado, un prospecto entiende qué construye Alecz y puede iniciar contacto sin fricción, no se expone información interna, y SEO/rendimiento/accesibilidad/QA están verificados con CI verde.
 
 ## Principios editoriales
 
