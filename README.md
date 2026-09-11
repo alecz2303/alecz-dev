@@ -32,48 +32,42 @@ Las cadenas de interfaz viven en `lang/es/ui.php` y `lang/en/ui.php`. El conteni
 
 ## Servicios y posicionamiento comercial
 
-La home incluye `~/services`, una capa comercial que explica qué puede construir Alecz sin vender tecnologías aisladas ni publicar paquetes o precios inventados.
+La home incluye `~/services`, una capa comercial que explica qué puede construir Alecz sin vender tecnologías aisladas ni publicar paquetes o precios inventados. El contenido vive en `config/services.php` y `config/services_en.php`; cada capacidad conecta con case studies reales.
 
-El contenido vive en `config/services.php` y `config/services_en.php`. Cada capacidad conecta con case studies reales mediante sus slugs y cubre web/SaaS, mobile, sistemas especializados, integraciones/automatización, software conectado con hardware y construcción/evolución de productos a medida.
+## Perfil profesional y CV
 
-La sección tiene CTA directo al asistente. El atajo de servicios del chatbot también ofrece acceso a `#servicios`, conservando el idioma activo. La presentación sigue la política privacy-first: no expone repositorios, código, Jira ni GitHub.
+La home incorpora `~/profile`, una síntesis bilingüe de perfil profesional basada únicamente en experiencia ya demostrada por el portafolio: producto end-to-end, web/mobile/desktop/integraciones y un proceso de ingeniería trazable. El contenido vive en `config/professional_profile.php` y evita empleadores, estudios, certificaciones, fechas, métricas o años de experiencia no validados.
+
+El CV descargable es opcional. Se configura mediante:
+
+```env
+PORTFOLIO_CV_PATH=
+```
+
+El valor debe ser una ruta relativa dentro de `public/`, por ejemplo `cv/alecz.pdf`. El botón de descarga solo se renderiza cuando la variable está configurada **y el archivo existe realmente**. Mientras no exista un CV público aprobado, el sitio muestra únicamente una nota neutral y no genera enlaces rotos.
 
 ## Navegación persistente
 
-El sitio conserva el header original y muestra un **Command Dock** flotante con acceso a `~/projects`, `~/services`, `~/about`, `~/contact` y `↑ root`.
+El sitio conserva el header original y muestra un **Command Dock** flotante con acceso a `~/projects`, `~/services`, `~/about`, `~/contact` y `↑ root`. En home sigue la sección activa; en case studies los accesos regresan a la sección equivalente del home en el locale activo.
 
-En la home, el dock aparece después de abandonar el hero y marca la sección activa durante el scroll. En los case studies también permanece disponible: los accesos llevan a la sección equivalente de la home en el idioma activo y `↑ root` vuelve al inicio de la página interna actual. La implementación evita marcar una sección activa cuando esas secciones no existen en la vista actual.
+## Contenido y evidencia visual
 
-La implementación vive en `resources/css/command-dock.css` y `resources/js/command-dock.js`, usa JavaScript nativo, etiquetas accesibles, se adapta a móvil, evita competir con el chatbot y respeta `prefers-reduced-motion`.
+Los proyectos destacados alimentan también sus case studies. La evidencia visual pública se registra en `config/project_media.php`. Digital Persona SchoolBio cuenta con una captura real segura; Citas CRIT, Baseball App, DocTotal y URPE Gestión Clínica usan previews editoriales `CODE-DERIVED PREVIEW` basados en estructura verificable; AcadControl conserva fallback `NO PUBLIC VISUAL`.
 
-## Contenido del portafolio
-
-Los proyectos destacados se renderizan desde estructuras reutilizables que alimentan también sus case studies. Cada proyecto puede declarar nombre, slug, tipo, estado, resumen, problema, solución, stack, señal, contexto, capacidades, arquitectura e integraciones y media visual opcional.
-
-La vista reusable vive en `resources/views/projects/show.blade.php`. Slugs desconocidos responden 404.
-
-### Media de proyectos
-
-La evidencia visual pública se registra en `config/project_media.php`, separando captions y `alt` por locale y reutilizando el mismo asset factual. El case study mantiene compatibilidad con la clave `media` de cada proyecto y usa el registro como fuente aprobada cuando existe.
-
-Estado actual: **Digital Persona SchoolBio** cuenta con una captura real, optimizada a WebP, del flujo de registro biométrico. La imagen no muestra nombre, matrícula, huella ni información identificable de un alumno. Citas CRIT, Baseball App, DocTotal y URPE Gestión Clínica cuentan con previews editoriales claramente marcados como `CODE-DERIVED PREVIEW`, derivados de estructura de UI verificable en sus repositorios. AcadControl conserva fallback al no existir todavía una interfaz pública suficientemente verificable.
-
-No se presentan previews derivados de código como screenshots de ejecución. Los assets aprobados viven en `public/media/projects/` con rutas estables.
+No se presentan previews derivados de código como screenshots de ejecución. No se publican repositorios, código fuente, Jira, GitHub, credenciales ni datos identificables.
 
 ## Contacto y privacidad
 
-El portafolio no publica repositorios ni enlaces al código fuente. Los canales directos se configuran por entorno:
+Los canales directos se configuran por entorno:
 
 ```env
 PORTFOLIO_WHATSAPP=
 PORTFOLIO_EMAIL=
 ```
 
-Solo se renderizan cuando existe un valor configurado.
+Solo se renderizan cuando existe un valor configurado. El chatbot acepta opciones rápidas y texto libre, puede calificar prospectos y preparar un resumen. La conversación y calificación no se guardan en base de datos, `localStorage` ni `sessionStorage`.
 
 ## Asistente del portafolio
-
-El chatbot acepta opciones rápidas y texto libre. La conversación se procesa server-side mediante `App\Services\PortfolioChatService` y respeta el idioma activo. El motor local reconoce señales en español e inglés y recomienda proyectos reales.
 
 Configuración opcional del proveedor remoto:
 
@@ -85,11 +79,7 @@ CHATBOT_REMOTE_MODEL=
 CHATBOT_REMOTE_TIMEOUT=8
 ```
 
-Las claves permanecen server-side. El proveedor recibe únicamente contexto público controlado; no recibe repositorios, código fuente, secretos, Jira/GitHub interno ni credenciales. Si falla, se usa el motor local.
-
-### Calificación de prospectos
-
-Cuando existe intención comercial, el navegador guía una calificación breve con problema, solución, usuarios, plazo y presupuesto opcional. El resumen puede entregarse a WhatsApp o email configurados o copiarse al portapapeles. La conversación y calificación no se guardan en base de datos, `localStorage` ni `sessionStorage`.
+Las claves permanecen server-side y existe fallback local.
 
 ## Publicación y SEO técnico
 
