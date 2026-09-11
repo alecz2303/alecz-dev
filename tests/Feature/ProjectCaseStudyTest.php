@@ -15,6 +15,23 @@ class ProjectCaseStudyTest extends TestCase
         }
     }
 
+    public function test_case_studies_offer_a_bilingual_privacy_first_next_step(): void
+    {
+        $this->get('/proyectos/doctotal')
+            ->assertOk()
+            ->assertSee('¿Necesitas resolver algo parecido?')
+            ->assertSee('Cuéntame tu proyecto ↗')
+            ->assertSee('sin pedir datos sensibles')
+            ->assertSee('data-chat-open', false);
+
+        $this->get('/en/projects/doctotal')
+            ->assertOk()
+            ->assertSee('Do you need something similar?')
+            ->assertSee('Tell me about your project ↗')
+            ->assertSee('without asking for sensitive data')
+            ->assertSee('data-chat-open', false);
+    }
+
     public function test_code_derived_previews_are_truthfully_labeled_in_both_locales(): void
     {
         foreach (['citas-crit','baseball-app','doctotal','urpe-gestion-clinica'] as $slug) {

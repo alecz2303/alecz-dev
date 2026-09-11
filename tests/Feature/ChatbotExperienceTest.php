@@ -80,9 +80,24 @@ class ChatbotExperienceTest extends TestCase
             ->assertSee('mailto:contacto@example.test', false);
     }
 
+    public function test_unconfigured_channels_do_not_create_broken_direct_links(): void
+    {
+        config()->set('profile.contact.whatsapp', null);
+        config()->set('profile.contact.email', null);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('data-whatsapp=""', false)
+            ->assertSee('data-email=""', false)
+            ->assertDontSee('https://wa.me/', false)
+            ->assertDontSee('mailto:', false)
+            ->assertSee('El asistente ya puede ayudarte a explorar el portafolio.');
+    }
+
     public function test_lead_handoff_logic_is_client_side_and_builds_prefilled_channels(): void
     {
         $javascript = file_get_contents(resource_path('js/app.js'));
+        $handoff = file_get_contents(resource_path('js/contact-handoff.js'));
         $spanish = require resource_path('../lang/es/ui.php');
         $english = require resource_path('../lang/en/ui.php');
 
@@ -93,7 +108,12 @@ class ChatbotExperienceTest extends TestCase
         $this->assertSame('Send summary on WhatsApp ↗', $english['chat']['actions']['wa_summary']);
         $this->assertStringContainsString('?text=${encodedSummary}', $javascript);
         $this->assertStringContainsString('subject=${subject}&body=${encodedSummary}', $javascript);
-        $this->assertStringNotContainsString('localStorage', $javascript);
-        $this->assertStringNotContainsString('sessionStorage', $javascript);
+        $this->assertStringContainsString('Hola Alecz, me gustaría platicar sobre este proyecto:', $handoff);
+        $this->assertStringContainsString('Hi Alecz, I would like to talk about this project:', $handoff);
+        $this->assertStringContainsString('navigator.clipboard.writeText', $handoff);
+        $this->assertStringContainsString('Copiar resumen del proyecto', $handoff);
+        $this->assertStringContainsString('Copy project summary', $handoff);
+        $this->assertStringNotContainsString('localStorage', $javascript.$handoff);
+        $this->assertStringNotContainsString('sessionStorage', $javascript.$handoff);
     }
 }
