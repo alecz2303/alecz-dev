@@ -6,18 +6,19 @@ Jira es la fuente de verdad para IDs y estados. Este archivo mantiene la direcci
 
 - [x] AL-1 a AL-17 — Base, sistema visual, proyectos, case studies, About/stack, SEO, contacto privacy-first, chatbot, lead qualification, media-ready case studies, copy, ES/EN, servicios y Command Dock.
 - [x] AL-18 — Primera evidencia visual real: captura segura de registro biométrico de SchoolBio.
-- [x] AL-19 — Auditoría visual de repositorios y previews editoriales derivados de código verificable para Citas CRIT, Baseball App, DocTotal y URPE; SchoolBio conserva `REAL SCREENSHOT` y AcadControl mantiene fallback `NO PUBLIC VISUAL`.
+- [x] AL-19 — Auditoría visual y previews editoriales derivados de código verificable; SchoolBio conserva `REAL SCREENSHOT` y AcadControl mantiene fallback `NO PUBLIC VISUAL`.
+- [x] AL-20 — Contacto y conversión bilingüe: CTA de case studies, handoff localizado, resumen copiable y canales configurables sin enlaces rotos.
+- [x] AL-21 — Command Dock disponible también en case studies ES/EN.
 
 ## En ejecución
 
-- [ ] AL-20 — Refinamiento de contacto y conversión bilingüe.
-  - [x] CTA de siguiente paso añadido a todos los case studies ES/EN.
-  - [x] Handoff del chatbot enriquecido con introducción localizada para contactar a Alecz.
-  - [x] Resumen del prospecto puede copiarse al portapapeles además de enviarse por canales configurados.
-  - [x] WhatsApp y correo continúan siendo 100% configurables por entorno; sin valores hardcodeados.
-  - [x] Cuando no existen canales configurados no se generan enlaces rotos y el asistente sigue siendo el camino disponible.
-  - [ ] Configurar WhatsApp público definitivo cuando Alecz lo defina.
-  - [ ] Configurar correo público definitivo cuando Alecz lo defina.
+- [ ] AL-22 — Perfil profesional bilingüe y arquitectura CV-ready.
+  - [x] Perfil basado únicamente en experiencia demostrada por proyectos reales.
+  - [x] Síntesis de producto end-to-end, amplitud técnica y proceso de ingeniería.
+  - [x] Equivalencia factual ES/EN.
+  - [x] CV opcional mediante `PORTFOLIO_CV_PATH`.
+  - [x] El enlace de CV solo aparece cuando existe un archivo público real.
+  - [ ] Incorporar CV definitivo cuando Alecz apruebe el archivo público.
 
 ## Tramo restante antes del lanzamiento
 
@@ -25,11 +26,11 @@ Jira es la fuente de verdad para IDs y estados. Este archivo mantiene la direcci
 - [ ] Definir y configurar WhatsApp público definitivo.
 - [ ] Definir y configurar correo público definitivo.
 
-### CV / perfil profesional — prioridad media
-- [ ] Definir CV descargable, página profesional o ambos.
-- [ ] Preparar contenido ES/EN consistente con About/Experience.
+### CV — pendiente de archivo definitivo
+- [ ] Preparar/aprobar el PDF final.
+- [ ] Publicarlo y configurar `PORTFOLIO_CV_PATH`.
 
-### SEO y social sharing — prioridad media
+### SEO y social sharing — siguiente bloque técnico
 - [ ] Añadir Schema.org.
 - [ ] Diseñar imagen Open Graph/social share.
 - [ ] Validar previews, canonical, sitemap y hreflang en producción.
@@ -49,11 +50,11 @@ Jira es la fuente de verdad para IDs y estados. Este archivo mantiene la direcci
 
 ## Regla de evidencia visual
 
-Cada visual público se clasifica como `REAL SCREENSHOT`, `REAL ASSET`, `CODE-DERIVED PREVIEW` o `NO PUBLIC VISUAL`. Un preview derivado puede simplificar editorialmente la interfaz, pero debe basarse en estructura/componentes verificables del producto, identificarse como representación y nunca fingir ser una captura de ejecución. No se publican repositorios, código, credenciales, datos clínicos ni información identificable.
+Cada visual público se clasifica como `REAL SCREENSHOT`, `REAL ASSET`, `CODE-DERIVED PREVIEW` o `NO PUBLIC VISUAL`. Un preview derivado puede simplificar editorialmente la interfaz, pero debe basarse en estructura/componentes verificables del producto, identificarse como representación y nunca fingir ser una captura de ejecución.
 
-## Regla de contacto
+## Regla de contacto y perfil
 
-Los canales públicos son configuración, no contenido asumido. Nunca se hardcodea un teléfono o correo sin decisión explícita de Alecz. Si un canal no está configurado, el sitio lo omite y mantiene el asistente como siguiente paso útil. La conversación y el resumen de prospecto no se persisten en base de datos ni almacenamiento del navegador.
+Los canales públicos y el CV son configuración, no contenido asumido. Nunca se hardcodea un teléfono, correo o archivo profesional no aprobado. El perfil no inventa empleadores, estudios, certificaciones, fechas, años de experiencia, clientes, métricas ni resultados.
 
 ## Definición de terminado
 

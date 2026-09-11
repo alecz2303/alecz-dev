@@ -7,4 +7,7 @@ return [
         'whatsapp' => env('PORTFOLIO_WHATSAPP'),
         'email' => env('PORTFOLIO_EMAIL'),
     ],
+    'cv' => [
+        'path' => env('PORTFOLIO_CV_PATH'),
+    ],
 ];
