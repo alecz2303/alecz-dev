@@ -1,13 +1,68 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
+    @php($isEnglish = app()->getLocale() === 'en')
+    @php($slug = request()->route('slug'))
+    @php($spanishUrl = $slug ? route('projects.show', $slug) : route('home'))
+    @php($englishUrl = $slug ? route('en.projects.show', $slug) : route('en.home'))
+    @php($seoImage = asset(config('seo.social.image')))
+    @php($seoImageAlt = config('seo.social.alt.'.app()->getLocale(), config('seo.social.alt.es')))
+    @php($seoImageWidth = config('seo.social.width', 1200))
+    @php($seoImageHeight = config('seo.social.height', 630))
+    @php($structuredData = $slug && isset($project) ? [
+        '@context' => 'https://schema.org',
+        '@type' => 'CreativeWork',
+        '@id' => url()->current().'#case-study',
+        'name' => $project['name'].' · Case Study',
+        'description' => $project['summary'],
+        'url' => url()->current(),
+        'inLanguage' => $isEnglish ? 'en' : 'es',
+        'image' => $seoImage,
+        'keywords' => implode(', ', $project['stack'] ?? []),
+        'author' => [
+            '@type' => 'Person',
+            '@id' => route('home').'#person',
+            'name' => config('profile.name'),
+            'alternateName' => config('profile.brand'),
+        ],
+    ] : [
+        '@context' => 'https://schema.org',
+        '@graph' => [
+            [
+                '@type' => 'WebSite',
+                '@id' => route('home').'#website',
+                'url' => route('home'),
+                'name' => 'Alecz',
+                'inLanguage' => ['es', 'en'],
+            ],
+            [
+                '@type' => 'ProfilePage',
+                '@id' => url()->current().'#profile',
+                'url' => url()->current(),
+                'name' => $isEnglish ? 'Alecz · Professional Portfolio' : 'Alecz · Portafolio profesional',
+                'description' => __('ui.meta.home_description'),
+                'inLanguage' => $isEnglish ? 'en' : 'es',
+                'image' => $seoImage,
+                'mainEntity' => [
+                    '@type' => 'Person',
+                    '@id' => route('home').'#person',
+                    'name' => config('profile.name'),
+                    'alternateName' => config('profile.brand'),
+                    'jobTitle' => 'Software Developer · Product Builder',
+                    'description' => __('ui.meta.home_description'),
+                    'url' => route('home'),
+                    'knowsAbout' => config('seo.knows_about', []),
+                ],
+            ],
+        ],
+    ])
     <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="@yield('meta_description', __('ui.meta.default_description'))"><meta name="robots" content="@yield('robots', 'index,follow')">
-    <meta property="og:type" content="@yield('og_type', 'website')"><meta property="og:site_name" content="Alecz"><meta property="og:title" content="@yield('og_title', trim($__env->yieldContent('title', 'Alecz · Software Developer & Product Builder')))"><meta property="og:description" content="@yield('og_description', trim($__env->yieldContent('meta_description', __('ui.meta.short_description'))))"><meta property="og:url" content="{{ url()->current() }}"><meta property="og:locale" content="{{ app()->getLocale() === 'en' ? 'en_US' : 'es_MX' }}">
-    <meta name="twitter:card" content="summary"><meta name="twitter:title" content="@yield('og_title', trim($__env->yieldContent('title', 'Alecz · Software Developer & Product Builder')))"><meta name="twitter:description" content="@yield('og_description', trim($__env->yieldContent('meta_description', __('ui.meta.short_description'))))">
+    <meta property="og:type" content="{{ $slug ? 'article' : 'website' }}"><meta property="og:site_name" content="Alecz"><meta property="og:title" content="@yield('og_title', trim($__env->yieldContent('title', 'Alecz · Software Developer & Product Builder')))"><meta property="og:description" content="@yield('og_description', trim($__env->yieldContent('meta_description', __('ui.meta.short_description'))))"><meta property="og:url" content="{{ url()->current() }}"><meta property="og:locale" content="{{ $isEnglish ? 'en_US' : 'es_MX' }}"><meta property="og:image" content="{{ $seoImage }}"><meta property="og:image:width" content="{{ $seoImageWidth }}"><meta property="og:image:height" content="{{ $seoImageHeight }}"><meta property="og:image:alt" content="{{ $seoImageAlt }}">
+    <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="@yield('og_title', trim($__env->yieldContent('title', 'Alecz · Software Developer & Product Builder')))"><meta name="twitter:description" content="@yield('og_description', trim($__env->yieldContent('meta_description', __('ui.meta.short_description'))))"><meta name="twitter:image" content="{{ $seoImage }}"><meta name="twitter:image:alt" content="{{ $seoImageAlt }}">
     <link rel="canonical" href="{{ url()->current() }}">
-    @php($isEnglish = app()->getLocale() === 'en') @php($slug = request()->route('slug')) @php($spanishUrl = $slug ? route('projects.show', $slug) : route('home')) @php($englishUrl = $slug ? route('en.projects.show', $slug) : route('en.home'))
     <link rel="alternate" hreflang="es" href="{{ $spanishUrl }}"><link rel="alternate" hreflang="en" href="{{ $englishUrl }}"><link rel="alternate" hreflang="x-default" href="{{ $spanishUrl }}"><link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml"><meta name="theme-color" content="#090b10">
+    <script type="application/ld+json">@json($structuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)</script>
     <title>@yield('title', 'Alecz · Software Developer & Product Builder')</title>
     @vite(['resources/css/app.css','resources/css/projects.css','resources/css/services.css','resources/css/chatbot.css','resources/css/case-media.css','resources/css/localization.css','resources/css/command-dock.css','resources/js/app.js','resources/js/services.js','resources/js/command-dock.js','resources/js/contact-handoff.js'])
 </head>
