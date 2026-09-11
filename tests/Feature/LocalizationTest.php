@@ -21,7 +21,49 @@ class LocalizationTest extends TestCase
             ->assertSee('Español')
             ->assertDontSee('¿Qué necesitas resolver?')
             ->assertSee('hreflang="es" href="http://localhost"', false)
-            ->assertSee('hreflang="en" href="http://localhost/en"', false);
+            ->assertSee('hreflang="en" href="http://localhost/en"', false)
+            ->assertSee('href="#proyectos"', false)
+            ->assertSee('href="#servicios"', false)
+            ->assertSee('href="#sobre-mi"', false)
+            ->assertSee('href="#contacto"', false);
+    }
+
+    public function test_spanish_home_navigation_uses_local_fragments(): void
+    {
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('<html lang="es">', false)
+            ->assertSee('href="#proyectos"', false)
+            ->assertSee('href="#servicios"', false)
+            ->assertSee('href="#sobre-mi"', false)
+            ->assertSee('href="#contacto"', false);
+    }
+
+    public function test_internal_navigation_returns_to_the_equivalent_locale_home(): void
+    {
+        $this->get('/proyectos/citas-crit')
+            ->assertOk()
+            ->assertSee('href="http://localhost#proyectos"', false)
+            ->assertSee('href="http://localhost#servicios"', false)
+            ->assertSee('href="http://localhost#sobre-mi"', false)
+            ->assertSee('href="http://localhost#contacto"', false);
+
+        $this->get('/en/projects/citas-crit')
+            ->assertOk()
+            ->assertSee('href="http://localhost/en#proyectos"', false)
+            ->assertSee('href="http://localhost/en#servicios"', false)
+            ->assertSee('href="http://localhost/en#sobre-mi"', false)
+            ->assertSee('href="http://localhost/en#contacto"', false);
+    }
+
+    public function test_mobile_menu_has_a_solid_high_contrast_panel(): void
+    {
+        $css = file_get_contents(resource_path('css/localization.css'));
+
+        $this->assertStringContainsString('background: #0a0d12;', $css);
+        $this->assertStringContainsString('z-index: 90;', $css);
+        $this->assertStringContainsString('color: #f7f8fb;', $css);
+        $this->assertStringContainsString('backdrop-filter: none;', $css);
     }
 
     public function test_english_case_study_uses_english_content_and_navigation(): void
