@@ -38,7 +38,10 @@ class PortfolioChatService
 
     public function publicContext(): array
     {
-        return collect(config('portfolio.projects', []))
+        $config = app()->getLocale() === 'en' ? 'portfolio_en' : 'portfolio';
+        $routeName = app()->getLocale() === 'en' ? 'en.projects.show' : 'projects.show';
+
+        return collect(config("{$config}.projects", []))
             ->map(fn (array $project) => [
                 'name' => $project['name'],
                 'slug' => $project['slug'],
@@ -47,7 +50,7 @@ class PortfolioChatService
                 'stack' => $project['stack'],
                 'signal' => $project['signal'],
                 'capabilities' => $project['capabilities'] ?? [],
-                'url' => route('projects.show', $project['slug']),
+                'url' => route($routeName, $project['slug']),
             ])
             ->values()
             ->all();
@@ -58,26 +61,12 @@ class PortfolioChatService
         $normalized = $this->normalize($message);
         $leadIntent = $this->hasLeadIntent($normalized);
 
-        $contactWords = ['contacto', 'contactar', 'whatsapp', 'correo', 'email'];
-        if ($this->containsAny($normalized, $contactWords)) {
-            return [
-                'message' => 'Sí. Si Alecz tiene canales directos habilitados, te los muestro aquí. Si quieres cotizar un proyecto, también puedo hacerte unas preguntas breves y preparar el contexto para la conversación.',
-                'projects' => [],
-                'show_contact' => true,
-                'lead_intent' => $leadIntent,
-                'source' => 'local',
-            ];
+        if ($this->containsAny($normalized, ['contacto','contactar','whatsapp','correo','email','contact','reach','message'])) {
+            return $this->response(__('ui.chat.server.contact'), [], true, $leadIntent);
         }
 
-        $servicePhrases = ['que haces', 'que puede', 'servicio', 'servicios', 'desarrollas', 'construyes', 'puedes hacer'];
-        if ($this->containsAny($normalized, $servicePhrases)) {
-            return [
-                'message' => 'Alecz construye productos web y móviles, sistemas de gestión, automatizaciones e integraciones entre APIs, servicios externos, datos y hardware. Si me cuentas el problema, puedo relacionarlo con experiencia real del portafolio.',
-                'projects' => [],
-                'show_contact' => false,
-                'lead_intent' => false,
-                'source' => 'local',
-            ];
+        if ($this->containsAny($normalized, ['que haces','que puede','servicio','servicios','desarrollas','construyes','puedes hacer','what do you do','what can you build','services','build','develop'])) {
+            return $this->response(__('ui.chat.server.services'), [], false, false);
         }
 
         $matches = $this->scoreProjects($normalized);
@@ -85,22 +74,23 @@ class PortfolioChatService
         if ($matches->isNotEmpty()) {
             $names = $matches->take(3)->pluck('name')->join(', ');
 
-            return [
-                'message' => "Por lo que describes, revisaría {$names}. Son proyectos reales que cubren partes parecidas del problema. Puedes abrir sus case studies para ver contexto, solución y arquitectura sin exponer código fuente.",
-                'projects' => $matches->take(3)->map(fn (array $project) => [
-                    'name' => $project['name'],
-                    'url' => $project['url'],
-                ])->values()->all(),
-                'show_contact' => false,
-                'lead_intent' => $leadIntent,
-                'source' => 'local',
-            ];
+            return $this->response(
+                __('ui.chat.server.matches', ['projects' => $names]),
+                $matches->take(3)->map(fn (array $project) => ['name' => $project['name'], 'url' => $project['url']])->values()->all(),
+                false,
+                $leadIntent
+            );
         }
 
+        return $this->response(__('ui.chat.server.fallback'), [], false, $leadIntent);
+    }
+
+    private function response(string $message, array $projects, bool $showContact, bool $leadIntent): array
+    {
         return [
-            'message' => 'No encontré una coincidencia clara todavía. Cuéntame qué proceso quieres mejorar, quién lo usaría y si imaginas una app, plataforma web, integración o automatización. Con eso puedo orientarte mejor.',
-            'projects' => [],
-            'show_contact' => false,
+            'message' => $message,
+            'projects' => $projects,
+            'show_contact' => $showContact,
             'lead_intent' => $leadIntent,
             'source' => 'local',
         ];
@@ -109,43 +99,39 @@ class PortfolioChatService
     private function hasLeadIntent(string $normalized): bool
     {
         $commercial = [
-            'cotizar', 'cotizacion', 'presupuesto', 'proyecto', 'necesito', 'quiero desarrollar',
-            'quiero crear', 'quiero una app', 'quiero un sistema', 'busco una app', 'busco un sistema',
-            'cuanto cuesta', 'precio', 'contratar', 'desarrollo para', 'solucion para',
+            'cotizar','cotizacion','presupuesto','proyecto','necesito','quiero desarrollar','quiero crear','quiero una app','quiero un sistema','busco una app','busco un sistema','cuanto cuesta','precio','contratar','solucion para',
+            'quote','estimate','budget','project','i need','i want to build','i want to create','need an app','need a system','how much','price','hire','solution for',
         ];
 
-        $problemSignals = [
-            'app', 'sistema', 'plataforma', 'software', 'automatizar', 'integracion', 'api',
-            'clinica', 'escuela', 'academia', 'citas', 'pagos', 'biometria', 'whatsapp',
-        ];
+        $problemSignals = ['app','sistema','system','plataforma','platform','software','automatizar','automate','automation','integracion','integration','api','clinica','clinical','school','escuela','academia','citas','appointments','pagos','payments','biometria','biometrics','whatsapp'];
 
         return $this->containsAny($normalized, $commercial)
-            || ($this->containsAny($normalized, ['necesito', 'quiero', 'busco'])
+            || ($this->containsAny($normalized, ['necesito','quiero','busco','i need','i want','looking for'])
                 && $this->containsAny($normalized, $problemSignals));
     }
 
     private function scoreProjects(string $normalized)
     {
         $intentKeywords = [
-            'mobile' => ['app', 'apps', 'movil', 'android', 'flutter', 'celular', 'baseball', 'beisbol'],
-            'biometrics' => ['biometria', 'biometrico', 'huella', 'identidad', 'asistencia', 'lector', 'digital persona'],
-            'clinical' => ['clinica', 'clinico', 'terapia', 'terapeuta', 'paciente', 'cita', 'citas', 'agenda'],
-            'academic' => ['academia', 'academico', 'escuela', 'alumno', 'alumnos', 'mensualidad', 'mensualidades', 'chamilo', 'lms'],
-            'payments' => ['pago', 'pagos', 'cobro', 'cobros', 'mensualidad', 'recibo', 'suscripcion'],
-            'integrations' => ['api', 'integracion', 'integraciones', 'whatsapp', 'google drive', 'drive', 'sincronizacion', 'hardware', 'lms'],
-            'saas' => ['saas', 'sistema', 'plataforma', 'web', 'laravel', 'multi tenant', 'multitenant'],
-            'automation' => ['automatizar', 'automatizacion', 'notificacion', 'recordatorio', 'proceso', 'procesos'],
+            'mobile' => ['app','apps','movil','mobile','android','flutter','celular','phone','baseball','beisbol'],
+            'biometrics' => ['biometria','biometrico','biometrics','fingerprint','huella','identidad','identity','attendance','asistencia','reader','lector','digital persona'],
+            'clinical' => ['clinica','clinico','clinical','therapy','terapia','therapist','terapeuta','patient','paciente','appointment','appointments','cita','citas','agenda','schedule'],
+            'academic' => ['academia','academico','academic','school','escuela','student','students','alumno','alumnos','tuition','mensualidad','chamilo','lms'],
+            'payments' => ['pago','pagos','payment','payments','billing','cobro','cobros','mensualidad','receipt','recibo','subscription','suscripcion'],
+            'integrations' => ['api','integracion','integraciones','integration','integrations','whatsapp','google drive','drive','sync','sincronizacion','hardware','lms'],
+            'saas' => ['saas','sistema','system','plataforma','platform','web','laravel','multi tenant','multitenant'],
+            'automation' => ['automatizar','automatizacion','automation','automate','notification','notificacion','reminder','recordatorio','process','proceso','procesos'],
         ];
 
         $projectHints = [
-            'mobile' => ['citas-crit', 'baseball-app'],
+            'mobile' => ['citas-crit','baseball-app'],
             'biometrics' => ['digital-persona-schoolbio'],
-            'clinical' => ['urpe-gestion-clinica', 'citas-crit'],
-            'academic' => ['acadcontrol', 'digital-persona-schoolbio'],
-            'payments' => ['acadcontrol', 'doctotal'],
-            'integrations' => ['digital-persona-schoolbio', 'acadcontrol', 'baseball-app'],
-            'saas' => ['doctotal', 'urpe-gestion-clinica', 'acadcontrol'],
-            'automation' => ['acadcontrol', 'doctotal'],
+            'clinical' => ['urpe-gestion-clinica','citas-crit'],
+            'academic' => ['acadcontrol','digital-persona-schoolbio'],
+            'payments' => ['acadcontrol','doctotal'],
+            'integrations' => ['digital-persona-schoolbio','acadcontrol','baseball-app'],
+            'saas' => ['doctotal','urpe-gestion-clinica','acadcontrol'],
+            'automation' => ['acadcontrol','doctotal'],
         ];
 
         $boosted = collect();
@@ -159,25 +145,12 @@ class PortfolioChatService
 
         return collect($this->publicContext())
             ->map(function (array $project) use ($normalized, $words, $boosted) {
-                $haystack = $this->normalize(implode(' ', [
-                    $project['name'],
-                    $project['type'],
-                    $project['summary'],
-                    $project['signal'],
-                    implode(' ', $project['stack']),
-                    implode(' ', $project['capabilities']),
-                ]));
-
+                $haystack = $this->normalize(implode(' ', [$project['name'],$project['type'],$project['summary'],$project['signal'],implode(' ', $project['stack']),implode(' ', $project['capabilities'])]));
                 $score = $boosted->contains($project['slug']) ? 4 : 0;
                 foreach ($words as $word) {
-                    if (Str::contains($haystack, $word)) {
-                        $score++;
-                    }
+                    if (Str::contains($haystack, $word)) $score++;
                 }
-
-                if (Str::contains($normalized, $this->normalize($project['name']))) {
-                    $score += 8;
-                }
+                if (Str::contains($normalized, $this->normalize($project['name']))) $score += 8;
 
                 return [...$project, 'score' => $score];
             })
@@ -188,32 +161,24 @@ class PortfolioChatService
 
     private function remoteReply(string $message): ?string
     {
-        $context = collect($this->publicContext())->map(fn (array $project) => Arr::only($project, [
-            'name', 'type', 'summary', 'stack', 'signal', 'capabilities', 'url',
-        ]))->values()->all();
+        $context = collect($this->publicContext())->map(fn (array $project) => Arr::only($project, ['name','type','summary','stack','signal','capabilities','url']))->values()->all();
+        $english = app()->getLocale() === 'en';
 
-        $system = 'Eres el asistente comercial del portafolio de Alecz. Responde en español, breve y útil. '
-            .'Solo puedes afirmar información presente en el contexto público proporcionado. '
-            .'No inventes precios, clientes, métricas, fechas ni capacidades. '
-            .'Nunca menciones ni solicites repositorios, código fuente, secretos, Jira, GitHub interno o credenciales. '
-            .'Cuando sea útil, relaciona la necesidad con uno o más proyectos reales. '
-            .'Si el visitante expresa intención de contratar o cotizar, invítalo a completar la calificación breve del sitio; no pidas datos sensibles. '
-            .'Canales directos disponibles: WhatsApp '.(config('profile.contact.whatsapp') ? 'sí' : 'no')
-            .', correo '.(config('profile.contact.email') ? 'sí' : 'no').'. '
-            .'Contexto público: '.json_encode($context, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        $system = $english
+            ? 'You are the commercial assistant for Alecz portfolio. Reply in English, briefly and usefully. '
+            : 'Eres el asistente comercial del portafolio de Alecz. Responde en español, breve y útil. ';
 
-        $response = Http::acceptJson()
-            ->withToken(config('chatbot.remote.key'))
-            ->timeout(config('chatbot.remote.timeout', 8))
-            ->post(config('chatbot.remote.url'), [
-                'model' => config('chatbot.remote.model'),
-                'messages' => [
-                    ['role' => 'system', 'content' => $system],
-                    ['role' => 'user', 'content' => $message],
-                ],
-                'temperature' => 0.3,
-            ])
-            ->throw();
+        $system .= 'Only state information present in the provided public context. Do not invent prices, clients, metrics, dates or capabilities. '
+            .'Never mention or request repositories, source code, secrets, Jira, internal GitHub or credentials. '
+            .'When useful, connect the visitor need with one or more real projects. If they want to hire or request a quote, invite them to complete the short qualification flow; do not ask for sensitive data. '
+            .'Direct channels available: WhatsApp '.(config('profile.contact.whatsapp') ? 'yes' : 'no').', email '.(config('profile.contact.email') ? 'yes' : 'no').'. '
+            .'Public context: '.json_encode($context, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+        $response = Http::acceptJson()->withToken(config('chatbot.remote.key'))->timeout(config('chatbot.remote.timeout', 8))->post(config('chatbot.remote.url'), [
+            'model' => config('chatbot.remote.model'),
+            'messages' => [['role'=>'system','content'=>$system],['role'=>'user','content'=>$message]],
+            'temperature' => 0.3,
+        ])->throw();
 
         $content = trim((string) data_get($response->json(), 'choices.0.message.content'));
 
@@ -222,14 +187,7 @@ class PortfolioChatService
 
     private function isSafeRemoteReply(string $reply): bool
     {
-        $normalized = Str::lower($reply);
-
-        return ! Str::contains($normalized, [
-            'github.com/',
-            'gitlab.com/',
-            'bitbucket.org/',
-            'raw.githubusercontent.com/',
-        ]);
+        return ! Str::contains(Str::lower($reply), ['github.com/','gitlab.com/','bitbucket.org/','raw.githubusercontent.com/']);
     }
 
     private function remoteEnabled(): bool

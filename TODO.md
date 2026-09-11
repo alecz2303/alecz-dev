@@ -19,35 +19,34 @@ Este archivo es la referencia canónica del tramo restante del portafolio. Jira 
 - [x] AL-11 — Calificación de prospectos y handoff a contacto.
 - [x] AL-12 — UX del chatbot: acciones rápidas colapsables.
 - [x] AL-13 — Case studies preparados para media y evidencia visual real.
-
-### En curso
-
-- [ ] Revisión integral de copy y posicionamiento comercial centrado en el cliente.
-- [ ] Mantener este roadmap actualizado al cerrar cada bloque.
+- [x] AL-14 — Revisión de copy y establecimiento de este roadmap canónico.
+- [x] AL-15 — Experiencia bilingüe completa Español / English.
 
 ## Tramo restante antes del lanzamiento
 
 El orden puede ajustarse si aparece una dependencia real. Las claves Jira se crean únicamente cuando cada bloque vaya a ejecutarse.
 
-### 1. Español / English — alta prioridad
+### 1. Español / English — completado
 
-- [ ] Implementar localización completa con Laravel para `es` y `en`.
-- [ ] Selector de idioma visible, accesible y consistente.
-- [ ] Home completa en ambos idiomas.
-- [ ] Seis case studies completos en ambos idiomas.
-- [ ] Chatbot, calificación y handoff en el idioma activo.
-- [ ] Metadatos SEO, canonical, sitemap y `hreflang` coherentes por idioma.
-- [ ] Conservar nombres propios, marcas y términos técnicos cuando corresponda.
+- [x] Localización nativa de Laravel para `es` y `en`.
+- [x] Español conservado en las URLs públicas originales; inglés disponible bajo `/en`.
+- [x] Selector de idioma visible, accesible y consistente.
+- [x] Home completa en ambos idiomas.
+- [x] Seis case studies completos en ambos idiomas.
+- [x] Chatbot, calificación y handoff en el idioma activo.
+- [x] Metadatos SEO, canonical, sitemap y `hreflang` coherentes por idioma.
+- [x] Nombres propios, marcas y términos técnicos conservados cuando corresponde.
 
-**Criterio:** no publicar una experiencia parcialmente traducida. El inglés debe tener la misma calidad editorial que el español.
+**Criterio:** español e inglés deben mantener la misma calidad editorial y los mismos hechos del portafolio.
 
-### 2. Servicios / Qué puedo construir — alta prioridad
+### 2. Servicios / Qué puedo construir — siguiente bloque · alta prioridad
 
 - [ ] Crear una sección comercial clara de capacidades contratables.
 - [ ] Explicar soluciones web/SaaS, mobile, integraciones/automatización y sistemas a medida.
 - [ ] Conectar cada capacidad con proyectos reales como evidencia.
 - [ ] Evitar vender tecnologías aisladas; comunicar resultados y procesos.
 - [ ] Integrar CTAs hacia chatbot/contacto.
+- [ ] Mantener la sección completa en español e inglés desde el primer commit.
 
 ### 3. Evidencia visual real — alta prioridad
 
@@ -57,7 +56,7 @@ El orden puede ajustarse si aparece una dependencia real. Las claves Jira se cre
 - [ ] Incorporar capturas reales de DocTotal.
 - [ ] Incorporar capturas reales de URPE Gestión Clínica.
 - [ ] Incorporar capturas reales de AcadControl / suite académica.
-- [ ] Optimizar formatos, tamaños, `alt` y captions.
+- [ ] Optimizar formatos, tamaños, `alt` y captions en ambos idiomas.
 - [ ] Mantener fallback editorial donde todavía no exista media aprobada.
 
 **Regla:** nunca inventar screenshots, clientes, métricas o resultados.
@@ -82,8 +81,8 @@ El orden puede ajustarse si aparece una dependencia real. Las claves Jira se cre
 - [ ] Añadir datos estructurados Schema.org apropiados.
 - [ ] Diseñar imagen Open Graph/social share de Alecz.
 - [ ] Validar previews de home y case studies.
-- [ ] Revisar titles/descriptions ES/EN.
-- [ ] Revisar indexación, canonical, sitemap y `hreflang`.
+- [ ] Revisar titles/descriptions ES/EN en producción.
+- [ ] Revisar indexación, canonical, sitemap y `hreflang` en dominio público.
 
 ### 7. Production readiness — alta prioridad
 

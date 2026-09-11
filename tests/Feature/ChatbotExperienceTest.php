@@ -11,6 +11,7 @@ class ChatbotExperienceTest extends TestCase
         $this->get('/')
             ->assertOk()
             ->assertSee('data-chat-knowledge', false)
+            ->assertSee('data-chat-copy', false)
             ->assertSee('data-chat-endpoint', false)
             ->assertSee('data-chat-form', false)
             ->assertSee('data-chat-input', false)
@@ -44,10 +45,14 @@ class ChatbotExperienceTest extends TestCase
             ->assertSee('>Opciones</button>', false);
 
         $javascript = file_get_contents(resource_path('js/app.js'));
+        $spanish = require resource_path('../lang/es/ui.php');
+        $english = require resource_path('../lang/en/ui.php');
 
         $this->assertStringContainsString('collapseQuickOptions', $javascript);
         $this->assertStringContainsString('options.hidden = !visible', $javascript);
-        $this->assertStringContainsString("optionsToggle.textContent = visible ? 'Ocultar opciones' : 'Opciones'", $javascript);
+        $this->assertStringContainsString('visible ? copy.hide_options : copy.options', $javascript);
+        $this->assertSame('Ocultar opciones', $spanish['chat']['hide_options']);
+        $this->assertSame('Hide options', $english['chat']['hide_options']);
         $this->assertStringContainsString('const submitQuery = async (query) => {', $javascript);
         $this->assertStringContainsString('collapseQuickOptions();', $javascript);
         $this->assertStringContainsString("if (topic === 'lead')", $javascript);
@@ -78,10 +83,14 @@ class ChatbotExperienceTest extends TestCase
     public function test_lead_handoff_logic_is_client_side_and_builds_prefilled_channels(): void
     {
         $javascript = file_get_contents(resource_path('js/app.js'));
+        $spanish = require resource_path('../lang/es/ui.php');
+        $english = require resource_path('../lang/en/ui.php');
 
         $this->assertStringContainsString('buildLeadSummary', $javascript);
-        $this->assertStringContainsString('Enviar resumen por WhatsApp', $javascript);
-        $this->assertStringContainsString('Enviar resumen por correo', $javascript);
+        $this->assertStringContainsString('copy.actions.wa_summary', $javascript);
+        $this->assertStringContainsString('copy.actions.mail_summary', $javascript);
+        $this->assertSame('Enviar resumen por WhatsApp ↗', $spanish['chat']['actions']['wa_summary']);
+        $this->assertSame('Send summary on WhatsApp ↗', $english['chat']['actions']['wa_summary']);
         $this->assertStringContainsString('?text=${encodedSummary}', $javascript);
         $this->assertStringContainsString('subject=${subject}&body=${encodedSummary}', $javascript);
         $this->assertStringNotContainsString('localStorage', $javascript);

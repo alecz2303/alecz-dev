@@ -10,6 +10,9 @@ class PortfolioChatController
 {
     public function __invoke(Request $request, PortfolioChatService $chat): JsonResponse
     {
+        $locale = $request->route('locale', 'es');
+        app()->setLocale(in_array($locale, ['es', 'en'], true) ? $locale : 'es');
+
         $validated = $request->validate([
             'message' => ['required', 'string', 'max:'.config('chatbot.max_message_length', 500)],
         ]);

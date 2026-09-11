@@ -3,14 +3,11 @@
 use App\Http\Controllers\PortfolioChatController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'home')->name('home');
+$projectPage = function (string $slug, string $locale = 'es') {
+    app()->setLocale($locale);
 
-Route::post('/chat', PortfolioChatController::class)
-    ->middleware('throttle:30,1')
-    ->name('chat');
-
-Route::get('/proyectos/{slug}', function (string $slug) {
-    $projects = collect(config('portfolio.projects', []));
+    $config = $locale === 'en' ? 'portfolio_en' : 'portfolio';
+    $projects = collect(config("{$config}.projects", []));
     $project = $projects->firstWhere('slug', $slug);
 
     abort_unless($project, 404);
@@ -20,7 +17,35 @@ Route::get('/proyectos/{slug}', function (string $slug) {
     $next = $currentIndex < $projects->count() - 1 ? $projects->get($currentIndex + 1) : null;
 
     return view('projects.show', compact('project', 'previous', 'next'));
-})->name('projects.show');
+};
+
+Route::get('/', function () {
+    app()->setLocale('es');
+
+    return view('home');
+})->name('home');
+
+Route::get('/en', function () {
+    app()->setLocale('en');
+
+    return view('home');
+})->name('en.home');
+
+Route::post('/chat', PortfolioChatController::class)
+    ->defaults('locale', 'es')
+    ->middleware('throttle:30,1')
+    ->name('chat');
+
+Route::post('/en/chat', PortfolioChatController::class)
+    ->defaults('locale', 'en')
+    ->middleware('throttle:30,1')
+    ->name('en.chat');
+
+Route::get('/proyectos/{slug}', fn (string $slug) => $projectPage($slug, 'es'))
+    ->name('projects.show');
+
+Route::get('/en/projects/{slug}', fn (string $slug) => $projectPage($slug, 'en'))
+    ->name('en.projects.show');
 
 Route::get('/robots.txt', function () {
     $lines = app()->environment('production')
@@ -32,10 +57,12 @@ Route::get('/robots.txt', function () {
 })->name('robots');
 
 Route::get('/sitemap.xml', function () {
-    $urls = collect([route('home')])
-        ->merge(collect(config('portfolio.projects', []))->map(
-            fn (array $project) => route('projects.show', $project['slug'])
-        ));
+    $spanishProjects = collect(config('portfolio.projects', []));
+    $englishProjects = collect(config('portfolio_en.projects', []));
+
+    $urls = collect([route('home'), route('en.home')])
+        ->merge($spanishProjects->map(fn (array $project) => route('projects.show', $project['slug'])))
+        ->merge($englishProjects->map(fn (array $project) => route('en.projects.show', $project['slug'])));
 
     $xml = view('sitemap', compact('urls'))->render();
 

@@ -25,7 +25,7 @@ class HomePageTest extends TestCase
         $this->get('/')
             ->assertOk()
             ->assertSee('~/projects')
-            ->assertSee('Productos construidos')
+            ->assertSee('Trabajo real. Productos en funcionamiento.')
             ->assertSee('Citas CRIT')
             ->assertSee('Digital Persona SchoolBio')
             ->assertSee('Baseball App')
@@ -45,13 +45,7 @@ class HomePageTest extends TestCase
     public function test_secondary_projects_are_rendered_below_featured_work(): void
     {
         $response = $this->get('/')->assertOk();
-
-        $response
-            ->assertSee('~/more')
-            ->assertSee('También he construido.')
-            ->assertSee('PartyX')
-            ->assertSee('RSVP + panel de invitados');
-
+        $response->assertSee('~/more')->assertSee('También he construido.')->assertSee('PartyX')->assertSee('RSVP + panel de invitados');
         $content = $response->getContent();
         $this->assertLessThan(strpos($content, 'PartyX'), strpos($content, 'AcadControl'));
     }
@@ -61,8 +55,7 @@ class HomePageTest extends TestCase
         $this->get('/')
             ->assertOk()
             ->assertSee('~/about')
-            ->assertSee('Código con')
-            ->assertSee('contexto de negocio.')
+            ->assertSee('Código con contexto de negocio.')
             ->assertSee('Producto antes que código')
             ->assertSee('~/stack')
             ->assertSee('Laravel · PHP · Blade')
@@ -70,7 +63,7 @@ class HomePageTest extends TestCase
             ->assertSee('C# · .NET · Biometría')
             ->assertSee('GitHub · CI · Jira')
             ->assertSee('~/experience')
-            ->assertSee('Construir.')
+            ->assertSee('Construir. Aprender. Repetir.')
             ->assertSee('De necesidades reales a software utilizable')
             ->assertSee('Proceso técnico verificable');
     }
@@ -80,14 +73,15 @@ class HomePageTest extends TestCase
         $this->get('/')
             ->assertOk()
             ->assertSee('~/contact')
-            ->assertSee('¿Qué necesitas')
-            ->assertSee('Cuéntame qué necesitas construir, mejorar o automatizar.')
+            ->assertSee('¿Qué necesitas resolver?')
             ->assertDontSee('valga la pena resolver')
             ->assertSee('Abrir asistente')
             ->assertSee('Asistente de Alecz')
+            ->assertSee('English')
             ->assertDontSee('https://github.com/alecz2303')
             ->assertSee('<meta name="description" content="Portafolio de Alejandro Fedle Rueda Jiménez', false)
             ->assertSee('<meta property="og:title"', false)
-            ->assertSee('<link rel="canonical" href="http://localhost">', false);
+            ->assertSee('<link rel="canonical" href="http://localhost">', false)
+            ->assertSee('hreflang="en" href="http://localhost/en"', false);
     }
 }
