@@ -2,7 +2,7 @@ name: cpanel-deploy-package
 
 on:
   push:
-    branches: [main, AL-27]
+    branches: [main, 'AL-*']
   workflow_dispatch:
 
 jobs:
