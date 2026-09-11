@@ -17,7 +17,7 @@
 .chat-lead-summary strong{color:var(--accent);font-size:.8rem;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 .chat-lead-summary pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;color:#d7dce5;font:inherit;font-size:.78rem;line-height:1.55}
 .chat-contact-actions{display:grid;gap:.5rem;align-self:stretch}
-.chat-contact-actions a{display:block;padding:.72rem .8rem;border:1px solid var(--line);border-radius:.7rem;background:rgba(255,255,255,.025);color:#d7dce5;text-decoration:none}
-.chat-contact-actions a:hover,.chat-contact-actions a:focus-visible{border-color:rgba(156,246,111,.35);color:var(--accent)}
+.chat-contact-actions a,.chat-contact-actions button{display:block;width:100%;padding:.72rem .8rem;border:1px solid var(--line);border-radius:.7rem;background:rgba(255,255,255,.025);color:#d7dce5;text-decoration:none;text-align:left;font:inherit;cursor:pointer}
+.chat-contact-actions a:hover,.chat-contact-actions a:focus-visible,.chat-contact-actions button:hover,.chat-contact-actions button:focus-visible{border-color:rgba(156,246,111,.35);color:var(--accent)}
 .chat-privacy{margin:0;padding:0 1rem 1rem;color:var(--subtle);font-size:.68rem;line-height:1.5}
 @media(max-width:560px){.chat-form{grid-template-columns:1fr}.chat-form button{width:100%}.chat-options-toolbar{padding:0 .7rem}}

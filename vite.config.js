@@ -16,6 +16,7 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/services.js',
                 'resources/js/command-dock.js',
+                'resources/js/contact-handoff.js',
             ],
             refresh: true,
         }),

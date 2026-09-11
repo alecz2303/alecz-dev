@@ -15,6 +15,7 @@
 @php($case = __('ui.case'))
 @php($projectRoute = app()->getLocale() === 'en' ? 'en.projects.show' : 'projects.show')
 @php($homeRoute = app()->getLocale() === 'en' ? 'en.home' : 'home')
+@php($isEnglish = app()->getLocale() === 'en')
 
 <article class="case-study">
     <header class="case-hero" data-reveal>
@@ -31,7 +32,7 @@
                 <figure class="case-visual is-code-preview preview-{{ $visualAudit['theme'] ?? 'default' }}" aria-labelledby="showcase-title">
                     <div class="code-preview-bar"><span>{{ $preview['label'] }}</span><strong>CODE-DERIVED PREVIEW</strong></div>
                     <div class="code-preview-window"><div class="code-preview-sidebar"><span class="preview-mark">{{ mb_substr($project['name'], 0, 1) }}</span>@foreach(array_slice($preview['items'],0,4) as $item)<i></i>@endforeach</div><div class="code-preview-main"><p class="code-preview-eyebrow">{{ $project['type'] }}</p><h2 id="showcase-title">{{ $preview['title'] }}</h2><p>{{ $preview['subtitle'] }}</p><div class="code-preview-grid">@foreach($preview['items'] as $item)<div><span>{{ str_pad((string)$loop->iteration,2,'0',STR_PAD_LEFT) }}</span><strong>{{ $item }}</strong><i></i><i></i></div>@endforeach</div></div></div>
-                    <figcaption>{{ app()->getLocale() === 'en' ? 'Editorial representation derived from verified product code; it is not a runtime screenshot.' : 'Representación editorial derivada de código verificado del producto; no es una captura de la aplicación en ejecución.' }}</figcaption>
+                    <figcaption>{{ $isEnglish ? 'Editorial representation derived from verified product code; it is not a runtime screenshot.' : 'Representación editorial derivada de código verificado del producto; no es una captura de la aplicación en ejecución.' }}</figcaption>
                 </figure>
             @else
                 <div class="case-visual" role="img" aria-label="{{ __('ui.case.visual_label', ['project'=>$project['name']]) }}"><div class="case-visual-fallback"><div class="case-visual-kicker"><span id="showcase-title">{{ $case['snapshot'] }}</span><span>{{ $project['status'] }}</span></div><div><h2 class="case-visual-name">{{ $project['name'] }}</h2><p class="case-visual-signal">{{ $project['signal'] }}</p><ul class="case-visual-stack" aria-label="Stack · {{ $project['name'] }}">@foreach (array_slice($project['stack'], 0, 6) as $technology)<li>{{ $technology }}</li>@endforeach</ul></div></div></div>
@@ -46,6 +47,12 @@
     <section class="case-section" aria-labelledby="capabilities-title" data-reveal><div class="case-heading"><div><p class="section-path">~/capabilities</p><h2 id="capabilities-title">{{ $case['capabilities'] }}</h2></div><p>{{ $case['capabilities_intro'] }}</p></div><ol class="case-capabilities">@foreach ($project['capabilities'] as $capability)<li><span>{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span><strong>{{ $capability }}</strong></li>@endforeach</ol></section>
     <section class="case-section case-two-column" aria-labelledby="architecture-title" data-reveal><div><p class="section-path">~/architecture</p><h2 id="architecture-title">{{ $case['architecture'] }}</h2><p>{{ $case['architecture_intro'] }}</p></div><ul class="case-architecture">@foreach ($project['architecture'] as $item)<li>{{ $item }}</li>@endforeach</ul></section>
     <section class="case-section" aria-labelledby="stack-case-title" data-reveal><div class="case-heading"><div><p class="section-path">~/stack</p><h2 id="stack-case-title">{{ $case['stack'] }}</h2></div></div><ul class="case-stack" aria-label="Stack · {{ $project['name'] }}">@foreach ($project['stack'] as $technology)<li>{{ $technology }}</li>@endforeach</ul></section>
+
+    <section class="case-section" aria-label="{{ $isEnglish ? 'Start a project conversation' : 'Iniciar conversación sobre un proyecto' }}" data-reveal>
+        <div class="case-heading"><div><p class="section-path">~/next-step</p><h2>{{ $isEnglish ? 'Do you need something similar?' : '¿Necesitas resolver algo parecido?' }}</h2></div><p>{{ $isEnglish ? 'Tell the assistant what you need. It can connect your idea with relevant experience and prepare a concise handoff without asking for sensitive data.' : 'Cuéntale al asistente qué necesitas. Puede relacionar tu idea con experiencia relevante y preparar un resumen breve para continuar la conversación sin pedir datos sensibles.' }}</p></div>
+        <button class="button button-primary" type="button" data-chat-open>{{ $isEnglish ? 'Tell me about your project ↗' : 'Cuéntame tu proyecto ↗' }}</button>
+    </section>
+
     <nav class="case-pagination" aria-label="{{ $case['pagination'] }}" data-reveal>@if ($previous)<a href="{{ route($projectRoute, $previous['slug']) }}"><span>{{ $case['previous'] }}</span><strong>{{ $previous['name'] }}</strong></a>@else<span></span>@endif @if ($next)<a class="case-next" href="{{ route($projectRoute, $next['slug']) }}"><span>{{ $case['next'] }}</span><strong>{{ $next['name'] }}</strong></a>@endif</nav>
 </article>
 @endsection

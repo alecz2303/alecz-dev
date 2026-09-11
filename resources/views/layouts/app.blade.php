@@ -9,7 +9,7 @@
     @php($isEnglish = app()->getLocale() === 'en') @php($slug = request()->route('slug')) @php($spanishUrl = $slug ? route('projects.show', $slug) : route('home')) @php($englishUrl = $slug ? route('en.projects.show', $slug) : route('en.home'))
     <link rel="alternate" hreflang="es" href="{{ $spanishUrl }}"><link rel="alternate" hreflang="en" href="{{ $englishUrl }}"><link rel="alternate" hreflang="x-default" href="{{ $spanishUrl }}"><link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml"><meta name="theme-color" content="#090b10">
     <title>@yield('title', 'Alecz · Software Developer & Product Builder')</title>
-    @vite(['resources/css/app.css','resources/css/projects.css','resources/css/services.css','resources/css/chatbot.css','resources/css/case-media.css','resources/css/localization.css','resources/css/command-dock.css','resources/js/app.js','resources/js/services.js','resources/js/command-dock.js'])
+    @vite(['resources/css/app.css','resources/css/projects.css','resources/css/services.css','resources/css/chatbot.css','resources/css/case-media.css','resources/css/localization.css','resources/css/command-dock.css','resources/js/app.js','resources/js/services.js','resources/js/command-dock.js','resources/js/contact-handoff.js'])
 </head>
 <body>
 <a class="skip-link" href="#contenido">{{ __('ui.nav.skip') }}</a>

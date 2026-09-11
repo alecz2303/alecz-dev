@@ -6,23 +6,24 @@ Jira es la fuente de verdad para IDs y estados. Este archivo mantiene la direcci
 
 - [x] AL-1 a AL-17 — Base, sistema visual, proyectos, case studies, About/stack, SEO, contacto privacy-first, chatbot, lead qualification, media-ready case studies, copy, ES/EN, servicios y Command Dock.
 - [x] AL-18 — Primera evidencia visual real: captura segura de registro biométrico de SchoolBio.
+- [x] AL-19 — Auditoría visual de repositorios y previews editoriales derivados de código verificable para Citas CRIT, Baseball App, DocTotal y URPE; SchoolBio conserva `REAL SCREENSHOT` y AcadControl mantiene fallback `NO PUBLIC VISUAL`.
 
 ## En ejecución
 
-- [ ] AL-19 — Auditoría visual de repositorios y previews editoriales derivados de código verificable.
-  - [x] Citas CRIT — `CODE-DERIVED PREVIEW` respaldado por Jetpack Compose (`AppContent`, `PerfilResumen`, `CitaCard`).
-  - [x] SchoolBio — `REAL SCREENSHOT` seguro ya integrado por AL-18.
-  - [x] Baseball App — `CODE-DERIVED PREVIEW` respaldado por Flutter (`HomeScreen` y navegación real).
-  - [x] DocTotal — `CODE-DERIVED PREVIEW` respaldado por layouts/dashboard Blade y assets de branding reales del repo.
-  - [x] URPE Gestión Clínica — `CODE-DERIVED PREVIEW` respaldado por dashboard, agenda y bitácoras Blade.
-  - [x] AcadControl — `NO PUBLIC VISUAL`; no se localizó un repositorio con UI suficientemente verificable en la conexión actual. Se conserva fallback.
+- [ ] AL-20 — Refinamiento de contacto y conversión bilingüe.
+  - [x] CTA de siguiente paso añadido a todos los case studies ES/EN.
+  - [x] Handoff del chatbot enriquecido con introducción localizada para contactar a Alecz.
+  - [x] Resumen del prospecto puede copiarse al portapapeles además de enviarse por canales configurados.
+  - [x] WhatsApp y correo continúan siendo 100% configurables por entorno; sin valores hardcodeados.
+  - [x] Cuando no existen canales configurados no se generan enlaces rotos y el asistente sigue siendo el camino disponible.
+  - [ ] Configurar WhatsApp público definitivo cuando Alecz lo defina.
+  - [ ] Configurar correo público definitivo cuando Alecz lo defina.
 
 ## Tramo restante antes del lanzamiento
 
-### Contacto y conversión — alta prioridad
+### Contacto público — pendiente de datos definitivos
 - [ ] Definir y configurar WhatsApp público definitivo.
 - [ ] Definir y configurar correo público definitivo.
-- [ ] Revisar CTAs y handoff ES/EN.
 
 ### CV / perfil profesional — prioridad media
 - [ ] Definir CV descargable, página profesional o ambos.
@@ -49,6 +50,10 @@ Jira es la fuente de verdad para IDs y estados. Este archivo mantiene la direcci
 ## Regla de evidencia visual
 
 Cada visual público se clasifica como `REAL SCREENSHOT`, `REAL ASSET`, `CODE-DERIVED PREVIEW` o `NO PUBLIC VISUAL`. Un preview derivado puede simplificar editorialmente la interfaz, pero debe basarse en estructura/componentes verificables del producto, identificarse como representación y nunca fingir ser una captura de ejecución. No se publican repositorios, código, credenciales, datos clínicos ni información identificable.
+
+## Regla de contacto
+
+Los canales públicos son configuración, no contenido asumido. Nunca se hardcodea un teléfono o correo sin decisión explícita de Alecz. Si un canal no está configurado, el sitio lo omite y mantiene el asistente como siguiente paso útil. La conversación y el resumen de prospecto no se persisten en base de datos ni almacenamiento del navegador.
 
 ## Definición de terminado
 
