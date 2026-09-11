@@ -26,18 +26,15 @@ class HomePageTest extends TestCase
 
     public function test_services_are_commercial_bilingual_and_backed_by_real_projects(): void
     {
-        $this->get('/')->assertOk()
-            ->assertSee('~/servicios')->assertSee('~/services')->assertSee('¿Qué puedo construir contigo?')
-            ->assertSee('Plataformas web y productos SaaS')->assertSee('Aplicaciones móviles')->assertSee('Sistemas especializados de gestión')
-            ->assertSee('Integraciones y automatización')->assertSee('Software conectado con hardware')->assertSee('Productos digitales a medida')
-            ->assertSee('DocTotal')->assertSee('Citas CRIT')->assertSee('Digital Persona SchoolBio')->assertSee('Cuéntame tu proyecto')
-            ->assertDontSee('precio desde')->assertDontSee('github.com/alecz2303');
+        $this->get('/')->assertOk()->assertSee('~/servicios')->assertSee('~/services')->assertSee('¿Qué puedo construir contigo?')->assertSee('Plataformas web y productos SaaS')->assertSee('Aplicaciones móviles')->assertSee('Sistemas especializados de gestión')->assertSee('Integraciones y automatización')->assertSee('Software conectado con hardware')->assertSee('Productos digitales a medida')->assertSee('DocTotal')->assertSee('Citas CRIT')->assertSee('Digital Persona SchoolBio')->assertSee('Cuéntame tu proyecto')->assertDontSee('precio desde')->assertDontSee('github.com/alecz2303');
+        $this->get('/en')->assertOk()->assertSee('~/services')->assertSee('What can I build with you?')->assertSee('Web platforms and SaaS products')->assertSee('Mobile applications')->assertSee('Specialized management systems')->assertSee('Integrations and automation')->assertSee('Software connected to hardware')->assertSee('Tailored digital products')->assertSee('Tell me about your project')->assertSee('data-services-label="Explore services"', false);
+    }
 
-        $this->get('/en')->assertOk()
-            ->assertSee('~/services')->assertSee('What can I build with you?')->assertSee('Web platforms and SaaS products')
-            ->assertSee('Mobile applications')->assertSee('Specialized management systems')->assertSee('Integrations and automation')
-            ->assertSee('Software connected to hardware')->assertSee('Tailored digital products')->assertSee('Tell me about your project')
-            ->assertSee('data-services-label="Explore services"', false);
+    public function test_command_dock_is_persistent_bilingual_and_accessible(): void
+    {
+        $this->get('/')->assertOk()->assertSee('data-command-dock', false)->assertSee('data-dock-section="proyectos"', false)->assertSee('data-dock-section="servicios"', false)->assertSee('data-dock-section="sobre-mi"', false)->assertSee('data-dock-section="contacto"', false)->assertSee('↑ root')->assertSee('aria-label="Volver arriba"', false);
+        $this->get('/en')->assertOk()->assertSee('data-command-dock', false)->assertSee('↑ root')->assertSee('aria-label="Back to top"', false);
+        $this->get('/proyectos/citas-crit')->assertOk()->assertDontSee('data-command-dock', false);
     }
 
     public function test_about_stack_and_experience_sections_are_rendered(): void

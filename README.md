@@ -38,6 +38,12 @@ El contenido vive en `config/services.php` y `config/services_en.php`. Cada capa
 
 La sección tiene CTA directo al asistente. El atajo de servicios del chatbot también ofrece acceso a `#servicios`, conservando el idioma activo. La presentación sigue la política privacy-first: no expone repositorios, código, Jira ni GitHub.
 
+## Navegación persistente
+
+La home conserva el header original y, después de abandonar el hero, muestra un **Command Dock** flotante con acceso a `~/projects`, `~/services`, `~/about`, `~/contact` y `↑ root`. El dock marca la sección activa durante el scroll, se adapta a móvil y evita competir con el chatbot.
+
+La implementación vive en `resources/css/command-dock.css` y `resources/js/command-dock.js`, usa JavaScript nativo, navegación por anchors, etiquetas accesibles y respeta `prefers-reduced-motion`. Los case studies conservan su navegación propia y no muestran el dock de la home.
+
 ## Contenido del portafolio
 
 Los proyectos destacados se renderizan desde estructuras reutilizables que alimentan también sus case studies. Cada proyecto puede declarar nombre, slug, tipo, estado, resumen, problema, solución, stack, señal, contexto, capacidades, arquitectura e integraciones y media visual opcional.

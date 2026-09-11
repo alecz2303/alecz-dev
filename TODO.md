@@ -22,6 +22,7 @@ Este archivo es la referencia canónica del tramo restante del portafolio. Jira 
 - [x] AL-14 — Revisión de copy y establecimiento de este roadmap canónico.
 - [x] AL-15 — Experiencia bilingüe completa Español / English.
 - [x] AL-16 — Servicios bilingües y posicionamiento comercial respaldado por proyectos reales.
+- [x] AL-17 — Command Dock persistente, sección activa y control `↑ root` accesible.
 
 ## Tramo restante antes del lanzamiento
 
@@ -38,7 +39,14 @@ El orden puede ajustarse si aparece una dependencia real. Las claves Jira se cre
 - [x] CTA hacia chatbot/contacto y acceso desde navegación.
 - [x] Sin precios inventados ni exposición de repositorios/código.
 
-### 3. Evidencia visual real — siguiente bloque · alta prioridad
+### 3. Navegación persistente — completado
+- [x] Command Dock flotante después del hero.
+- [x] Acceso permanente a Projects, Services, About y Contact.
+- [x] Indicador de sección activa y control `↑ root`.
+- [x] Variante responsive sin competir con el chatbot.
+- [x] Reduced motion, teclado y etiquetas accesibles.
+
+### 4. Evidencia visual real — siguiente bloque · alta prioridad
 - [ ] Incorporar capturas reales de Citas CRIT.
 - [ ] Incorporar capturas reales de Digital Persona SchoolBio.
 - [ ] Incorporar capturas reales de Baseball App.
@@ -50,27 +58,27 @@ El orden puede ajustarse si aparece una dependencia real. Las claves Jira se cre
 
 **Regla:** nunca inventar screenshots, clientes, métricas o resultados.
 
-### 4. Contacto y conversión — alta prioridad
+### 5. Contacto y conversión — alta prioridad
 - [ ] Definir y configurar WhatsApp público definitivo.
 - [ ] Definir y configurar correo público definitivo.
 - [ ] Revisar CTAs de home, servicios, case studies y chatbot.
 - [ ] Validar mensajes precompuestos de WhatsApp/email en español e inglés.
 - [ ] Mantener privacidad y evitar persistencia innecesaria de conversaciones.
 
-### 5. CV / perfil profesional — prioridad media
+### 6. CV / perfil profesional — prioridad media
 - [ ] Definir si habrá CV descargable, página profesional o ambos.
 - [ ] Preparar contenido consistente con About/Experience sin duplicación excesiva.
 - [ ] Preparar versión ES/EN si se publica como parte del sitio.
 - [ ] Evitar información privada innecesaria.
 
-### 6. SEO y social sharing — prioridad media
+### 7. SEO y social sharing — prioridad media
 - [ ] Añadir datos estructurados Schema.org apropiados.
 - [ ] Diseñar imagen Open Graph/social share de Alecz.
 - [ ] Validar previews de home y case studies.
 - [ ] Revisar titles/descriptions ES/EN en producción.
 - [ ] Revisar indexación, canonical, sitemap y `hreflang` en dominio público.
 
-### 7. Production readiness — alta prioridad
+### 8. Production readiness — alta prioridad
 - [ ] Definir dominio público y configuración de producción.
 - [ ] Configurar variables de entorno sin secretos en repositorio.
 - [ ] Configurar proveedor remoto del chatbot solo si aporta valor al lanzamiento.
@@ -79,7 +87,7 @@ El orden puede ajustarse si aparece una dependencia real. Las claves Jira se cre
 - [ ] Definir analítica mínima respetuosa con privacidad si se desea medir conversión.
 - [ ] Verificar robots/sitemap en entorno real.
 
-### 8. QA y lanzamiento — bloque final
+### 9. QA y lanzamiento — bloque final
 - [ ] QA desktop, tablet y móvil.
 - [ ] QA Español / English.
 - [ ] Navegación, enlaces, case studies y media.
