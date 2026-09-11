@@ -24,6 +24,10 @@ Este archivo es la referencia canónica del tramo restante del portafolio. Jira 
 - [x] AL-16 — Servicios bilingües y posicionamiento comercial respaldado por proyectos reales.
 - [x] AL-17 — Command Dock persistente, sección activa y control `↑ root` accesible.
 
+### En ejecución
+
+- [ ] AL-18 — Integración de evidencia visual real. SchoolBio ya tiene una captura segura integrada en la rama; los demás proyectos conservan fallback al no existir todavía media verificada y publicable.
+
 ## Tramo restante antes del lanzamiento
 
 El orden puede ajustarse si aparece una dependencia real. Las claves Jira se crean únicamente cuando cada bloque vaya a ejecutarse.
@@ -46,17 +50,17 @@ El orden puede ajustarse si aparece una dependencia real. Las claves Jira se cre
 - [x] Variante responsive sin competir con el chatbot.
 - [x] Reduced motion, teclado y etiquetas accesibles.
 
-### 4. Evidencia visual real — siguiente bloque · alta prioridad
-- [ ] Incorporar capturas reales de Citas CRIT.
-- [ ] Incorporar capturas reales de Digital Persona SchoolBio.
-- [ ] Incorporar capturas reales de Baseball App.
-- [ ] Incorporar capturas reales de DocTotal.
-- [ ] Incorporar capturas reales de URPE Gestión Clínica.
-- [ ] Incorporar capturas reales de AcadControl / suite académica.
-- [ ] Optimizar formatos, tamaños, `alt` y captions en ambos idiomas.
-- [ ] Mantener fallback editorial donde todavía no exista media aprobada.
+### 4. Evidencia visual real — en ejecución · alta prioridad
+- [ ] Incorporar capturas reales de Citas CRIT — fallback conservado; no se encontró media verificada y publicable en esta revisión.
+- [x] Incorporar captura real de Digital Persona SchoolBio — registro biométrico sin datos identificables, optimizado a WebP.
+- [ ] Incorporar capturas reales de Baseball App — fallback conservado; no se encontró media verificada y publicable en esta revisión.
+- [ ] Incorporar capturas reales de DocTotal — fallback conservado; no se encontró media verificada y publicable en esta revisión.
+- [ ] Incorporar capturas reales de URPE Gestión Clínica — fallback conservado; no se encontró media verificada y publicable en esta revisión.
+- [ ] Incorporar capturas reales de AcadControl / suite académica — fallback conservado; no se encontró media verificada y publicable en esta revisión.
+- [x] Optimizar formato/tamaño de la evidencia integrada y añadir `alt` y caption ES/EN.
+- [x] Mantener fallback editorial donde todavía no exista media aprobada.
 
-**Regla:** nunca inventar screenshots, clientes, métricas o resultados.
+**Regla:** nunca inventar screenshots, clientes, métricas o resultados. Una captura existente se descarta si expone datos personales, cuentas, información clínica, credenciales o contexto interno no apto para publicación.
 
 ### 5. Contacto y conversión — alta prioridad
 - [ ] Definir y configurar WhatsApp público definitivo.

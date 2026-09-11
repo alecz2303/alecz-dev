@@ -13,11 +13,10 @@ class ProjectCaseStudyTest extends TestCase
         $this->assertCount(6, $projects);
 
         foreach ($projects as $project) {
-            $this->get(route('projects.show', $project['slug']))
+            $response = $this->get(route('projects.show', $project['slug']))
                 ->assertOk()
                 ->assertSee($project['name'])
                 ->assertSee($project['summary'])
-                ->assertSee('Product snapshot')
                 ->assertSee('Lo que ya existe')
                 ->assertSee('Las capturas se muestran solo cuando existe media configurada.')
                 ->assertSee('El contexto.')
@@ -30,6 +29,10 @@ class ProjectCaseStudyTest extends TestCase
                 ->assertSee('<meta name="description" content="'.e($project['summary']).'">', false)
                 ->assertSee('<meta property="og:url"', false)
                 ->assertSee('<link rel="canonical"', false);
+
+            if ($project['slug'] !== 'digital-persona-schoolbio') {
+                $response->assertSee('Product snapshot');
+            }
         }
     }
 
@@ -41,6 +44,7 @@ class ProjectCaseStudyTest extends TestCase
                 'role' => 'hero',
                 'src' => 'favicon.svg',
                 'alt' => 'Vista principal de Citas CRIT',
+                'caption' => 'Evidencia visual real de Citas CRIT.',
             ],
             [
                 'src' => 'favicon.svg?gallery=1',
@@ -54,8 +58,26 @@ class ProjectCaseStudyTest extends TestCase
             ->assertOk()
             ->assertSee('src="'.asset('favicon.svg').'"', false)
             ->assertSee('alt="Vista principal de Citas CRIT"', false)
+            ->assertSee('Evidencia visual real de Citas CRIT.')
             ->assertSee('alt="Detalle visual de Citas CRIT"', false)
             ->assertSee('Ejemplo de caption para media real.');
+    }
+
+    public function test_schoolbio_uses_real_public_safe_media_in_spanish_and_english(): void
+    {
+        $this->get('/proyectos/digital-persona-schoolbio')
+            ->assertOk()
+            ->assertSee('media/projects/schoolbio/registro-biometrico.webp')
+            ->assertSee('Pantalla real de SchoolBio para el registro biométrico de alumnos mediante huella digital.')
+            ->assertSee('Registro biométrico real de SchoolBio')
+            ->assertDontSee('Product snapshot');
+
+        $this->get('/en/projects/digital-persona-schoolbio')
+            ->assertOk()
+            ->assertSee('media/projects/schoolbio/registro-biometrico.webp')
+            ->assertSee('Real SchoolBio screen for student fingerprint biometric enrollment.')
+            ->assertSee('Real SchoolBio biometric enrollment')
+            ->assertDontSee('Product snapshot');
     }
 
     public function test_schoolbio_case_study_describes_biometrics_hardware_and_api(): void
