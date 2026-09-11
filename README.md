@@ -65,7 +65,7 @@ PORTFOLIO_WHATSAPP=529611120913
 PORTFOLIO_EMAIL=me@alecz.dev
 ```
 
-El número de WhatsApp se guarda en formato internacional solo con dígitos para generar correctamente `wa.me`. Estos valores pertenecen al entorno de despliegue: `.env.example` permanece vacío y seguro para que ningún despliegue herede datos de contacto accidentalmente.
+El número de WhatsApp se guarda en formato internacional solo con dígitos para generar correctamente `wa.me`. `.env.example` permanece vacío para ambos valores; el entorno real de producción es quien los activa.
 
 Solo se renderizan cuando existe un valor configurado. El chatbot acepta opciones rápidas y texto libre, puede calificar prospectos y preparar un resumen. La conversación y calificación no se guardan en base de datos, `localStorage` ni `sessionStorage`.
 
@@ -88,13 +88,27 @@ Las claves permanecen server-side y existe fallback local.
 - `/robots.txt` controla indexación según entorno.
 - `/sitemap.xml` incluye home y case studies ES/EN.
 - El layout centraliza title, description, canonical, Open Graph, Twitter Card, `og:locale` y `hreflang`.
-- Home ES/EN expone datos estructurados Schema.org mediante `WebSite`, `ProfilePage` y `Person`, usando solo información profesional ya pública en el portafolio.
-- Los case studies exponen `CreativeWork` con nombre, resumen, stack, URL, idioma y autor sin añadir clientes, métricas o perfiles externos no validados.
-- La imagen social oficial vive en `public/media/social/alecz-social-card.png` a 1200×630 y alimenta `og:image`, dimensiones, alt localizado y `twitter:image` con `summary_large_image`.
+- Home ES/EN expone datos estructurados Schema.org mediante `WebSite`, `ProfilePage` y `Person`.
+- Los case studies exponen `CreativeWork` sin añadir clientes, métricas o perfiles externos no validados.
+- La imagen social oficial vive en `public/media/social/alecz-social-card.png` a 1200×630.
 - La configuración reusable del bloque social/SEO vive en `config/seo.php`.
 - `public/favicon.svg` contiene el brand mark `>_`.
 
-Las validaciones específicas dependientes del dominio final —previews reales en redes, canonical, sitemap y hreflang en producción— se realizan durante el bloque de production readiness/QA una vez desplegado el dominio público.
+## Deploy cPanel de producción
+
+El primer despliegue productivo está diseñado para un hosting cPanel sin SSH/Terminal:
+
+- dominio: `https://alecz.dev`;
+- home: `/home/alecz`;
+- aplicación privada: `/home/alecz/alecz-app`;
+- document root: `/home/alecz/public_html`;
+- PHP 8.4;
+- SSL activo;
+- subida mediante File Manager + ZIP.
+
+La plantilla `deploy/cpanel/public-index.php` adapta el front controller a esa separación sin modificar `public/index.php`, por lo que el desarrollo local mantiene la estructura estándar de Laravel. `deploy/cpanel/.env.production.example` documenta la configuración pública de producción con `APP_DEBUG=false`, `APP_URL=https://alecz.dev`, contacto aprobado y chatbot local, pero deja `APP_KEY` y cualquier secreto sin valor.
+
+La guía operativa completa está en `DEPLOY_CPANEL.md`. El paquete debe construirse fuera del servidor con `composer install --no-dev --optimize-autoloader` y `npm run build`; `vendor/` y `public/build/` viajan ya preparados porque el hosting no dispone de Composer/npm por Terminal. El `.env` real nunca forma parte del ZIP público ni del repositorio.
 
 ## Roadmap
 
