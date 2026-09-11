@@ -11,22 +11,25 @@ Jira es la fuente de verdad para IDs y estados. Este archivo mantiene la direcci
 - [x] AL-21 — Command Dock disponible también en case studies ES/EN.
 - [x] AL-22 — Perfil profesional bilingüe y arquitectura CV-ready con `PORTFOLIO_CV_PATH` opcional y sin enlaces rotos.
 - [x] AL-25 — SEO estructurado y social sharing: Schema.org/JSON-LD, `CreativeWork`, imagen social 1200×630 y metadatos Open Graph/Twitter. La validación sobre URLs públicas se conserva para production QA.
+- [x] AL-26 — Canales públicos aprobados: WhatsApp `+52 961 112 0913` y correo `me@alecz.dev`, manteniendo configuración por entorno.
 
 ## En ejecución
 
-- [ ] AL-26 — Activar canales públicos aprobados.
-  - [x] WhatsApp público definido: `+52 961 112 0913` (`529611120913` en configuración).
-  - [x] Correo público definido: `me@alecz.dev`.
-  - [x] Mantener ambos valores como variables de entorno y `.env.example` sin datos personales.
-  - [x] Cubrir ES/EN, enlaces directos y fallback sin configuración mediante pruebas.
-  - [ ] Configurar los valores en el `.env` real del servidor durante el despliegue.
+- [ ] AL-27 — Production readiness para cPanel sin SSH.
+  - [x] Infraestructura confirmada: `/home/alecz`, `public_html`, PHP 8.4, SSL activo y DNS resolviendo.
+  - [x] Arquitectura separada definida: `/home/alecz/alecz-app` privado + `/home/alecz/public_html` público.
+  - [x] Front controller de cPanel preparado.
+  - [x] `.env.production.example` seguro preparado para `alecz.dev`.
+  - [x] Guía de despliegue, permisos y smoke test documentados.
+  - [ ] Generar paquete ZIP final con `vendor/` de producción y assets Vite compilados.
+  - [ ] Subir al servidor y ejecutar smoke test de producción.
 
 ## Tramo restante antes del lanzamiento
 
-### Contacto público — datos aprobados
+### Contacto público
 - [x] Definir WhatsApp público definitivo.
 - [x] Definir correo público definitivo.
-- [ ] Configurar `PORTFOLIO_WHATSAPP=529611120913` y `PORTFOLIO_EMAIL=me@alecz.dev` en producción.
+- [ ] Configurar ambos valores en el `.env` real del servidor durante AL-27.
 
 ### CV — pendiente de archivo definitivo
 - [ ] Preparar/aprobar el PDF final.
@@ -36,12 +39,12 @@ Jira es la fuente de verdad para IDs y estados. Este archivo mantiene la direcci
 - [ ] Validar Open Graph/Twitter con crawlers reales una vez desplegado el dominio.
 - [ ] Validar canonical, sitemap y hreflang sobre URLs públicas finales.
 
-### Production readiness — alta prioridad
+### Production readiness
 - [x] Dominio público elegido: `alecz.dev`.
-- [ ] Apuntar/configurar `alecz.dev` en el hosting y completar configuración de producción.
-- [ ] Configurar variables de entorno sin secretos en repositorio.
-- [ ] Evaluar proveedor remoto del chatbot.
-- [ ] Revisar caché, logs, errores, headers, rendimiento y analítica privacy-safe.
+- [x] Hosting base confirmado: PHP 8.4, SSL activo y DNS resolviendo.
+- [x] Estrategia cPanel/File Manager definida sin SSH.
+- [ ] Desplegar paquete AL-27 y completar configuración real de producción.
+- [ ] Revisar logs, headers, rendimiento y analítica privacy-safe.
 
 ### QA y lanzamiento — bloque final
 - [ ] QA desktop, tablet y móvil; Español / English.
@@ -58,9 +61,9 @@ Cada visual público se clasifica como `REAL SCREENSHOT`, `REAL ASSET`, `CODE-DE
 
 Los canales públicos y el CV son configuración, no contenido asumido. Los valores aprobados de contacto pueden documentarse para despliegue, pero las vistas y lógica siguen consumiéndolos desde el entorno. El perfil no inventa empleadores, estudios, certificaciones, fechas, años de experiencia, clientes, métricas ni resultados.
 
-## Regla de SEO estructurado
+## Regla de despliegue
 
-Schema.org y metadatos sociales describen únicamente información ya pública y verificable. No se usan datos estructurados para introducir perfiles externos, clientes, métricas, estudios, empleadores, premios ni contacto no aprobado.
+El `.env`, `vendor`, `storage`, código fuente interno y secretos permanecen fuera de `public_html`. En hosting sin SSH, Composer/npm se resuelven antes de generar el paquete; el servidor recibe artefactos ya listos para ejecución.
 
 ## Definición de terminado
 

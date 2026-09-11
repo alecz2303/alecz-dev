@@ -1,0 +1,83 @@
+name: cpanel-deploy-package
+
+on:
+  push:
+    branches: [main, AL-27]
+  workflow_dispatch:
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, sqlite3, pdo_sqlite
+          coverage: none
+
+      - name: Install production Composer dependencies
+        run: composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install frontend dependencies
+        run: npm install
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Build cPanel package
+        run: |
+          test -f public/build/manifest.json
+          mkdir -p release/stage/alecz-app release/stage/public_html
+
+          rsync -a ./ release/stage/alecz-app/ \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.env' \
+            --exclude='.env.*' \
+            --exclude='node_modules' \
+            --exclude='public' \
+            --exclude='tests' \
+            --exclude='deploy' \
+            --exclude='release' \
+            --exclude='DEPLOY_CPANEL.md' \
+            --exclude='README.md' \
+            --exclude='TODO.md' \
+            --exclude='package.json' \
+            --exclude='package-lock.json' \
+            --exclude='vite.config.js' \
+            --exclude='phpunit.xml'
+
+          cp -a public/. release/stage/public_html/
+          cp deploy/cpanel/public-index.php release/stage/public_html/index.php
+          cp deploy/cpanel/.env.production.example release/stage/alecz-app/.env.production.example
+          cp DEPLOY_CPANEL.md release/stage/DEPLOY_CPANEL.md
+
+          rm -f release/stage/alecz-app/bootstrap/cache/*.php
+          find release/stage/alecz-app/storage/framework -type f ! -name '.gitignore' -delete || true
+          find release/stage/alecz-app/storage/logs -type f ! -name '.gitignore' -delete || true
+
+          cd release/stage
+          zip -qr ../alecz-app.zip alecz-app
+          zip -qr ../public_html.zip public_html
+          cp DEPLOY_CPANEL.md ../DEPLOY_CPANEL.md
+
+      - name: Upload cPanel deployment artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: alecz-cpanel-deploy
+          path: |
+            release/alecz-app.zip
+            release/public_html.zip
+            release/DEPLOY_CPANEL.md
+          if-no-files-found: error
+          retention-days: 14
