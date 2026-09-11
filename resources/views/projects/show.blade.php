@@ -6,7 +6,8 @@
 @section('og_description', $project['summary'])
 
 @section('content')
-@php($media = collect($project['media'] ?? []))
+@php($configuredMedia = config('project_media.'.$project['slug'].'.'.app()->getLocale()))
+@php($media = collect($configuredMedia ?? ($project['media'] ?? [])))
 @php($heroMedia = $media->firstWhere('role', 'hero') ?? $media->first())
 @php($galleryMedia = $media->reject(fn ($item) => $heroMedia && ($item['src'] ?? null) === ($heroMedia['src'] ?? null))->values())
 @php($case = __('ui.case'))
@@ -23,7 +24,7 @@
     <section class="case-showcase" aria-labelledby="showcase-title" data-reveal>
         <div class="case-showcase-shell">
             @if ($heroMedia)
-                <figure class="case-visual is-media"><img src="{{ asset($heroMedia['src']) }}" alt="{{ $heroMedia['alt'] ?? $project['name'] }}"></figure>
+                <figure class="case-visual is-media"><img src="{{ asset($heroMedia['src']) }}" alt="{{ $heroMedia['alt'] ?? $project['name'] }}">@if (!empty($heroMedia['caption']))<figcaption>{{ $heroMedia['caption'] }}</figcaption>@endif</figure>
             @else
                 <div class="case-visual" role="img" aria-label="{{ __('ui.case.visual_label', ['project'=>$project['name']]) }}">
                     <div class="case-visual-fallback"><div class="case-visual-kicker"><span id="showcase-title">{{ $case['snapshot'] }}</span><span>{{ $project['status'] }}</span></div><div><h2 class="case-visual-name">{{ $project['name'] }}</h2><p class="case-visual-signal">{{ $project['signal'] }}</p><ul class="case-visual-stack" aria-label="Stack · {{ $project['name'] }}">@foreach (array_slice($project['stack'], 0, 6) as $technology)<li>{{ $technology }}</li>@endforeach</ul></div></div>

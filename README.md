@@ -52,7 +52,11 @@ La vista reusable vive en `resources/views/projects/show.blade.php`. Slugs desco
 
 ### Media de proyectos
 
-Mientras un proyecto no tenga capturas reales, el case study muestra un `Product snapshot` construido únicamente con datos reales. No se generan ni simulan interfaces inexistentes. La clave opcional `media` acepta `role => hero`, `src`, `alt` y `caption`; los archivos viven dentro de `public/`.
+La evidencia visual pública se registra en `config/project_media.php`, separando captions y `alt` por locale y reutilizando el mismo asset factual. El case study mantiene compatibilidad con la clave `media` de cada proyecto y usa el registro como fuente aprobada cuando existe.
+
+Estado actual: **Digital Persona SchoolBio** cuenta con una captura real, optimizada a WebP, del flujo de registro biométrico. La imagen no muestra nombre, matrícula, huella ni información identificable de un alumno. Citas CRIT, Baseball App, DocTotal, URPE Gestión Clínica y AcadControl conservan por ahora el `Product snapshot` editorial hasta disponer de media real que pueda verificarse como segura y publicable.
+
+No se generan ni simulan interfaces inexistentes. Los assets aprobados viven en `public/media/projects/` con rutas estables.
 
 ## Contacto y privacidad
 
