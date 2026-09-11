@@ -58,12 +58,14 @@ No se presentan previews derivados de código como screenshots de ejecución. No
 
 ## Contacto y privacidad
 
-Los canales directos se configuran por entorno:
+Los canales directos se configuran por entorno y los valores públicos aprobados para producción son:
 
 ```env
-PORTFOLIO_WHATSAPP=
-PORTFOLIO_EMAIL=
+PORTFOLIO_WHATSAPP=529611120913
+PORTFOLIO_EMAIL=me@alecz.dev
 ```
+
+El número de WhatsApp se guarda en formato internacional solo con dígitos para generar correctamente `wa.me`. Estos valores pertenecen al entorno de despliegue: `.env.example` permanece vacío y seguro para que ningún despliegue herede datos de contacto accidentalmente.
 
 Solo se renderizan cuando existe un valor configurado. El chatbot acepta opciones rápidas y texto libre, puede calificar prospectos y preparar un resumen. La conversación y calificación no se guardan en base de datos, `localStorage` ni `sessionStorage`.
 

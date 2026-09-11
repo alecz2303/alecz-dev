@@ -10,22 +10,23 @@ Jira es la fuente de verdad para IDs y estados. Este archivo mantiene la direcci
 - [x] AL-20 — Contacto y conversión bilingüe: CTA de case studies, handoff localizado, resumen copiable y canales configurables sin enlaces rotos.
 - [x] AL-21 — Command Dock disponible también en case studies ES/EN.
 - [x] AL-22 — Perfil profesional bilingüe y arquitectura CV-ready con `PORTFOLIO_CV_PATH` opcional y sin enlaces rotos.
+- [x] AL-25 — SEO estructurado y social sharing: Schema.org/JSON-LD, `CreativeWork`, imagen social 1200×630 y metadatos Open Graph/Twitter. La validación sobre URLs públicas se conserva para production QA.
 
 ## En ejecución
 
-- [ ] AL-25 — SEO estructurado y social sharing.
-  - [x] Schema.org/JSON-LD factual para home ES/EN.
-  - [x] Datos estructurados para case studies mediante `CreativeWork`.
-  - [x] Imagen social propia 1200×630 en `public/media/social/alecz-social-card.png`.
-  - [x] `og:image`, dimensiones, alt localizado y Twitter `summary_large_image`.
-  - [x] Pruebas específicas de metadatos, Schema.org y dimensiones del asset.
-  - [ ] Validar previews reales, canonical, sitemap y hreflang en el dominio de producción.
+- [ ] AL-26 — Activar canales públicos aprobados.
+  - [x] WhatsApp público definido: `+52 961 112 0913` (`529611120913` en configuración).
+  - [x] Correo público definido: `me@alecz.dev`.
+  - [x] Mantener ambos valores como variables de entorno y `.env.example` sin datos personales.
+  - [x] Cubrir ES/EN, enlaces directos y fallback sin configuración mediante pruebas.
+  - [ ] Configurar los valores en el `.env` real del servidor durante el despliegue.
 
 ## Tramo restante antes del lanzamiento
 
-### Contacto público — pendiente de datos definitivos
-- [ ] Definir y configurar WhatsApp público definitivo.
-- [ ] Definir y configurar correo público definitivo.
+### Contacto público — datos aprobados
+- [x] Definir WhatsApp público definitivo.
+- [x] Definir correo público definitivo.
+- [ ] Configurar `PORTFOLIO_WHATSAPP=529611120913` y `PORTFOLIO_EMAIL=me@alecz.dev` en producción.
 
 ### CV — pendiente de archivo definitivo
 - [ ] Preparar/aprobar el PDF final.
@@ -36,7 +37,8 @@ Jira es la fuente de verdad para IDs y estados. Este archivo mantiene la direcci
 - [ ] Validar canonical, sitemap y hreflang sobre URLs públicas finales.
 
 ### Production readiness — alta prioridad
-- [ ] Definir dominio público y configuración de producción.
+- [x] Dominio público elegido: `alecz.dev`.
+- [ ] Apuntar/configurar `alecz.dev` en el hosting y completar configuración de producción.
 - [ ] Configurar variables de entorno sin secretos en repositorio.
 - [ ] Evaluar proveedor remoto del chatbot.
 - [ ] Revisar caché, logs, errores, headers, rendimiento y analítica privacy-safe.
@@ -54,7 +56,7 @@ Cada visual público se clasifica como `REAL SCREENSHOT`, `REAL ASSET`, `CODE-DE
 
 ## Regla de contacto y perfil
 
-Los canales públicos y el CV son configuración, no contenido asumido. Nunca se hardcodea un teléfono, correo o archivo profesional no aprobado. El perfil no inventa empleadores, estudios, certificaciones, fechas, años de experiencia, clientes, métricas ni resultados.
+Los canales públicos y el CV son configuración, no contenido asumido. Los valores aprobados de contacto pueden documentarse para despliegue, pero las vistas y lógica siguen consumiéndolos desde el entorno. El perfil no inventa empleadores, estudios, certificaciones, fechas, años de experiencia, clientes, métricas ni resultados.
 
 ## Regla de SEO estructurado
 
