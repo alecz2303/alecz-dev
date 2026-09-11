@@ -10,6 +10,7 @@ export default defineConfig({
                 'resources/css/projects.css',
                 'resources/css/chatbot.css',
                 'resources/css/case-media.css',
+                'resources/css/localization.css',
                 'resources/js/app.js',
             ],
             refresh: true,
