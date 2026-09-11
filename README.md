@@ -40,9 +40,11 @@ La sección tiene CTA directo al asistente. El atajo de servicios del chatbot ta
 
 ## Navegación persistente
 
-La home conserva el header original y, después de abandonar el hero, muestra un **Command Dock** flotante con acceso a `~/projects`, `~/services`, `~/about`, `~/contact` y `↑ root`. El dock marca la sección activa durante el scroll, se adapta a móvil y evita competir con el chatbot.
+El sitio conserva el header original y muestra un **Command Dock** flotante con acceso a `~/projects`, `~/services`, `~/about`, `~/contact` y `↑ root`.
 
-La implementación vive en `resources/css/command-dock.css` y `resources/js/command-dock.js`, usa JavaScript nativo, navegación por anchors, etiquetas accesibles y respeta `prefers-reduced-motion`. Los case studies conservan su navegación propia y no muestran el dock de la home.
+En la home, el dock aparece después de abandonar el hero y marca la sección activa durante el scroll. En los case studies también permanece disponible: los accesos llevan a la sección equivalente de la home en el idioma activo y `↑ root` vuelve al inicio de la página interna actual. La implementación evita marcar una sección activa cuando esas secciones no existen en la vista actual.
+
+La implementación vive en `resources/css/command-dock.css` y `resources/js/command-dock.js`, usa JavaScript nativo, etiquetas accesibles, se adapta a móvil, evita competir con el chatbot y respeta `prefers-reduced-motion`.
 
 ## Contenido del portafolio
 
@@ -54,9 +56,9 @@ La vista reusable vive en `resources/views/projects/show.blade.php`. Slugs desco
 
 La evidencia visual pública se registra en `config/project_media.php`, separando captions y `alt` por locale y reutilizando el mismo asset factual. El case study mantiene compatibilidad con la clave `media` de cada proyecto y usa el registro como fuente aprobada cuando existe.
 
-Estado actual: **Digital Persona SchoolBio** cuenta con una captura real, optimizada a WebP, del flujo de registro biométrico. La imagen no muestra nombre, matrícula, huella ni información identificable de un alumno. Citas CRIT, Baseball App, DocTotal, URPE Gestión Clínica y AcadControl conservan por ahora el `Product snapshot` editorial hasta disponer de media real que pueda verificarse como segura y publicable.
+Estado actual: **Digital Persona SchoolBio** cuenta con una captura real, optimizada a WebP, del flujo de registro biométrico. La imagen no muestra nombre, matrícula, huella ni información identificable de un alumno. Citas CRIT, Baseball App, DocTotal y URPE Gestión Clínica cuentan con previews editoriales claramente marcados como `CODE-DERIVED PREVIEW`, derivados de estructura de UI verificable en sus repositorios. AcadControl conserva fallback al no existir todavía una interfaz pública suficientemente verificable.
 
-No se generan ni simulan interfaces inexistentes. Los assets aprobados viven en `public/media/projects/` con rutas estables.
+No se presentan previews derivados de código como screenshots de ejecución. Los assets aprobados viven en `public/media/projects/` con rutas estables.
 
 ## Contacto y privacidad
 
@@ -87,7 +89,7 @@ Las claves permanecen server-side. El proveedor recibe únicamente contexto púb
 
 ### Calificación de prospectos
 
-Cuando existe intención comercial, el navegador guía una calificación breve con problema, solución, usuarios, plazo y presupuesto opcional. El resumen puede entregarse a WhatsApp o email configurados. La conversación y calificación no se guardan en base de datos, `localStorage` ni `sessionStorage`.
+Cuando existe intención comercial, el navegador guía una calificación breve con problema, solución, usuarios, plazo y presupuesto opcional. El resumen puede entregarse a WhatsApp o email configurados o copiarse al portapapeles. La conversación y calificación no se guardan en base de datos, `localStorage` ni `sessionStorage`.
 
 ## Publicación y SEO técnico
 

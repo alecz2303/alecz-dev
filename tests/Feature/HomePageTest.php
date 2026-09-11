@@ -32,9 +32,48 @@ class HomePageTest extends TestCase
 
     public function test_command_dock_is_persistent_bilingual_and_accessible(): void
     {
-        $this->get('/')->assertOk()->assertSee('data-command-dock', false)->assertSee('data-dock-section="proyectos"', false)->assertSee('data-dock-section="servicios"', false)->assertSee('data-dock-section="sobre-mi"', false)->assertSee('data-dock-section="contacto"', false)->assertSee('↑ root')->assertSee('aria-label="Volver arriba"', false);
-        $this->get('/en')->assertOk()->assertSee('data-command-dock', false)->assertSee('↑ root')->assertSee('aria-label="Back to top"', false);
-        $this->get('/proyectos/citas-crit')->assertOk()->assertDontSee('data-command-dock', false);
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('data-command-dock', false)
+            ->assertSee('data-dock-context="home"', false)
+            ->assertSee('href="#proyectos"', false)
+            ->assertSee('href="#servicios"', false)
+            ->assertSee('data-dock-section="sobre-mi"', false)
+            ->assertSee('data-dock-section="contacto"', false)
+            ->assertSee('↑ root')
+            ->assertSee('aria-label="Volver arriba"', false);
+
+        $this->get('/en')
+            ->assertOk()
+            ->assertSee('data-command-dock', false)
+            ->assertSee('data-dock-context="home"', false)
+            ->assertSee('↑ root')
+            ->assertSee('aria-label="Back to top"', false);
+
+        $this->get('/proyectos/citas-crit')
+            ->assertOk()
+            ->assertSee('data-command-dock', false)
+            ->assertSee('data-dock-context="internal"', false)
+            ->assertSee('href="http://localhost#proyectos"', false)
+            ->assertSee('href="http://localhost#servicios"', false)
+            ->assertSee('href="http://localhost#sobre-mi"', false)
+            ->assertSee('href="http://localhost#contacto"', false)
+            ->assertSee('aria-label="Volver arriba"', false);
+
+        $this->get('/en/projects/citas-crit')
+            ->assertOk()
+            ->assertSee('data-command-dock', false)
+            ->assertSee('data-dock-context="internal"', false)
+            ->assertSee('href="http://localhost/en#proyectos"', false)
+            ->assertSee('href="http://localhost/en#servicios"', false)
+            ->assertSee('href="http://localhost/en#sobre-mi"', false)
+            ->assertSee('href="http://localhost/en#contacto"', false)
+            ->assertSee('aria-label="Back to top"', false);
+
+        $javascript = file_get_contents(resource_path('js/command-dock.js'));
+        $this->assertStringContainsString("dock.dataset.dockContext === 'home'", $javascript);
+        $this->assertStringContainsString("links.forEach((link) => link.removeAttribute('aria-current'))", $javascript);
+        $this->assertStringContainsString("window.scrollTo({ top: 0", $javascript);
     }
 
     public function test_about_stack_and_experience_sections_are_rendered(): void
