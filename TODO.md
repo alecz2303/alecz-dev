@@ -9,16 +9,17 @@ Jira es la fuente de verdad para IDs y estados. Este archivo mantiene la direcci
 - [x] AL-19 — Auditoría visual y previews editoriales derivados de código verificable; SchoolBio conserva `REAL SCREENSHOT` y AcadControl mantiene fallback `NO PUBLIC VISUAL`.
 - [x] AL-20 — Contacto y conversión bilingüe: CTA de case studies, handoff localizado, resumen copiable y canales configurables sin enlaces rotos.
 - [x] AL-21 — Command Dock disponible también en case studies ES/EN.
+- [x] AL-22 — Perfil profesional bilingüe y arquitectura CV-ready con `PORTFOLIO_CV_PATH` opcional y sin enlaces rotos.
 
 ## En ejecución
 
-- [ ] AL-22 — Perfil profesional bilingüe y arquitectura CV-ready.
-  - [x] Perfil basado únicamente en experiencia demostrada por proyectos reales.
-  - [x] Síntesis de producto end-to-end, amplitud técnica y proceso de ingeniería.
-  - [x] Equivalencia factual ES/EN.
-  - [x] CV opcional mediante `PORTFOLIO_CV_PATH`.
-  - [x] El enlace de CV solo aparece cuando existe un archivo público real.
-  - [ ] Incorporar CV definitivo cuando Alecz apruebe el archivo público.
+- [ ] AL-25 — SEO estructurado y social sharing.
+  - [x] Schema.org/JSON-LD factual para home ES/EN.
+  - [x] Datos estructurados para case studies mediante `CreativeWork`.
+  - [x] Imagen social propia 1200×630 en `public/media/social/alecz-social-card.png`.
+  - [x] `og:image`, dimensiones, alt localizado y Twitter `summary_large_image`.
+  - [x] Pruebas específicas de metadatos, Schema.org y dimensiones del asset.
+  - [ ] Validar previews reales, canonical, sitemap y hreflang en el dominio de producción.
 
 ## Tramo restante antes del lanzamiento
 
@@ -30,10 +31,9 @@ Jira es la fuente de verdad para IDs y estados. Este archivo mantiene la direcci
 - [ ] Preparar/aprobar el PDF final.
 - [ ] Publicarlo y configurar `PORTFOLIO_CV_PATH`.
 
-### SEO y social sharing — siguiente bloque técnico
-- [ ] Añadir Schema.org.
-- [ ] Diseñar imagen Open Graph/social share.
-- [ ] Validar previews, canonical, sitemap y hreflang en producción.
+### SEO y social sharing — validación final en producción
+- [ ] Validar Open Graph/Twitter con crawlers reales una vez desplegado el dominio.
+- [ ] Validar canonical, sitemap y hreflang sobre URLs públicas finales.
 
 ### Production readiness — alta prioridad
 - [ ] Definir dominio público y configuración de producción.
@@ -56,6 +56,10 @@ Cada visual público se clasifica como `REAL SCREENSHOT`, `REAL ASSET`, `CODE-DE
 
 Los canales públicos y el CV son configuración, no contenido asumido. Nunca se hardcodea un teléfono, correo o archivo profesional no aprobado. El perfil no inventa empleadores, estudios, certificaciones, fechas, años de experiencia, clientes, métricas ni resultados.
 
+## Regla de SEO estructurado
+
+Schema.org y metadatos sociales describen únicamente información ya pública y verificable. No se usan datos estructurados para introducir perfiles externos, clientes, métricas, estudios, empleadores, premios ni contacto no aprobado.
+
 ## Definición de terminado
 
-El portafolio está listo cuando funciona en ambos idiomas, los proyectos tienen evidencia visual suficiente o fallback aprobado, un prospecto entiende qué construye Alecz y puede iniciar contacto sin fricción, y SEO/rendimiento/accesibilidad/QA están verificados con CI verde.
+El portafolio está listo cuando funciona en ambos idiomas, los proyectos tienen evidencia visual suficiente o fallback aprobado, un prospecto entiende qué construye Alecz y puede iniciar contacto sin fricción, y SEO/rendimiento/accesibilidad/QA están verificados con CI verde y smoke test sobre producción.
