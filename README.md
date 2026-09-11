@@ -86,7 +86,13 @@ Las claves permanecen server-side y existe fallback local.
 - `/robots.txt` controla indexación según entorno.
 - `/sitemap.xml` incluye home y case studies ES/EN.
 - El layout centraliza title, description, canonical, Open Graph, Twitter Card, `og:locale` y `hreflang`.
+- Home ES/EN expone datos estructurados Schema.org mediante `WebSite`, `ProfilePage` y `Person`, usando solo información profesional ya pública en el portafolio.
+- Los case studies exponen `CreativeWork` con nombre, resumen, stack, URL, idioma y autor sin añadir clientes, métricas o perfiles externos no validados.
+- La imagen social oficial vive en `public/media/social/alecz-social-card.png` a 1200×630 y alimenta `og:image`, dimensiones, alt localizado y `twitter:image` con `summary_large_image`.
+- La configuración reusable del bloque social/SEO vive en `config/seo.php`.
 - `public/favicon.svg` contiene el brand mark `>_`.
+
+Las validaciones específicas dependientes del dominio final —previews reales en redes, canonical, sitemap y hreflang en producción— se realizan durante el bloque de production readiness/QA una vez desplegado el dominio público.
 
 ## Roadmap
 
