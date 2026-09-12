@@ -11,7 +11,7 @@ class SeoSocialTest extends TestCase
         $this->get('/')
             ->assertOk()
             ->assertSee('property="og:image"', false)
-            ->assertSee('/media/social/alecz-social-card.png', false)
+            ->assertSee('/media/social/alecz-social-card-v2.png', false)
             ->assertSee('property="og:image:width" content="1200"', false)
             ->assertSee('property="og:image:height" content="630"', false)
             ->assertSee('twitter:card" content="summary_large_image"', false)
@@ -37,7 +37,7 @@ class SeoSocialTest extends TestCase
         $this->get('/proyectos/citas-crit')
             ->assertOk()
             ->assertSee('property="og:type" content="article"', false)
-            ->assertSee('/media/social/alecz-social-card.png', false)
+            ->assertSee('/media/social/alecz-social-card-v2.png', false)
             ->assertSee('"@type":"CreativeWork"', false)
             ->assertSee('"name":"Citas CRIT · Case Study"', false)
             ->assertSee('"author":{"@type":"Person"', false)
@@ -53,5 +53,7 @@ class SeoSocialTest extends TestCase
         [$width, $height] = getimagesize($path);
         $this->assertSame(1200, $width);
         $this->assertSame(630, $height);
+        $this->assertSame('image/png', mime_content_type($path));
+        $this->assertSame('image/png', config('seo.social.type'));
     }
 }
